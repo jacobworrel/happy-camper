@@ -17,5 +17,6 @@ app.use(express.static(path.join(__dirname, 'client/public')));
 
 app.get('/items', checklistController.getChecklists);
 app.post('/items', checklistController.addItem);
+app.delete('/items', checklistController.deleteItem);
 
 app.listen(3000);
