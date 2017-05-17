@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>MY APP</title>
+  </head>
+  <body>
+    <form action="/items" method="POST">
+       <input type="text" placeholder="category" name="category">
+       <input type="text" placeholder="item" name="item">
+       <button type="submit">Add item</button>
+     </form>
+     <% if (error) { %>
+      <span> <%= error %> </span>
+    <% } %>
+    <ul class="Sleeping">
+      <span>Sleeping</span>
+      <% for(var i=0; i<sleepingItems.length; i++) {%>
+        <li class="sleepingItem">
+          <input type="checkbox">
+          <span><%= sleepingItems[i].item %></span>
+        </li>
+      <% } %>
+    </ul>
+    <ul class="Cooking">
+      <span>Cooking</span>
+      <% for(var i=0; i<cookingItems.length; i++) {%>
+        <li class="item">
+          <input type="checkbox">
+          <span><%= cookingItems[i].item %></span>
+        </li>
+      <% } %>
+    </ul>
+    <ul class="Shelter">
+      <span>Shelter</span>
+      <% for(var i=0; i<shelterItems.length; i++) {%>
+        <li class="item">
+          <input type="checkbox">
+          <span><%= shelterItems[i].item %></span>
+        </li>
+      <% } %>
+    </ul>
+  </body>
+</html>
