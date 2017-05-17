@@ -10,13 +10,17 @@ checklistController.getChecklists = (req, res) => {
         if (err) console.log(err);
         Item.find({category: 'Miscellaneous'}, (err, miscellaneousItems) => {
           if (err) console.log(err);
-            res.json({
-                      sleepingItems: sleepingItems,
-                      cookingItems: cookingItems,
-                      shelterItems: shelterItems,
-                      miscellaneousItems: miscellaneousItems
-                     }
-            );
+          Item.find({category: 'Clothing'}, (err, clothingItems) => {
+            if (err) console.log(err);
+              res.json({
+                        sleepingItems: sleepingItems,
+                        cookingItems: cookingItems,
+                        shelterItems: shelterItems,
+                        clothingItems: clothingItems,
+                        miscellaneousItems: miscellaneousItems
+                       }
+              );
+          });
         });
       });
     });
@@ -29,18 +33,15 @@ checklistController.addItem = (req, res) => {
   } else {
     Item.create(req.body, (err, item) => {
       if (err) console.log(err)
-      console.log('saved to database');
-      res.redirect('/')
+      res.send('saved to database')
     });
   }
 }
 
 checklistController.deleteItem = (req, res) => {
-  console.log('in delete method');
   Item.remove(req.query, (err) => {
     if (err) console.log(err);
-    console.log('removed!')
-    res.redirect(200, '/')
+    res.send('removed from database')
   });
 }
 

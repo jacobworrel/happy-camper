@@ -1,7 +1,54 @@
+body {
+  font-family: Helvetica;
+  font-size: 18px;
+}
+
+.header {
+  text-align: center;
+}
+
+.checklist-container {
+  margin: 0 auto;
+  width: 70%;
+}
+
 ul {
   list-style-type: none;
+  display: inline-table;
+  margin-top: 30px;
+  padding-left: 20px;
+}
+
+.add-form {
+  margin: 20px;
+}
+
+.delete-btn {
+  margin-left: 10px;
+  float: right;
+}
+
+.search-bar {
+  margin: 0 10px;
+  text-indent: 10px;
+}
+
+.item {
+  margin: 5px;
+}
+
+.item-name {
+  padding: 20px 0 0 10px;
 }
 
 .error-msg {
   color: red;
+}
+
+input[type='checkbox'] {
+    width:15px;
+    height:15px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
 }

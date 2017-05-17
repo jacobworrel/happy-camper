@@ -12,7 +12,7 @@ mongoose.connection.once('open', () => {
   console.log('Connected to Database');
 });
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'client/public')));
 
 app.get('/items', checklistController.getChecklists);

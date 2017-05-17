@@ -10759,6 +10759,8 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -10775,11 +10777,14 @@ var App = function (_React$Component) {
 
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.removeItem = _this.removeItem.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+
     _this.state = {
       categories: {
         Sleeping: [],
         Cooking: [],
         Shelter: [],
+        Clothing: [],
         Miscellaneous: []
       }
     };
@@ -10807,6 +10812,10 @@ var App = function (_React$Component) {
         response.data.shelterItems.forEach(function (obj) {
           shelterItems.push(obj.item);
         });
+        var clothingItems = [];
+        response.data.clothingItems.forEach(function (obj) {
+          clothingItems.push(obj.item);
+        });
         var miscellaneousItems = [];
         response.data.miscellaneousItems.forEach(function (obj) {
           miscellaneousItems.push(obj.item);
@@ -10815,18 +10824,41 @@ var App = function (_React$Component) {
             Sleeping: sleepingItems,
             Cooking: cookingItems,
             Shelter: shelterItems,
+            Clothing: clothingItems,
             Miscellaneous: miscellaneousItems
-          }
+          },
+          categoryInput: '',
+          itemInput: '',
+          showError: false
         });
       });
     } //end componentDidMount
 
   }, {
+    key: 'handleChange',
+    value: function handleChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
+      console.log(this.state.showError);
       if (this.state.categoryInput === '' || this.state.itemInput === '') {
         this.setState({ showError: true });
+      } else {
+        var newArr = this.state.categories[this.state.categoryInput];
+        newArr.push(this.state.itemInput);
+        var newState = Object.assign({}, this.state);
+        newState.categories[this.state.categoryInput] = newArr;
+        newState.showError = false;
+        console.log(newState);
+        this.setState(newState);
+
+        //post request to server/db
+        _axios2.default.post('/items', { category: this.state.categoryInput, item: this.state.itemInput }).then(function (response) {
+          console.log(response.data);
+        });
       }
     } //end clickHandler
 
@@ -10839,8 +10871,11 @@ var App = function (_React$Component) {
       var newState = Object.assign({}, this.state);
       newState.categories[category] = filtered;
       this.setState(newState);
+
       //delete request to server/db
-      _axios2.default.delete('/items', { params: { item: item } });
+      _axios2.default.delete('/items', { params: { item: item } }).then(function (response) {
+        console.log(response.data);
+      });
     }
   }, {
     key: 'render',
@@ -10851,45 +10886,44 @@ var App = function (_React$Component) {
       }
       return _react2.default.createElement(
         'div',
-        { style: { textAlign: 'center' } },
+        null,
         _react2.default.createElement(
-          'h1',
-          null,
-          'Happy Camper'
-        ),
-        _react2.default.createElement(
-          'form',
-          { action: '/items', method: 'POST' },
-          _react2.default.createElement('input', { type: 'text', placeholder: 'category', name: 'category' }),
-          _react2.default.createElement('input', { type: 'text', placeholder: 'item', name: 'item' }),
+          'div',
+          { className: 'header' },
           _react2.default.createElement(
-            'button',
-            { type: 'submit' },
-            'Add item'
+            'h1',
+            null,
+            'Happy Camper'
+          ),
+          _react2.default.createElement('img', { src: 'https://img1.etsystatic.com/019/0/9202327/il_340x270.575075821_avr6.jpg', height: '67.5', width: '85' }),
+          _react2.default.createElement(
+            'form',
+            { className: 'add-form', onSubmit: this.handleSubmit },
+            _react2.default.createElement('input', { className: 'search-bar', type: 'text', placeholder: 'category', name: 'categoryInput', value: this.state.categoryInput, onChange: this.handleChange }),
+            _react2.default.createElement('input', { className: 'search-bar', type: 'text', placeholder: 'item', name: 'itemInput', value: this.state.itemInput, onChange: this.handleChange }),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit' },
+              'Add item'
+            )
+          ),
+          _react2.default.createElement(
+            'p',
+            { style: { display: this.state.showError ? 'block' : 'none' }, className: 'error-msg' },
+            'Please enter a valid category and item!'
           )
         ),
         _react2.default.createElement(
-          'p',
-          { style: { display: this.state.showError ? 'block' : 'none' }, className: 'error-msg' },
-          'Please enter a category and item!'
-        ),
-        checkLists
+          'div',
+          { className: 'checklist-container' },
+          checkLists
+        )
       );
     }
   }]);
 
   return App;
 }(_react2.default.Component);
-
-// onSubmit={this.handleSubmit}
-
-//value={this.state.categoryInput}
-// value={this.state.itemInput}
-
-// categoryInput: '',
-// itemInput: '',
-// showError: false
-
 
 exports.default = App;
 
@@ -11785,9 +11819,10 @@ var Checklist = function (_React$Component) {
         'ul',
         null,
         _react2.default.createElement(
-          'span',
+          'h3',
           null,
-          this.props.category
+          this.props.category,
+          ':'
         ),
         items
       );
@@ -11844,19 +11879,19 @@ var Item = function (_React$Component) {
 
       return _react2.default.createElement(
         'li',
-        null,
+        { className: 'item' },
         _react2.default.createElement('input', { type: 'checkbox' }),
         _react2.default.createElement(
           'span',
-          null,
+          { className: 'item-name' },
           this.props.item
         ),
         _react2.default.createElement(
           'button',
-          { onClick: function onClick() {
+          { className: 'delete-btn', onClick: function onClick() {
               return _this2.props.removeItem(_this2.props.item, _this2.props.category);
             } },
-          'Delete'
+          'delete'
         )
       );
     }

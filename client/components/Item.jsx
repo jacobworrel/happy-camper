@@ -5,10 +5,10 @@ export default class Item extends React.Component {
 
   render() {
     return (
-      <li>
+      <li className='item'>
         <input type="checkbox" />
-        <span>{this.props.item}</span>
-        <button onClick={() => this.props.removeItem(this.props.item, this.props.category)}>Delete</button>
+        <span className='item-name'>{this.props.item}</span>
+        <button className='delete-btn' onClick={() => this.props.removeItem(this.props.item, this.props.category)}>delete</button>
       </li>
    );
   }

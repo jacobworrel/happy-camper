@@ -10,7 +10,7 @@ export default class Checklist extends React.Component {
     }
     return (
       <ul>
-        <span>{this.props.category}</span>
+        <h3>{this.props.category}:</h3>
         {items}
       </ul>
    );
