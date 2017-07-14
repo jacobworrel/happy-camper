@@ -7,9 +7,13 @@ body {
   text-align: center;
 }
 
+.sub-header {
+  font-style: italic;
+}
+
 .checklist-container {
   margin: 0 auto;
-  width: 70%;
+  width: 90%;
 }
 
 ul {

@@ -16,7 +16,8 @@ export default class App extends React.Component {
         Cooking: [],
         Shelter: [],
         Clothing: [],
-        Miscellaneous: []
+        Miscellaneous: [],
+        Food: []
       }
     }
   }
@@ -45,12 +46,17 @@ export default class App extends React.Component {
         response.data.miscellaneousItems.forEach(obj => {
           miscellaneousItems.push(obj.item);
         });
+        const foodItems = [];
+        response.data.foodItems.forEach(obj => {
+          foodItems.push(obj.item);
+        });
         this.setState({ categories: {
                                     Sleeping: sleepingItems,
                                     Cooking: cookingItems,
                                     Shelter: shelterItems,
                                     Clothing: clothingItems,
-                                    Miscellaneous: miscellaneousItems
+                                    Miscellaneous: miscellaneousItems,
+                                    Food: foodItems
                                   },
                         categoryInput: '',
                         itemInput: '',
@@ -65,21 +71,28 @@ export default class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state.showError);
+    const capitalizedInput = this.state.categoryInput.charAt(0).toUpperCase() + this.state.categoryInput.slice(1);
     if (this.state.categoryInput === '' || this.state.itemInput === '') {
+      this.setState({ showError: true });
+    } else if (capitalizedInput !== 'Sleeping'
+            && capitalizedInput !== 'Cooking'
+            && capitalizedInput !== 'Shelter'
+            && capitalizedInput !== 'Clothing'
+            && capitalizedInput !== 'Miscellaneous'
+            && capitalizedInput !== 'Food') {
       this.setState({ showError: true });
     }
     else {
-      const newArr = this.state.categories[this.state.categoryInput];
+      const newArr = this.state.categories[capitalizedInput];
       newArr.push(this.state.itemInput);
       const newState = Object.assign({}, this.state);
-      newState.categories[this.state.categoryInput] = newArr;
+      newState.categories[capitalizedInput] = newArr;
       newState.showError = false;
       console.log(newState);
       this.setState(newState);
 
       //post request to server/db
-      axios.post('/items', { category: this.state.categoryInput, item: this.state.itemInput })
+      axios.post('/items', { category: capitalizedInput, item: this.state.itemInput })
         .then(response => {
           console.log(response.data);
         });
@@ -110,7 +123,8 @@ export default class App extends React.Component {
      <div>
       <div className='header'>
         <h1>Happy Camper</h1>
-        <img src="https://img1.etsystatic.com/019/0/9202327/il_340x270.575075821_avr6.jpg" height="67.5" width="85"/>
+        <p className='sub-header'>A well prepared camper is always the happiest camper...</p>
+        <img src="https://img1.etsystatic.com/019/0/9202327/il_340x270.575075821_avr6.jpg" height="67.5" width="85" />
         <form className='add-form' onSubmit={this.handleSubmit}>
            <input className="search-bar" type="text" placeholder="category" name="categoryInput" value={this.state.categoryInput} onChange={this.handleChange} />
            <input className="search-bar" type="text" placeholder="item" name="itemInput" value={this.state.itemInput} onChange={this.handleChange} />

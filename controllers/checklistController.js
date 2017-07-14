@@ -12,14 +12,18 @@ checklistController.getChecklists = (req, res) => {
           if (err) console.log(err);
           Item.find({category: 'Clothing'}, (err, clothingItems) => {
             if (err) console.log(err);
-              res.json({
-                        sleepingItems: sleepingItems,
-                        cookingItems: cookingItems,
-                        shelterItems: shelterItems,
-                        clothingItems: clothingItems,
-                        miscellaneousItems: miscellaneousItems
-                       }
-              );
+            Item.find({category: 'Food'}, (err, foodItems) => {
+              if (err) console.log(err);
+                res.json({
+                          sleepingItems: sleepingItems,
+                          cookingItems: cookingItems,
+                          shelterItems: shelterItems,
+                          clothingItems: clothingItems,
+                          miscellaneousItems: miscellaneousItems,
+                          foodItems: foodItems
+                         }
+                );
+            });
           });
         });
       });
@@ -29,7 +33,7 @@ checklistController.getChecklists = (req, res) => {
 
 checklistController.addItem = (req, res) => {
   if (!req.body.category || !req.body.item) {
-    res.send();
+    res.send('please enter valid username and password');
   } else {
     Item.create(req.body, (err, item) => {
       if (err) console.log(err)

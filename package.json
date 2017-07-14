@@ -1,19 +1,17 @@
 {
-  "name": "camping-checklist",
+  "name": "happy-camper",
   "version": "1.0.0",
-  "description": "A simple full stack CRUD app.",
+  "description": "A camping checklist creator",
   "main": "server.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "webpack": "./node_modules/.bin/webpack -w",
-    "dev": "nodemon server.js"
+    "start": "nodemon server.js",
+    "webpack": "./node_modules/.bin/webpack -w"
   },
   "author": "Jacob Worrel",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.16.1",
     "body-parser": "^1.17.1",
-    "ejs": "^2.5.6",
     "express": "^4.15.2",
     "express-path": "^0.3.8",
     "html-webpack-plugin": "^2.28.0",
@@ -22,9 +20,7 @@
     "path": "^0.12.7",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-fontawesome": "^1.6.1",
-    "webpack": "^2.5.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack": "^2.5.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

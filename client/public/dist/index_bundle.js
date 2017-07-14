@@ -10785,7 +10785,8 @@ var App = function (_React$Component) {
         Cooking: [],
         Shelter: [],
         Clothing: [],
-        Miscellaneous: []
+        Miscellaneous: [],
+        Food: []
       }
     };
     return _this;
@@ -10820,12 +10821,17 @@ var App = function (_React$Component) {
         response.data.miscellaneousItems.forEach(function (obj) {
           miscellaneousItems.push(obj.item);
         });
+        var foodItems = [];
+        response.data.foodItems.forEach(function (obj) {
+          foodItems.push(obj.item);
+        });
         _this2.setState({ categories: {
             Sleeping: sleepingItems,
             Cooking: cookingItems,
             Shelter: shelterItems,
             Clothing: clothingItems,
-            Miscellaneous: miscellaneousItems
+            Miscellaneous: miscellaneousItems,
+            Food: foodItems
           },
           categoryInput: '',
           itemInput: '',
@@ -10843,20 +10849,22 @@ var App = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
-      console.log(this.state.showError);
+      var capitalizedInput = this.state.categoryInput.charAt(0).toUpperCase() + this.state.categoryInput.slice(1);
       if (this.state.categoryInput === '' || this.state.itemInput === '') {
         this.setState({ showError: true });
+      } else if (capitalizedInput !== 'Sleeping' && capitalizedInput !== 'Cooking' && capitalizedInput !== 'Shelter' && capitalizedInput !== 'Clothing' && capitalizedInput !== 'Miscellaneous' && capitalizedInput !== 'Food') {
+        this.setState({ showError: true });
       } else {
-        var newArr = this.state.categories[this.state.categoryInput];
+        var newArr = this.state.categories[capitalizedInput];
         newArr.push(this.state.itemInput);
         var newState = Object.assign({}, this.state);
-        newState.categories[this.state.categoryInput] = newArr;
+        newState.categories[capitalizedInput] = newArr;
         newState.showError = false;
         console.log(newState);
         this.setState(newState);
 
         //post request to server/db
-        _axios2.default.post('/items', { category: this.state.categoryInput, item: this.state.itemInput }).then(function (response) {
+        _axios2.default.post('/items', { category: capitalizedInput, item: this.state.itemInput }).then(function (response) {
           console.log(response.data);
         });
       }
@@ -10894,6 +10902,11 @@ var App = function (_React$Component) {
             'h1',
             null,
             'Happy Camper'
+          ),
+          _react2.default.createElement(
+            'p',
+            { className: 'sub-header' },
+            'A well prepared camper is always the happiest camper...'
           ),
           _react2.default.createElement('img', { src: 'https://img1.etsystatic.com/019/0/9202327/il_340x270.575075821_avr6.jpg', height: '67.5', width: '85' }),
           _react2.default.createElement(
