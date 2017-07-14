@@ -9,6 +9,7 @@ export default class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleDropDownChange = this.handleDropDownChange.bind(this);
 
     this.state = {
       categories: {
@@ -18,7 +19,9 @@ export default class App extends React.Component {
         Clothing: [],
         Miscellaneous: [],
         Food: []
-      }
+      },
+      selectedCategory: '',
+      itemInput: ''
     }
   }
 
@@ -57,10 +60,7 @@ export default class App extends React.Component {
                                     Clothing: clothingItems,
                                     Miscellaneous: miscellaneousItems,
                                     Food: foodItems
-                                  },
-                        categoryInput: '',
-                        itemInput: '',
-                        showError: false
+                                  }
                       });
       })
   }//end componentDidMount
@@ -69,35 +69,25 @@ export default class App extends React.Component {
     this.setState({[e.target.name]: e.target.value});
   }
 
+  handleDropDownChange(e) {
+    this.setState({selectedCategory: e.target.value})
+  }
+
   handleSubmit(e) {
     e.preventDefault();
-    const capitalizedInput = this.state.categoryInput.charAt(0).toUpperCase() + this.state.categoryInput.slice(1);
-    if (this.state.categoryInput === '' || this.state.itemInput === '') {
-      this.setState({ showError: true });
-    } else if (capitalizedInput !== 'Sleeping'
-            && capitalizedInput !== 'Cooking'
-            && capitalizedInput !== 'Shelter'
-            && capitalizedInput !== 'Clothing'
-            && capitalizedInput !== 'Miscellaneous'
-            && capitalizedInput !== 'Food') {
-      this.setState({ showError: true });
-    }
-    else {
-      const newArr = this.state.categories[capitalizedInput];
-      newArr.push(this.state.itemInput);
-      const newState = Object.assign({}, this.state);
-      newState.categories[capitalizedInput] = newArr;
-      newState.showError = false;
-      console.log(newState);
-      this.setState(newState);
+    const newArr = this.state.categories[this.state.selectedCategory];
+    newArr.push(this.state.itemInput);
+    const newState = Object.assign({}, this.state);
+    newState.categories[this.state.selectedCategory] = newArr;
+    console.log(newState);
+    this.setState(newState);
 
-      //post request to server/db
-      axios.post('/items', { category: capitalizedInput, item: this.state.itemInput })
-        .then(response => {
-          console.log(response.data);
-        });
-    }
-  }//end clickHandler
+    //post request to server/db
+    axios.post('/items', { category: this.state.selectedCategory, item: this.state.itemInput })
+      .then(response => {
+        console.log(response.data);
+      });
+  }
 
   removeItem(item, category) {
     let filtered = this.state.categories[category].filter(elem => {
@@ -123,10 +113,17 @@ export default class App extends React.Component {
      <div>
       <div className='header'>
         <h1>Happy Camper</h1>
-        <p className='sub-header'>A well prepared camper is always the happiest camper...</p>
         <img src="https://img1.etsystatic.com/019/0/9202327/il_340x270.575075821_avr6.jpg" height="67.5" width="85" />
         <form className='add-form' onSubmit={this.handleSubmit}>
-           <input className="search-bar" type="text" placeholder="category" name="categoryInput" value={this.state.categoryInput} onChange={this.handleChange} />
+          <select name="days" onChange={this.handleDropDownChange}>
+            <option value="Select Day">Select Category</option>
+            <option value="Sleeping">Sleeping</option>
+            <option value="Cooking">Cooking</option>
+            <option value="Shelter">Shelter</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Miscellaneous">Miscellaneous</option>
+            <option value="Food">Food</option>
+          </select>
            <input className="search-bar" type="text" placeholder="item" name="itemInput" value={this.state.itemInput} onChange={this.handleChange} />
            <button type="submit">Add item</button>
          </form>
