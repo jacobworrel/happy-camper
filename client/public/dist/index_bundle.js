@@ -10267,6 +10267,7 @@ var App = function (_React$Component) {
     _this.removeItem = _this.removeItem.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleDropDownChange = _this.handleDropDownChange.bind(_this);
+    _this.markAsChecked = _this.markAsChecked.bind(_this);
 
     _this.state = {
       categories: {
@@ -10292,6 +10293,7 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       _axios2.default.get('/items').then(function (response) {
+        console.log(response.data);
         var state = _extends({}, response.data);
         _this2.setState({ categories: state });
       });
@@ -10307,17 +10309,26 @@ var App = function (_React$Component) {
       this.setState({ selectedCategory: e.target.value });
     }
   }, {
+    key: 'markAsChecked',
+    value: function markAsChecked(item) {
+      console.log('checked');
+      // axios.put('/items', )
+      //   .then((response) => {
+      //
+      //   });
+    }
+  }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
-      var newArr = [].concat(_toConsumableArray(this.state.categories[this.state.selectedCategory]), [this.state.itemInput]);
-      // const newState = {...this.state, categories[this.state.selectedCategory]: newArr }
-      var newState = Object.assign({}, this.state);
-      newState.categories[this.state.selectedCategory] = newArr;
-      this.setState(newState);
+      var categories = this.state.categories;
+      var category = this.state.selectedCategory;
+      var item = { name: this.state.itemInput, checked: false };
+      this.setState(_extends({}, this.state, {
+        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category]), [item]))) }));
 
       //post request to server/db
-      _axios2.default.post('/items', { category: this.state.selectedCategory, item: this.state.itemInput }).then(function (response) {
+      _axios2.default.post('/items', { category: this.state.selectedCategory, name: this.state.itemInput }).then(function (response) {
         console.log(response.data);
       });
     }
@@ -10332,7 +10343,7 @@ var App = function (_React$Component) {
       this.setState(newState);
 
       //delete request to server/db
-      _axios2.default.delete('/items', { params: { item: item } }).then(function (response) {
+      _axios2.default.delete('/items', { params: { name: item } }).then(function (response) {
         console.log(response.data);
       });
     }
@@ -10340,8 +10351,14 @@ var App = function (_React$Component) {
     key: 'render',
     value: function render() {
       var checkLists = [];
-      for (var prop in this.state.categories) {
-        checkLists.push(_react2.default.createElement(_Checklist2.default, { className: 'checklist', items: this.state.categories[prop], category: prop, removeItem: this.removeItem }));
+      for (var key in this.state.categories) {
+        checkLists.push(_react2.default.createElement(_Checklist2.default, {
+          className: 'checklist',
+          items: this.state.categories[key],
+          category: key,
+          removeItem: this.removeItem,
+          markAsChecked: this.markAsChecked
+        }));
       }
       return _react2.default.createElement(
         'div',
@@ -11247,7 +11264,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Checklist = function Checklist(props) {
   var items = props.items.map(function (item) {
-    return _react2.default.createElement(_Item2.default, { item: item, removeItem: props.removeItem, category: props.category });
+    return _react2.default.createElement(_Item2.default, {
+      item: item.name,
+      removeItem: props.removeItem,
+      markAsChecked: props.markAsChecked,
+      category: props.category
+    });
   });
   return _react2.default.createElement(
     'ul',
@@ -11285,7 +11307,7 @@ var Item = function Item(props) {
   return _react2.default.createElement(
     'li',
     { className: 'item' },
-    _react2.default.createElement('input', { type: 'checkbox' }),
+    _react2.default.createElement('input', { type: 'checkbox', onChange: props.markAsChecked }),
     _react2.default.createElement(
       'span',
       { className: 'item-name' },

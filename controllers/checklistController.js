@@ -23,7 +23,10 @@ checklistController.getChecklists = (req, res) => {
     const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];
     checklists.forEach((checklist, i) => {
       payload[categories[i]] = checklist.reduce((a, c) => {
-        return a.concat(c.item);
+        console.log(c.name)
+        console.log(c.checked)
+        // return a.concat(c.item);
+        return [...a, { name: c.name, checked: c.checked }];
       }, []);
     })
     res.json(payload);
@@ -33,7 +36,7 @@ checklistController.getChecklists = (req, res) => {
 }
 
 checklistController.addItem = (req, res) => {
-  if (!req.body.category || !req.body.item) {
+  if (!req.body.category || !req.body.name) {
     res.send('please enter valid username and password');
   } else {
     Item.create(req.body, (err, item) => {
@@ -48,6 +51,13 @@ checklistController.deleteItem = (req, res) => {
     if (err) console.log(err);
     res.send('removed from database')
   });
+}
+
+checklistController.updateItem = (req, res) => {
+  // Item.findOneAndUpdate({ item: req.params.item }, req.body, (err, updatedItem) => {
+  //   if (err) res.status(418).send(err);
+  //   res.json(updatedItem);
+  // });
 }
 
 module.exports = checklistController;

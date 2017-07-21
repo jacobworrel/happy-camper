@@ -11,6 +11,7 @@ export default class App extends React.Component {
     this.removeItem = this.removeItem.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleDropDownChange = this.handleDropDownChange.bind(this);
+    this.markAsChecked = this.markAsChecked.bind(this);
 
     this.state = {
       categories: {
@@ -30,6 +31,7 @@ export default class App extends React.Component {
   componentDidMount() {
     axios.get('/items')
       .then((response) => {
+        console.log(response.data);
         const state = { ...response.data };
         this.setState({ categories: state });
       })
@@ -43,16 +45,24 @@ export default class App extends React.Component {
     this.setState({selectedCategory: e.target.value})
   }
 
+  markAsChecked(item) {
+    console.log('checked')
+    // axios.put('/items', )
+    //   .then((response) => {
+    //
+    //   });
+  }
+
   handleSubmit(e) {
     e.preventDefault();
-    const newArr = [...this.state.categories[this.state.selectedCategory], this.state.itemInput];
-    // const newState = {...this.state, categories[this.state.selectedCategory]: newArr }
-    const newState = Object.assign({}, this.state);
-    newState.categories[this.state.selectedCategory] = newArr;
-    this.setState(newState);
+    const categories = this.state.categories;
+    const category = this.state.selectedCategory;
+    const item = { name: this.state.itemInput, checked: false };
+    this.setState({ ...this.state,
+                    categories: { ...categories, [category]: [...categories[category], item] }});
 
     //post request to server/db
-    axios.post('/items', { category: this.state.selectedCategory, item: this.state.itemInput })
+    axios.post('/items', { category: this.state.selectedCategory, name: this.state.itemInput })
       .then(response => {
         console.log(response.data);
       });
@@ -67,16 +77,22 @@ export default class App extends React.Component {
     this.setState(newState);
 
     //delete request to server/db
-    axios.delete('/items', { params: { item: item }})
+    axios.delete('/items', { params: { name: item }})
       .then(response => {
         console.log(response.data);
       });
   }
 
   render() {
-    let checkLists = [];
-    for (let prop in this.state.categories) {
-      checkLists.push(<Checklist className='checklist' items={this.state.categories[prop]} category={prop} removeItem={this.removeItem} />);
+    const checkLists = [];
+    for (let key in this.state.categories) {
+      checkLists.push(<Checklist
+                        className='checklist'
+                        items={this.state.categories[key]}
+                        category={key}
+                        removeItem={this.removeItem}
+                        markAsChecked={this.markAsChecked}
+                      />);
     }
     return (
      <div>
