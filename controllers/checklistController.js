@@ -20,8 +20,11 @@ checklistController.getChecklists = (req, res) => {
     checklistController.findItems({ category: 'Food' }),
   ]).then((checklists) => {
     const payload = {};
+    const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];
     checklists.forEach((checklist, i) => {
-      payload[i] = checklist;
+      payload[categories[i]] = checklist.reduce((a, c) => {
+        return a.concat(c.item);
+      }, []);
     })
     res.json(payload);
   }).catch((err) => {

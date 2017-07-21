@@ -10221,6 +10221,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(26);
@@ -10275,7 +10277,7 @@ var App = function (_React$Component) {
     return _this;
   }
 
-  //get data from server/db and store it in this.state
+  //get request to server/db
 
 
   _createClass(App, [{
@@ -10284,43 +10286,10 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       _axios2.default.get('/items').then(function (response) {
-        console.log(response.data);
-        var sleepingItems = [];
-        response.data[0].forEach(function (obj) {
-          sleepingItems.push(obj.item);
-        });
-        var cookingItems = [];
-        response.data[1].forEach(function (obj) {
-          cookingItems.push(obj.item);
-        });
-        var shelterItems = [];
-        response.data[2].forEach(function (obj) {
-          shelterItems.push(obj.item);
-        });
-        var clothingItems = [];
-        response.data[3].forEach(function (obj) {
-          clothingItems.push(obj.item);
-        });
-        var miscellaneousItems = [];
-        response.data[4].forEach(function (obj) {
-          miscellaneousItems.push(obj.item);
-        });
-        var foodItems = [];
-        response.data[5].forEach(function (obj) {
-          foodItems.push(obj.item);
-        });
-        _this2.setState({ categories: {
-            Sleeping: sleepingItems,
-            Cooking: cookingItems,
-            Shelter: shelterItems,
-            Clothing: clothingItems,
-            Miscellaneous: miscellaneousItems,
-            Food: foodItems
-          }
-        });
+        var state = _extends({}, response.data);
+        _this2.setState({ categories: state });
       });
-    } //end componentDidMount
-
+    }
   }, {
     key: 'handleChange',
     value: function handleChange(e) {

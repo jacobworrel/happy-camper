@@ -25,46 +25,14 @@ export default class App extends React.Component {
     }
   }
 
-//get data from server/db and store it in this.state
+//get request to server/db
   componentDidMount() {
     axios.get('/items')
       .then((response) => {
-        console.log(response.data)
-        const sleepingItems = [];
-        response.data[0].forEach(obj => {
-          sleepingItems.push(obj.item);
-        });
-        const cookingItems = [];
-        response.data[1].forEach(obj => {
-          cookingItems.push(obj.item);
-        });
-        const shelterItems = [];
-        response.data[2].forEach(obj => {
-          shelterItems.push(obj.item);
-        });
-        const clothingItems = [];
-        response.data[3].forEach(obj => {
-          clothingItems.push(obj.item);
-        });
-        const miscellaneousItems = [];
-        response.data[4].forEach(obj => {
-          miscellaneousItems.push(obj.item);
-        });
-        const foodItems = [];
-        response.data[5].forEach(obj => {
-          foodItems.push(obj.item);
-        });
-        this.setState({ categories: {
-                                    Sleeping: sleepingItems,
-                                    Cooking: cookingItems,
-                                    Shelter: shelterItems,
-                                    Clothing: clothingItems,
-                                    Miscellaneous: miscellaneousItems,
-                                    Food: foodItems
-                                  }
-                      });
+        const state = { ...response.data };
+        this.setState({ categories: state });
       })
-  }//end componentDidMount
+  }
 
   handleChange(e) {
     this.setState({[e.target.name]: e.target.value});
