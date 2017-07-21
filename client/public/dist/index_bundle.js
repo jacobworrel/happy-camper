@@ -10284,7 +10284,7 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       _axios2.default.get('/items').then(function (response) {
-        console.log(response);
+        console.log(response.data);
         var sleepingItems = [];
         response.data[0].forEach(function (obj) {
           sleepingItems.push(obj.item);
@@ -11315,10 +11315,9 @@ var _Item2 = _interopRequireDefault(_Item);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Checklist = function Checklist(props) {
-  var items = [];
-  for (var i = 0; i < props.items.length; i += 1) {
-    items.push(_react2.default.createElement(_Item2.default, { item: props.items[i], removeItem: props.removeItem, category: props.category }));
-  }
+  var items = props.items.map(function (item) {
+    return _react2.default.createElement(_Item2.default, { item: item, removeItem: props.removeItem, category: props.category });
+  });
   return _react2.default.createElement(
     'ul',
     null,

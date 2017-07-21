@@ -29,7 +29,7 @@ export default class App extends React.Component {
   componentDidMount() {
     axios.get('/items')
       .then((response) => {
-        console.log(response);
+        console.log(response.data)
         const sleepingItems = [];
         response.data[0].forEach(obj => {
           sleepingItems.push(obj.item);
