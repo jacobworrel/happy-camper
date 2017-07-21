@@ -1,34 +1,32 @@
 const checklistController = {};
 const Item = require('./../models/item-model.js');
 
-checklistController.getChecklists = (req, res) => {
-  Item.find({category: 'Sleeping'}, (err, sleepingItems) => {
-    if (err) console.log(err);
-    Item.find({category: 'Cooking'}, (err, cookingItems) => {
-      if (err) console.log(err);
-      Item.find({category: 'Shelter'}, (err, shelterItems) => {
-        if (err) console.log(err);
-        Item.find({category: 'Miscellaneous'}, (err, miscellaneousItems) => {
-          if (err) console.log(err);
-          Item.find({category: 'Clothing'}, (err, clothingItems) => {
-            if (err) console.log(err);
-            Item.find({category: 'Food'}, (err, foodItems) => {
-              if (err) console.log(err);
-                res.json({
-                          sleepingItems: sleepingItems,
-                          cookingItems: cookingItems,
-                          shelterItems: shelterItems,
-                          clothingItems: clothingItems,
-                          miscellaneousItems: miscellaneousItems,
-                          foodItems: foodItems
-                         }
-                );
-            });
-          });
-        });
-      });
+checklistController.findItems = (obj) => {
+  return new Promise((resolve, reject) => {
+    Item.find(obj, (err, items) => {
+      resolve(items);
+      reject(err);
     });
   });
+}
+
+checklistController.getChecklists = (req, res) => {
+  Promise.all([
+    checklistController.findItems({ category: 'Sleeping' }),
+    checklistController.findItems({ category: 'Cooking' }),
+    checklistController.findItems({ category: 'Shelter' }),
+    checklistController.findItems({ category: 'Miscellaneous' }),
+    checklistController.findItems({ category: 'Clothing' }),
+    checklistController.findItems({ category: 'Food' }),
+  ]).then((checklists) => {
+    const payload = {};
+    checklists.forEach((checklist, i) => {
+      payload[i] = checklist;
+    })
+    res.json(payload);
+  }).catch((err) => {
+    console.log(err);
+  })
 }
 
 checklistController.addItem = (req, res) => {

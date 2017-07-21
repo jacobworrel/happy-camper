@@ -29,28 +29,29 @@ export default class App extends React.Component {
   componentDidMount() {
     axios.get('/items')
       .then((response) => {
+        console.log(response);
         const sleepingItems = [];
-        response.data.sleepingItems.forEach(obj => {
+        response.data[0].forEach(obj => {
           sleepingItems.push(obj.item);
         });
         const cookingItems = [];
-        response.data.cookingItems.forEach(obj => {
+        response.data[1].forEach(obj => {
           cookingItems.push(obj.item);
         });
         const shelterItems = [];
-        response.data.shelterItems.forEach(obj => {
+        response.data[2].forEach(obj => {
           shelterItems.push(obj.item);
         });
         const clothingItems = [];
-        response.data.clothingItems.forEach(obj => {
+        response.data[3].forEach(obj => {
           clothingItems.push(obj.item);
         });
         const miscellaneousItems = [];
-        response.data.miscellaneousItems.forEach(obj => {
+        response.data[4].forEach(obj => {
           miscellaneousItems.push(obj.item);
         });
         const foodItems = [];
-        response.data.foodItems.forEach(obj => {
+        response.data[5].forEach(obj => {
           foodItems.push(obj.item);
         });
         this.setState({ categories: {

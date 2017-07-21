@@ -10284,28 +10284,29 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       _axios2.default.get('/items').then(function (response) {
+        console.log(response);
         var sleepingItems = [];
-        response.data.sleepingItems.forEach(function (obj) {
+        response.data[0].forEach(function (obj) {
           sleepingItems.push(obj.item);
         });
         var cookingItems = [];
-        response.data.cookingItems.forEach(function (obj) {
+        response.data[1].forEach(function (obj) {
           cookingItems.push(obj.item);
         });
         var shelterItems = [];
-        response.data.shelterItems.forEach(function (obj) {
+        response.data[2].forEach(function (obj) {
           shelterItems.push(obj.item);
         });
         var clothingItems = [];
-        response.data.clothingItems.forEach(function (obj) {
+        response.data[3].forEach(function (obj) {
           clothingItems.push(obj.item);
         });
         var miscellaneousItems = [];
-        response.data.miscellaneousItems.forEach(function (obj) {
+        response.data[4].forEach(function (obj) {
           miscellaneousItems.push(obj.item);
         });
         var foodItems = [];
-        response.data.foodItems.forEach(function (obj) {
+        response.data[5].forEach(function (obj) {
           foodItems.push(obj.item);
         });
         _this2.setState({ categories: {
