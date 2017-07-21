@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import { render } from 'react-dom'
-import Checklist from './Checklist.jsx'
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import Dropdown from './Dropdown.jsx';
+import Checklist from './Checklist.jsx';
 import axios from 'axios';
 
 export default class App extends React.Component {
@@ -44,11 +45,10 @@ export default class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const newArr = this.state.categories[this.state.selectedCategory];
-    newArr.push(this.state.itemInput);
+    const newArr = [...this.state.categories[this.state.selectedCategory], this.state.itemInput];
+    // const newState = {...this.state, categories[this.state.selectedCategory]: newArr }
     const newState = Object.assign({}, this.state);
     newState.categories[this.state.selectedCategory] = newArr;
-    console.log(newState);
     this.setState(newState);
 
     //post request to server/db
@@ -82,25 +82,16 @@ export default class App extends React.Component {
      <div>
       <div className='header'>
         <h1>Happy Camper</h1>
-        <img src="https://img1.etsystatic.com/019/0/9202327/il_340x270.575075821_avr6.jpg" height="67.5" width="85" />
+        <img src="./assets/logo.jpg" height="67.5" width="85" />
         <form className='add-form' onSubmit={this.handleSubmit}>
-          <select name="days" onChange={this.handleDropDownChange}>
-            <option value="Select Day">Select Category</option>
-            <option value="Sleeping">Sleeping</option>
-            <option value="Cooking">Cooking</option>
-            <option value="Shelter">Shelter</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Miscellaneous">Miscellaneous</option>
-            <option value="Food">Food</option>
-          </select>
-           <input className="search-bar" type="text" placeholder="item" name="itemInput" value={this.state.itemInput} onChange={this.handleChange} />
-           <button type="submit">Add item</button>
-         </form>
-         <p style={{ display: this.state.showError ? 'block' : 'none' }} className="error-msg">Please enter a valid category and item!</p>
-        </div>
-        <div className='checklist-container'>
-          {checkLists}
-        </div>
-      </div>);
+          <Dropdown handleDropDownChange={this.handleDropDownChange}/>
+          <input className="search-bar" type="text" placeholder="item" name="itemInput" value={this.state.itemInput} onChange={this.handleChange} />
+          <button type="submit">Add item</button>
+        </form>
+      </div>
+      <div className='checklist-container'>
+        {checkLists}
+      </div>
+    </div>);
   }
 }

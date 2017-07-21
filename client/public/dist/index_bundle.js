@@ -10231,6 +10231,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(53);
 
+var _Dropdown = __webpack_require__(215);
+
+var _Dropdown2 = _interopRequireDefault(_Dropdown);
+
 var _Checklist = __webpack_require__(108);
 
 var _Checklist2 = _interopRequireDefault(_Checklist);
@@ -10240,6 +10244,8 @@ var _axios = __webpack_require__(90);
 var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -10304,11 +10310,10 @@ var App = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
-      var newArr = this.state.categories[this.state.selectedCategory];
-      newArr.push(this.state.itemInput);
+      var newArr = [].concat(_toConsumableArray(this.state.categories[this.state.selectedCategory]), [this.state.itemInput]);
+      // const newState = {...this.state, categories[this.state.selectedCategory]: newArr }
       var newState = Object.assign({}, this.state);
       newState.categories[this.state.selectedCategory] = newArr;
-      console.log(newState);
       this.setState(newState);
 
       //post request to server/db
@@ -10349,60 +10354,17 @@ var App = function (_React$Component) {
             null,
             'Happy Camper'
           ),
-          _react2.default.createElement('img', { src: 'https://img1.etsystatic.com/019/0/9202327/il_340x270.575075821_avr6.jpg', height: '67.5', width: '85' }),
+          _react2.default.createElement('img', { src: './assets/logo.jpg', height: '67.5', width: '85' }),
           _react2.default.createElement(
             'form',
             { className: 'add-form', onSubmit: this.handleSubmit },
-            _react2.default.createElement(
-              'select',
-              { name: 'days', onChange: this.handleDropDownChange },
-              _react2.default.createElement(
-                'option',
-                { value: 'Select Day' },
-                'Select Category'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: 'Sleeping' },
-                'Sleeping'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: 'Cooking' },
-                'Cooking'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: 'Shelter' },
-                'Shelter'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: 'Clothing' },
-                'Clothing'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: 'Miscellaneous' },
-                'Miscellaneous'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: 'Food' },
-                'Food'
-              )
-            ),
+            _react2.default.createElement(_Dropdown2.default, { handleDropDownChange: this.handleDropDownChange }),
             _react2.default.createElement('input', { className: 'search-bar', type: 'text', placeholder: 'item', name: 'itemInput', value: this.state.itemInput, onChange: this.handleChange }),
             _react2.default.createElement(
               'button',
               { type: 'submit' },
               'Add item'
             )
-          ),
-          _react2.default.createElement(
-            'p',
-            { style: { display: this.state.showError ? 'block' : 'none' }, className: 'error-msg' },
-            'Please enter a valid category and item!'
           )
         ),
         _react2.default.createElement(
@@ -25896,6 +25858,67 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(26);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Dropdown = function Dropdown(props) {
+  return _react2.default.createElement(
+    "select",
+    { name: "days", onChange: props.handleDropDownChange },
+    _react2.default.createElement(
+      "option",
+      { value: "Select Day" },
+      "Select Category"
+    ),
+    _react2.default.createElement(
+      "option",
+      { value: "Sleeping" },
+      "Sleeping"
+    ),
+    _react2.default.createElement(
+      "option",
+      { value: "Cooking" },
+      "Cooking"
+    ),
+    _react2.default.createElement(
+      "option",
+      { value: "Shelter" },
+      "Shelter"
+    ),
+    _react2.default.createElement(
+      "option",
+      { value: "Clothing" },
+      "Clothing"
+    ),
+    _react2.default.createElement(
+      "option",
+      { value: "Miscellaneous" },
+      "Miscellaneous"
+    ),
+    _react2.default.createElement(
+      "option",
+      { value: "Food" },
+      "Food"
+    )
+  );
+};
+
+exports.default = Dropdown;
 
 /***/ })
 /******/ ]);
