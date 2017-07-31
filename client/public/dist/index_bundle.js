@@ -10293,7 +10293,6 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       _axios2.default.get('/items').then(function (response) {
-        // console.log(response.data)
         var state = _extends({}, response.data);
         _this2.setState({ categories: state });
       });
@@ -10310,8 +10309,15 @@ var App = function (_React$Component) {
     }
   }, {
     key: 'markAsChecked',
-    value: function markAsChecked(id, e) {
-      var obj = e.target.checked ? { checked: false } : { checked: true };
+    value: function markAsChecked(index, category, id, e) {
+      //set state
+      var categories = this.state.categories;
+      this.setState(_extends({}, this.state, {
+        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), [_extends({}, categories[category][index], { checked: e.target.checked })], _toConsumableArray(categories[category].slice(index + 1)))))
+      }));
+
+      //patch request to server/db
+      var obj = e.target.checked ? { checked: true } : { checked: false };
       _axios2.default.patch('/items', obj, { params: { _id: id } }).then(function (response) {
         console.log(response.data);
       });
@@ -10359,12 +10365,12 @@ var App = function (_React$Component) {
     value: function render() {
       var _this4 = this;
 
-      var checklists = Object.keys(this.state.categories).map(function (key, i) {
+      var checklists = Object.keys(this.state.categories).map(function (category, i) {
         return _react2.default.createElement(_Checklist2.default, {
           key: i,
           className: 'checklist',
-          items: _this4.state.categories[key],
-          category: key,
+          items: _this4.state.categories[category],
+          category: category,
           removeItem: _this4.removeItem,
           markAsChecked: _this4.markAsChecked
         });
@@ -11275,9 +11281,8 @@ var Checklist = function Checklist(props) {
   var items = props.items.map(function (item, i) {
     return _react2.default.createElement(_Item2.default, {
       key: item.id,
-      id: item.id,
       index: i,
-      item: item.name,
+      item: item,
       removeItem: props.removeItem,
       markAsChecked: props.markAsChecked,
       category: props.category
@@ -11377,21 +11382,22 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Item = function Item(props) {
+  var checked = props.item.checked;
   return _react2.default.createElement(
     'li',
     { className: 'item' },
-    _react2.default.createElement('input', { type: 'checkbox', onChange: function onChange(e) {
-        return props.markAsChecked(props.id, e);
+    _react2.default.createElement('input', { type: 'checkbox', checked: checked, onChange: function onChange(e) {
+        return props.markAsChecked(props.index, props.category, props.item.id, e);
       } }),
     _react2.default.createElement(
       'span',
       { className: 'item-name' },
-      props.item
+      props.item.name
     ),
     _react2.default.createElement(
       'button',
       { className: 'delete-btn', onClick: function onClick() {
-          return props.removeItem(props.index, props.category, props.id);
+          return props.removeItem(props.index, props.category, props.item.id);
         } },
       'delete'
     )

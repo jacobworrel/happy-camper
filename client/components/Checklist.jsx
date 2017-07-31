@@ -5,9 +5,8 @@ const Checklist = (props) => {
   const items = props.items.map((item, i) => {
     return <Item
               key={item.id}
-              id={item.id}
               index={i}
-              item={item.name}
+              item={item}
               removeItem={props.removeItem}
               markAsChecked={props.markAsChecked}
               category={props.category}

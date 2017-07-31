@@ -1,11 +1,12 @@
 import React from 'react';
 
 const Item = (props) => {
+  const checked = props.item.checked;
   return (
     <li className='item'>
-      <input type="checkbox" onChange={(e) => props.markAsChecked(props.id, e)}/>
-      <span className='item-name'>{props.item}</span>
-      <button className='delete-btn' onClick={() => props.removeItem(props.index, props.category, props.id)}>delete</button>
+      <input type="checkbox" checked={checked} onChange={(e) => props.markAsChecked(props.index, props.category, props.item.id, e)}/>
+      <span className='item-name'>{props.item.name}</span>
+      <button className='delete-btn' onClick={() => props.removeItem(props.index, props.category, props.item.id)}>delete</button>
     </li>
  );
 }

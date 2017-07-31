@@ -31,7 +31,6 @@ export default class App extends React.Component {
   componentDidMount() {
     axios.get('/items')
       .then((response) => {
-        // console.log(response.data)
         const state = { ...response.data };
         this.setState({ categories: state });
       })
@@ -45,8 +44,20 @@ export default class App extends React.Component {
     this.setState({selectedCategory: e.target.value})
   }
 
-  markAsChecked(id, e) {
-    const obj = e.target.checked ? { checked: false }: { checked: true };
+  markAsChecked(index, category, id, e) {
+    //set state
+    const categories = this.state.categories;
+    this.setState({
+      ...this.state,
+      categories: { ...categories,
+                    [category]: [...categories[category].slice(0, index),
+                                 { ... categories[category][index], checked: e.target.checked },
+                                 ...categories[category].slice(index + 1)]
+                  }
+    })
+
+    //patch request to server/db
+    const obj = e.target.checked ? { checked: true } : { checked: false };
     axios.patch('/items', obj, { params: { _id: id }})
       .then((response) => {
         console.log(response.data);
@@ -94,12 +105,12 @@ export default class App extends React.Component {
   }
 
   render() {
-    const checklists = Object.keys(this.state.categories).map((key, i) => {
+    const checklists = Object.keys(this.state.categories).map((category, i) => {
       return <Checklist
                         key={i}
                         className='checklist'
-                        items={this.state.categories[key]}
-                        category={key}
+                        items={this.state.categories[category]}
+                        category={category}
                         removeItem={this.removeItem}
                         markAsChecked={this.markAsChecked}
                       />
