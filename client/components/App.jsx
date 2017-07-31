@@ -31,7 +31,7 @@ export default class App extends React.Component {
   componentDidMount() {
     axios.get('/items')
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data)
         const state = { ...response.data };
         this.setState({ categories: state });
       })
@@ -45,55 +45,64 @@ export default class App extends React.Component {
     this.setState({selectedCategory: e.target.value})
   }
 
-  markAsChecked(item) {
-    console.log('checked')
-    // axios.put('/items', )
-    //   .then((response) => {
-    //
-    //   });
+  markAsChecked(id) {
+    axios.patch('/items', { checked: true }, { params: { _id: id }})
+      .then((response) => {
+
+      });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const categories = this.state.categories;
-    const category = this.state.selectedCategory;
-    const item = { name: this.state.itemInput, checked: false };
-    this.setState({ ...this.state,
-                    categories: { ...categories, [category]: [...categories[category], item] }});
-
     //post request to server/db
     axios.post('/items', { category: this.state.selectedCategory, name: this.state.itemInput })
       .then(response => {
-        console.log(response.data);
+        //store id in variable
+        const id = response.data.id;
+        //check for invalid input
+        if (!this.state.itemInput || !this.state.selectedCategory) {
+          alert('please choose a category and/or enter an item');
+          return;
+        }
+        //set state
+        const categories = this.state.categories;
+        const category = this.state.selectedCategory;
+        const item = { name: this.state.itemInput, checked: false, id: id  };
+        this.setState({
+          ...this.state,
+          itemInput: '',
+          categories: { ...categories, [category]: [...categories[category], item] }
+        });
       });
   }
 
-  removeItem(item, category) {
-    let filtered = this.state.categories[category].filter(elem => {
-      return elem !== item;
-    });
-    const newState = Object.assign({}, this.state);
-    newState.categories[category] = filtered;
-    this.setState(newState);
+  removeItem(index, category, id) {
+    const categories = this.state.categories;
+    this.setState({
+      ...this.state,
+      categories: { ...categories, [category]: [...categories[category].slice(0, index),
+                                                ...categories[category].slice(index + 1)]
+                                              }
+    })
 
     //delete request to server/db
-    axios.delete('/items', { params: { name: item }})
+    axios.delete('/items', { params: { _id: id }})
       .then(response => {
         console.log(response.data);
       });
   }
 
   render() {
-    const checkLists = [];
-    for (let key in this.state.categories) {
-      checkLists.push(<Checklist
+    const checklists = Object.keys(this.state.categories).map((key, i) => {
+      return <Checklist
+                        key={i}
                         className='checklist'
                         items={this.state.categories[key]}
                         category={key}
                         removeItem={this.removeItem}
                         markAsChecked={this.markAsChecked}
-                      />);
-    }
+                      />
+    });
     return (
      <div>
       <div className='header'>
@@ -106,7 +115,7 @@ export default class App extends React.Component {
         </form>
       </div>
       <div className='checklist-container'>
-        {checkLists}
+        {checklists}
       </div>
     </div>);
   }

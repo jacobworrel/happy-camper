@@ -2,8 +2,11 @@ import React from 'react';
 import Item from './Item.jsx'
 
 const Checklist = (props) => {
-  const items = props.items.map((item) => {
+  const items = props.items.map((item, i) => {
     return <Item
+              key={item.id}
+              id={item.id}
+              index={i}
               item={item.name}
               removeItem={props.removeItem}
               markAsChecked={props.markAsChecked}

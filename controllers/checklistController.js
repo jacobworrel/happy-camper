@@ -23,10 +23,7 @@ checklistController.getChecklists = (req, res) => {
     const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];
     checklists.forEach((checklist, i) => {
       payload[categories[i]] = checklist.reduce((a, c) => {
-        console.log(c.name)
-        console.log(c.checked)
-        // return a.concat(c.item);
-        return [...a, { name: c.name, checked: c.checked }];
+        return [...a, { name: c.name, checked: c.checked, id: c._id }];
       }, []);
     })
     res.json(payload);
@@ -37,11 +34,11 @@ checklistController.getChecklists = (req, res) => {
 
 checklistController.addItem = (req, res) => {
   if (!req.body.category || !req.body.name) {
-    res.send('please enter valid username and password');
+    res.send('please enter an item');
   } else {
     Item.create(req.body, (err, item) => {
       if (err) console.log(err)
-      res.send('saved to database')
+      res.send({ id: item._id })
     });
   }
 }
@@ -54,10 +51,11 @@ checklistController.deleteItem = (req, res) => {
 }
 
 checklistController.updateItem = (req, res) => {
-  // Item.findOneAndUpdate({ item: req.params.item }, req.body, (err, updatedItem) => {
-  //   if (err) res.status(418).send(err);
-  //   res.json(updatedItem);
-  // });
+  console.log(req.query)
+  Item.findOneAndUpdate({ item: req.query._id }, req.body, (err, updatedItem) => {
+    if (err) res.status(418).send(err);
+    res.json(updatedItem);
+  });
 }
 
 module.exports = checklistController;
