@@ -45,10 +45,11 @@ export default class App extends React.Component {
     this.setState({selectedCategory: e.target.value})
   }
 
-  markAsChecked(id) {
-    axios.patch('/items', { checked: true }, { params: { _id: id }})
+  markAsChecked(id, e) {
+    const obj = e.target.checked ? { checked: false }: { checked: true };
+    axios.patch('/items', obj, { params: { _id: id }})
       .then((response) => {
-
+        console.log(response.data);
       });
   }
 

@@ -10310,8 +10310,11 @@ var App = function (_React$Component) {
     }
   }, {
     key: 'markAsChecked',
-    value: function markAsChecked(id) {
-      _axios2.default.patch('/items', { checked: true }, { params: { _id: id } }).then(function (response) {});
+    value: function markAsChecked(id, e) {
+      var obj = e.target.checked ? { checked: false } : { checked: true };
+      _axios2.default.patch('/items', obj, { params: { _id: id } }).then(function (response) {
+        console.log(response.data);
+      });
     }
   }, {
     key: 'handleSubmit',
@@ -11377,8 +11380,8 @@ var Item = function Item(props) {
   return _react2.default.createElement(
     'li',
     { className: 'item' },
-    _react2.default.createElement('input', { type: 'checkbox', onChange: function onChange() {
-        return props.markAsChecked(props.id);
+    _react2.default.createElement('input', { type: 'checkbox', onChange: function onChange(e) {
+        return props.markAsChecked(props.id, e);
       } }),
     _react2.default.createElement(
       'span',

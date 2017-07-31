@@ -28,7 +28,7 @@ checklistController.getChecklists = (req, res) => {
     })
     res.json(payload);
   }).catch((err) => {
-    console.log(err);
+    res.status(418).send(err);
   })
 }
 
@@ -37,7 +37,7 @@ checklistController.addItem = (req, res) => {
     res.send('please enter an item');
   } else {
     Item.create(req.body, (err, item) => {
-      if (err) console.log(err)
+      if (err) res.status(418).send(err);
       res.send({ id: item._id })
     });
   }
@@ -45,14 +45,14 @@ checklistController.addItem = (req, res) => {
 
 checklistController.deleteItem = (req, res) => {
   Item.remove(req.query, (err) => {
-    if (err) console.log(err);
+    if (err) res.status(418).send(err);
     res.send('removed from database')
   });
 }
 
 checklistController.updateItem = (req, res) => {
   console.log(req.query)
-  Item.findOneAndUpdate({ item: req.query._id }, req.body, (err, updatedItem) => {
+  Item.findOneAndUpdate(req.query, req.body, (err, updatedItem) => {
     if (err) res.status(418).send(err);
     res.json(updatedItem);
   });
