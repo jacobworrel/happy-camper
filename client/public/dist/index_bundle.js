@@ -10279,8 +10279,10 @@ var App = function (_React$Component) {
     };
 
     _this.handleBlur = function (index, category, editing, e) {
-      console.log(e.target.value);
-      _this.toggleEditing(index, category, editing);
+      var categories = _this.state.categories;
+      _this.setState(_extends({}, _this.state, {
+        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), [_extends({}, categories[category][index], { name: e.target.value, editing: !editing })], _toConsumableArray(categories[category].slice(index + 1)))))
+      }));
     };
 
     _this.markAsChecked = function (index, category, id, e) {

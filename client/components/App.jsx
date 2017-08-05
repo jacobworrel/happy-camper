@@ -58,8 +58,15 @@ export default class App extends React.Component {
   }
 
   handleBlur = (index, category, editing, e) => {
-    console.log(e.target.value)
-    this.toggleEditing(index, category, editing);
+    const categories = this.state.categories;
+    this.setState({
+      ...this.state,
+      categories: { ...categories,
+                    [category]: [...categories[category].slice(0, index),
+                                 { ... categories[category][index], name: e.target.value, editing: !editing },
+                                 ...categories[category].slice(index + 1)]
+                  }
+    })
   }
 
   markAsChecked = (index, category, id, e) => {
