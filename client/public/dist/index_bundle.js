@@ -10268,6 +10268,7 @@ var App = function (_React$Component) {
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleDropDownChange = _this.handleDropDownChange.bind(_this);
     _this.markAsChecked = _this.markAsChecked.bind(_this);
+    _this.editItem = _this.editItem.bind(_this);
 
     _this.state = {
       categories: {
@@ -10361,6 +10362,11 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: 'editItem',
+    value: function editItem() {
+      console.log('editing item');
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this4 = this;
@@ -10372,7 +10378,8 @@ var App = function (_React$Component) {
           items: _this4.state.categories[category],
           category: category,
           removeItem: _this4.removeItem,
-          markAsChecked: _this4.markAsChecked
+          markAsChecked: _this4.markAsChecked,
+          editItem: _this4.editItem
         });
       });
       return _react2.default.createElement(
@@ -11283,9 +11290,10 @@ var Checklist = function Checklist(props) {
       key: item.id,
       index: i,
       item: item,
+      category: props.category,
       removeItem: props.removeItem,
       markAsChecked: props.markAsChecked,
-      category: props.category
+      editItem: props.editItem
     });
   });
   return _react2.default.createElement(
@@ -11391,7 +11399,7 @@ var Item = function Item(props) {
       } }),
     _react2.default.createElement(
       'span',
-      { className: 'item-name' },
+      { className: 'item-name', onClick: props.editItem },
       props.item.name
     ),
     _react2.default.createElement(

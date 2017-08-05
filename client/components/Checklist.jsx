@@ -7,9 +7,10 @@ const Checklist = (props) => {
               key={item.id}
               index={i}
               item={item}
+              category={props.category}
               removeItem={props.removeItem}
               markAsChecked={props.markAsChecked}
-              category={props.category}
+              editItem={props.editItem}
             />
   });
   return (

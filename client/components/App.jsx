@@ -12,6 +12,7 @@ export default class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleDropDownChange = this.handleDropDownChange.bind(this);
     this.markAsChecked = this.markAsChecked.bind(this);
+    this.editItem = this.editItem.bind(this);
 
     this.state = {
       categories: {
@@ -104,6 +105,11 @@ export default class App extends React.Component {
       });
   }
 
+  editItem() {
+    console.log('editing item')
+    
+  }
+
   render() {
     const checklists = Object.keys(this.state.categories).map((category, i) => {
       return <Checklist
@@ -113,6 +119,7 @@ export default class App extends React.Component {
                         category={category}
                         removeItem={this.removeItem}
                         markAsChecked={this.markAsChecked}
+                        editItem={this.editItem}
                       />
     });
     return (
