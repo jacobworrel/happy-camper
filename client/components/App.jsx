@@ -7,12 +7,6 @@ import axios from 'axios';
 export default class App extends React.Component {
   constructor() {
     super();
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.removeItem = this.removeItem.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleDropDownChange = this.handleDropDownChange.bind(this);
-    this.markAsChecked = this.markAsChecked.bind(this);
-    this.editItem = this.editItem.bind(this);
 
     this.state = {
       categories: {
@@ -32,20 +26,43 @@ export default class App extends React.Component {
   componentDidMount() {
     axios.get('/items')
       .then((response) => {
-        const state = { ...response.data };
+        const data = response.data;
+        const state = {};
+        const categories = Object.keys(data);
+        categories.forEach((category) => {
+          //get stored item properties and add editing: false property to every item
+          state[category] = data[category].map((item) => ({ ...item, editing: false }));
+        })
         this.setState({ categories: state });
       })
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value});
   }
 
-  handleDropDownChange(e) {
+  handleDropDownChange = (e) => {
     this.setState({selectedCategory: e.target.value})
   }
 
-  markAsChecked(index, category, id, e) {
+  toggleEditing = (index, category, editing) => {
+    const categories = this.state.categories;
+    this.setState({
+      ...this.state,
+      categories: { ...categories,
+                    [category]: [...categories[category].slice(0, index),
+                                 { ... categories[category][index], editing: !editing },
+                                 ...categories[category].slice(index + 1)]
+                  }
+    })
+  }
+
+  handleBlur = (index, category, editing, e) => {
+    console.log(e.target.value)
+    this.toggleEditing(index, category, editing);
+  }
+
+  markAsChecked = (index, category, id, e) => {
     //set state
     const categories = this.state.categories;
     this.setState({
@@ -65,7 +82,7 @@ export default class App extends React.Component {
       });
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     //post request to server/db
     axios.post('/items', { category: this.state.selectedCategory, name: this.state.itemInput })
@@ -80,7 +97,7 @@ export default class App extends React.Component {
         //set state
         const categories = this.state.categories;
         const category = this.state.selectedCategory;
-        const item = { name: this.state.itemInput, checked: false, id: id  };
+        const item = { name: this.state.itemInput, checked: false, editing: false, id: id  };
         this.setState({
           ...this.state,
           itemInput: '',
@@ -89,7 +106,7 @@ export default class App extends React.Component {
       });
   }
 
-  removeItem(index, category, id) {
+  removeItem = (index, category, id) => {
     const categories = this.state.categories;
     this.setState({
       ...this.state,
@@ -105,11 +122,6 @@ export default class App extends React.Component {
       });
   }
 
-  editItem() {
-    console.log('editing item')
-    
-  }
-
   render() {
     const checklists = Object.keys(this.state.categories).map((category, i) => {
       return <Checklist
@@ -119,7 +131,8 @@ export default class App extends React.Component {
                         category={category}
                         removeItem={this.removeItem}
                         markAsChecked={this.markAsChecked}
-                        editItem={this.editItem}
+                        toggleEditing={this.toggleEditing}
+                        handleBlur={this.handleBlur}
                       />
     });
     return (

@@ -10263,12 +10263,73 @@ var App = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.removeItem = _this.removeItem.bind(_this);
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleDropDownChange = _this.handleDropDownChange.bind(_this);
-    _this.markAsChecked = _this.markAsChecked.bind(_this);
-    _this.editItem = _this.editItem.bind(_this);
+    _this.handleChange = function (e) {
+      _this.setState(_defineProperty({}, e.target.name, e.target.value));
+    };
+
+    _this.handleDropDownChange = function (e) {
+      _this.setState({ selectedCategory: e.target.value });
+    };
+
+    _this.toggleEditing = function (index, category, editing) {
+      var categories = _this.state.categories;
+      _this.setState(_extends({}, _this.state, {
+        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), [_extends({}, categories[category][index], { editing: !editing })], _toConsumableArray(categories[category].slice(index + 1)))))
+      }));
+    };
+
+    _this.handleBlur = function (index, category, editing, e) {
+      console.log(e.target.value);
+      _this.toggleEditing(index, category, editing);
+    };
+
+    _this.markAsChecked = function (index, category, id, e) {
+      //set state
+      var categories = _this.state.categories;
+      _this.setState(_extends({}, _this.state, {
+        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), [_extends({}, categories[category][index], { checked: e.target.checked })], _toConsumableArray(categories[category].slice(index + 1)))))
+      }));
+
+      //patch request to server/db
+      var obj = e.target.checked ? { checked: true } : { checked: false };
+      _axios2.default.patch('/items', obj, { params: { _id: id } }).then(function (response) {
+        console.log(response.data);
+      });
+    };
+
+    _this.handleSubmit = function (e) {
+      e.preventDefault();
+      //post request to server/db
+      _axios2.default.post('/items', { category: _this.state.selectedCategory, name: _this.state.itemInput }).then(function (response) {
+        //store id in variable
+        var id = response.data.id;
+        //check for invalid input
+        if (!_this.state.itemInput || !_this.state.selectedCategory) {
+          alert('please choose a category and/or enter an item');
+          return;
+        }
+        //set state
+        var categories = _this.state.categories;
+        var category = _this.state.selectedCategory;
+        var item = { name: _this.state.itemInput, checked: false, editing: false, id: id };
+        _this.setState(_extends({}, _this.state, {
+          itemInput: '',
+          categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category]), [item])))
+        }));
+      });
+    };
+
+    _this.removeItem = function (index, category, id) {
+      var categories = _this.state.categories;
+      _this.setState(_extends({}, _this.state, {
+        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), _toConsumableArray(categories[category].slice(index + 1)))))
+      }));
+
+      //delete request to server/db
+      _axios2.default.delete('/items', { params: { _id: id } }).then(function (response) {
+        console.log(response.data);
+      });
+    };
 
     _this.state = {
       categories: {
@@ -10294,92 +10355,33 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       _axios2.default.get('/items').then(function (response) {
-        var state = _extends({}, response.data);
+        var data = response.data;
+        var state = {};
+        var categories = Object.keys(data);
+        categories.forEach(function (category) {
+          //get stored item properties and add editing: false property to every item
+          state[category] = data[category].map(function (item) {
+            return _extends({}, item, { editing: false });
+          });
+        });
         _this2.setState({ categories: state });
       });
     }
   }, {
-    key: 'handleChange',
-    value: function handleChange(e) {
-      this.setState(_defineProperty({}, e.target.name, e.target.value));
-    }
-  }, {
-    key: 'handleDropDownChange',
-    value: function handleDropDownChange(e) {
-      this.setState({ selectedCategory: e.target.value });
-    }
-  }, {
-    key: 'markAsChecked',
-    value: function markAsChecked(index, category, id, e) {
-      //set state
-      var categories = this.state.categories;
-      this.setState(_extends({}, this.state, {
-        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), [_extends({}, categories[category][index], { checked: e.target.checked })], _toConsumableArray(categories[category].slice(index + 1)))))
-      }));
-
-      //patch request to server/db
-      var obj = e.target.checked ? { checked: true } : { checked: false };
-      _axios2.default.patch('/items', obj, { params: { _id: id } }).then(function (response) {
-        console.log(response.data);
-      });
-    }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(e) {
-      var _this3 = this;
-
-      e.preventDefault();
-      //post request to server/db
-      _axios2.default.post('/items', { category: this.state.selectedCategory, name: this.state.itemInput }).then(function (response) {
-        //store id in variable
-        var id = response.data.id;
-        //check for invalid input
-        if (!_this3.state.itemInput || !_this3.state.selectedCategory) {
-          alert('please choose a category and/or enter an item');
-          return;
-        }
-        //set state
-        var categories = _this3.state.categories;
-        var category = _this3.state.selectedCategory;
-        var item = { name: _this3.state.itemInput, checked: false, id: id };
-        _this3.setState(_extends({}, _this3.state, {
-          itemInput: '',
-          categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category]), [item])))
-        }));
-      });
-    }
-  }, {
-    key: 'removeItem',
-    value: function removeItem(index, category, id) {
-      var categories = this.state.categories;
-      this.setState(_extends({}, this.state, {
-        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), _toConsumableArray(categories[category].slice(index + 1)))))
-      }));
-
-      //delete request to server/db
-      _axios2.default.delete('/items', { params: { _id: id } }).then(function (response) {
-        console.log(response.data);
-      });
-    }
-  }, {
-    key: 'editItem',
-    value: function editItem() {
-      console.log('editing item');
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var checklists = Object.keys(this.state.categories).map(function (category, i) {
         return _react2.default.createElement(_Checklist2.default, {
           key: i,
           className: 'checklist',
-          items: _this4.state.categories[category],
+          items: _this3.state.categories[category],
           category: category,
-          removeItem: _this4.removeItem,
-          markAsChecked: _this4.markAsChecked,
-          editItem: _this4.editItem
+          removeItem: _this3.removeItem,
+          markAsChecked: _this3.markAsChecked,
+          toggleEditing: _this3.toggleEditing,
+          handleBlur: _this3.handleBlur
         });
       });
       return _react2.default.createElement(
@@ -11293,7 +11295,8 @@ var Checklist = function Checklist(props) {
       category: props.category,
       removeItem: props.removeItem,
       markAsChecked: props.markAsChecked,
-      editItem: props.editItem
+      toggleEditing: props.toggleEditing,
+      handleBlur: props.handleBlur
     });
   });
   return _react2.default.createElement(
@@ -11387,6 +11390,10 @@ var _react = __webpack_require__(21);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _ItemText = __webpack_require__(216);
+
+var _ItemText2 = _interopRequireDefault(_ItemText);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Item = function Item(props) {
@@ -11394,17 +11401,26 @@ var Item = function Item(props) {
   return _react2.default.createElement(
     'li',
     { className: 'item' },
-    _react2.default.createElement('input', { type: 'checkbox', checked: checked, onChange: function onChange(e) {
+    _react2.default.createElement('input', {
+      type: 'checkbox',
+      checked: checked,
+      onChange: function onChange(e) {
         return props.markAsChecked(props.index, props.category, props.item.id, e);
-      } }),
-    _react2.default.createElement(
-      'span',
-      { className: 'item-name', onClick: props.editItem },
-      props.item.name
-    ),
+      }
+    }),
+    _react2.default.createElement(_ItemText2.default, {
+      item: props.item,
+      index: props.index,
+      category: props.category,
+      editing: props.editing,
+      toggleEditing: props.toggleEditing,
+      handleBlur: props.handleBlur
+    }),
     _react2.default.createElement(
       'button',
-      { className: 'delete-btn', onClick: function onClick() {
+      {
+        className: 'delete-btn',
+        onClick: function onClick() {
           return props.removeItem(props.index, props.category, props.item.id);
         } },
       'delete'
@@ -25969,6 +25985,41 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+/* 216 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(21);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ItemText = function ItemText(props) {
+  if (props.item.editing) {
+    return _react2.default.createElement('input', { type: 'text', name: 'editInput', autoFocus: true, onBlur: function onBlur(e) {
+        return props.handleBlur(props.index, props.category, props.item.editing, e);
+      } });
+  } else {
+    return _react2.default.createElement(
+      'span',
+      { className: 'item-name', onClick: function onClick() {
+          return props.toggleEditing(props.index, props.category, props.item.editing);
+        } },
+      props.item.name
+    );
+  }
+};
+
+exports.default = ItemText;
 
 /***/ })
 /******/ ]);

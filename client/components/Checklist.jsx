@@ -10,7 +10,8 @@ const Checklist = (props) => {
               category={props.category}
               removeItem={props.removeItem}
               markAsChecked={props.markAsChecked}
-              editItem={props.editItem}
+              toggleEditing={props.toggleEditing}
+              handleBlur={props.handleBlur}
             />
   });
   return (
