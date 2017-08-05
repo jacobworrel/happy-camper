@@ -51,7 +51,6 @@ checklistController.deleteItem = (req, res) => {
 }
 
 checklistController.updateItem = (req, res) => {
-  console.log(req.query)
   Item.findOneAndUpdate(req.query, req.body, (err, updatedItem) => {
     if (err) res.status(418).send(err);
     res.send('item updated');

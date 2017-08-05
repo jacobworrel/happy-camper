@@ -3,7 +3,7 @@ import React from 'react';
 const ItemText = (props) => {
   if (props.item.editing) {
     return (
-      <input type='text' name='editInput' autoFocus onBlur={(e) => props.handleBlur(props.index, props.category, props.item.editing, e)}></input>
+      <input type='text' name='editInput' autoFocus onBlur={(e) => props.handleBlur(props.index, props.category, props.item.editing, props.item.id, e)}></input>
     );
   }
   else {

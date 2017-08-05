@@ -10278,11 +10278,20 @@ var App = function (_React$Component) {
       }));
     };
 
-    _this.handleBlur = function (index, category, editing, e) {
+    _this.handleBlur = function (index, category, editing, id, e) {
+      if (!e.target.value) {
+        alert('please enter an item');
+        return;
+      }
       var categories = _this.state.categories;
       _this.setState(_extends({}, _this.state, {
         categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), [_extends({}, categories[category][index], { name: e.target.value, editing: !editing })], _toConsumableArray(categories[category].slice(index + 1)))))
       }));
+      //patch request to server/db
+      var obj = { name: e.target.value };
+      _axios2.default.patch('/items', obj, { params: { _id: id } }).then(function (response) {
+        console.log(response.data);
+      });
     };
 
     _this.markAsChecked = function (index, category, id, e) {
@@ -26008,7 +26017,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ItemText = function ItemText(props) {
   if (props.item.editing) {
     return _react2.default.createElement('input', { type: 'text', name: 'editInput', autoFocus: true, onBlur: function onBlur(e) {
-        return props.handleBlur(props.index, props.category, props.item.editing, e);
+        return props.handleBlur(props.index, props.category, props.item.editing, props.item.id, e);
       } });
   } else {
     return _react2.default.createElement(

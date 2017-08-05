@@ -57,7 +57,11 @@ export default class App extends React.Component {
     })
   }
 
-  handleBlur = (index, category, editing, e) => {
+  handleBlur = (index, category, editing, id, e) => {
+    if (!e.target.value) {
+      alert('please enter an item');
+      return;
+    }
     const categories = this.state.categories;
     this.setState({
       ...this.state,
@@ -67,6 +71,12 @@ export default class App extends React.Component {
                                  ...categories[category].slice(index + 1)]
                   }
     })
+    //patch request to server/db
+    const obj = { name: e.target.value };
+    axios.patch('/items', obj, { params: { _id: id }})
+      .then((response) => {
+        console.log(response.data);
+      });
   }
 
   markAsChecked = (index, category, id, e) => {
