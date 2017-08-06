@@ -22,20 +22,11 @@ export default class App extends React.Component {
     }
   }
 
-//get request to server/db
   componentDidMount() {
-    axios.get('/items')
-      .then((response) => {
-        const data = response.data;
-        const state = {};
-        const categories = Object.keys(data);
-        categories.forEach((category) => {
-          //get stored item properties and add editing: false property to every item
-          state[category] = data[category].map((item) => ({ ...item, editing: false }));
-        })
-        this.setState({ categories: state });
-      })
+    this.getItems();
   }
+
+  //APP COMPONENT EVENT HANDLERS
 
   handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value});
@@ -43,6 +34,61 @@ export default class App extends React.Component {
 
   handleDropDownChange = (e) => {
     this.setState({selectedCategory: e.target.value})
+  }
+
+  //CHILD COMPONENT EVENT HANDLERS
+
+  //Item Event Handlers
+
+  markAsChecked = (index, category, id, e) => {
+    //set state
+    const categories = this.state.categories;
+    this.setState({
+      ...this.state,
+      categories: { ...categories,
+                    [category]: [...categories[category].slice(0, index),
+                                 { ... categories[category][index], checked: e.target.checked },
+                                 ...categories[category].slice(index + 1)]
+                  }
+    })
+    //make patch request
+    const obj = e.target.checked ? { checked: true } : { checked: false };
+    this.patchItem(obj);
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    //make post request
+    this.postItem();
+  }
+
+  removeItem = (index, category, id) => {
+    //set state
+    const categories = this.state.categories;
+    this.setState({
+      ...this.state,
+      categories: { ...categories, [category]: [...categories[category].slice(0, index),
+                                                ...categories[category].slice(index + 1)]
+                                              }
+    })
+    //make delete request
+    this.deleteItem(id);
+  }
+
+  //ItemText Event Handlers
+
+  handleKeyPress = (index, category, editing, id, e) => {
+    if (e.key === 'Enter') {
+      this.changeItemName(index, category, editing, id, e);
+    }
+  }
+
+  handleBlur = (index, category, editing, id, e) => {
+    if (!e.target.value) {
+      alert('please enter an item');
+      return;
+    }
+    this.changeItemName(index, category, editing, id, e);
   }
 
   toggleEditing = (index, category, editing) => {
@@ -57,11 +103,8 @@ export default class App extends React.Component {
     })
   }
 
-  handleBlur = (index, category, editing, id, e) => {
-    if (!e.target.value) {
-      alert('please enter an item');
-      return;
-    }
+  //helper function invoked in handleBlur() and handleKeyPress()
+  changeItemName(index, category, editing, id, e) {
     const categories = this.state.categories;
     this.setState({
       ...this.state,
@@ -70,38 +113,27 @@ export default class App extends React.Component {
                                  { ... categories[category][index], name: e.target.value, editing: !editing },
                                  ...categories[category].slice(index + 1)]
                   }
-    })
-    //patch request to server/db
-    const obj = { name: e.target.value };
-    axios.patch('/items', obj, { params: { _id: id }})
-      .then((response) => {
-        console.log(response.data);
-      });
+    });
+    this.patchItem({ name: e.target.value }, id);
   }
 
-  markAsChecked = (index, category, id, e) => {
-    //set state
-    const categories = this.state.categories;
-    this.setState({
-      ...this.state,
-      categories: { ...categories,
-                    [category]: [...categories[category].slice(0, index),
-                                 { ... categories[category][index], checked: e.target.checked },
-                                 ...categories[category].slice(index + 1)]
-                  }
-    })
+  //GET/POST/PATCH/DELETE REQUESTS
 
-    //patch request to server/db
-    const obj = e.target.checked ? { checked: true } : { checked: false };
-    axios.patch('/items', obj, { params: { _id: id }})
+  getItems() {
+    axios.get('/items')
       .then((response) => {
-        console.log(response.data);
-      });
+        const data = response.data;
+        const state = {};
+        const categories = Object.keys(data);
+        categories.forEach((category) => {
+          //get stored item properties and add editing: false property to every item
+          state[category] = data[category].map((item) => ({ ...item, editing: false }));
+        })
+        this.setState({ categories: state });
+      })
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    //post request to server/db
+  postItem() {
     axios.post('/items', { category: this.state.selectedCategory, name: this.state.itemInput })
       .then(response => {
         //store id in variable
@@ -123,16 +155,14 @@ export default class App extends React.Component {
       });
   }
 
-  removeItem = (index, category, id) => {
-    const categories = this.state.categories;
-    this.setState({
-      ...this.state,
-      categories: { ...categories, [category]: [...categories[category].slice(0, index),
-                                                ...categories[category].slice(index + 1)]
-                                              }
-    })
+  patchItem(obj, id) {
+    axios.patch('/items', obj, { params: { _id: id }})
+      .then((response) => {
+        console.log(response.data);
+      });
+  }
 
-    //delete request to server/db
+  deleteItem(id) {
     axios.delete('/items', { params: { _id: id }})
       .then(response => {
         console.log(response.data);
@@ -150,6 +180,7 @@ export default class App extends React.Component {
                         markAsChecked={this.markAsChecked}
                         toggleEditing={this.toggleEditing}
                         handleBlur={this.handleBlur}
+                        handleKeyPress={this.handleKeyPress}
                       />
     });
     return (

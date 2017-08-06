@@ -12,6 +12,7 @@ const Checklist = (props) => {
               markAsChecked={props.markAsChecked}
               toggleEditing={props.toggleEditing}
               handleBlur={props.handleBlur}
+              handleKeyPress={props.handleKeyPress}
             />
   });
   return (

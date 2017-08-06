@@ -17,6 +17,7 @@ const Item = (props) => {
         editing={props.editing}
         toggleEditing={props.toggleEditing}
         handleBlur={props.handleBlur}
+        handleKeyPress={props.handleKeyPress}
       />
       <button
         className='delete-btn'
