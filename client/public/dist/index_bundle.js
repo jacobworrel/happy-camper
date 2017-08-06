@@ -10279,7 +10279,7 @@ var App = function (_React$Component) {
       }));
       //make patch request
       var obj = e.target.checked ? { checked: true } : { checked: false };
-      _this.patchItem(obj);
+      _this.patchItem(obj, id);
     };
 
     _this.handleSubmit = function (e) {

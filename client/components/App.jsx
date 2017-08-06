@@ -53,7 +53,7 @@ export default class App extends React.Component {
     })
     //make patch request
     const obj = e.target.checked ? { checked: true } : { checked: false };
-    this.patchItem(obj);
+    this.patchItem(obj, id);
   }
 
   handleSubmit = (e) => {
