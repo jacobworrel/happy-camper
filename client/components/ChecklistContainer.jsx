@@ -5,52 +5,17 @@ import Checklist from './Checklist.jsx';
 import axios from 'axios';
 
 export default class ChecklistContainer extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      categories: {
-        Sleeping: [],
-        Cooking: [],
-        Shelter: [],
-        Clothing: [],
-        Miscellaneous: [],
-        Food: []
-      },
-      selectedCategory: '',
-      itemInput: ''
-    }
-  }
 
   componentDidMount() {
     this.getItems();
   }
 
-  //APP COMPONENT EVENT HANDLERS
-
-  handleChange = (e) => {
-    this.setState({[e.target.name]: e.target.value});
-  }
-
-  handleDropDownChange = (e) => {
-    this.setState({selectedCategory: e.target.value})
-  }
-
   //CHILD COMPONENT EVENT HANDLERS
-
   //Item Event Handlers
 
   markAsChecked = (index, category, id, e) => {
-    //set state
-    const categories = this.state.categories;
-    this.setState({
-      ...this.state,
-      categories: { ...categories,
-                    [category]: [...categories[category].slice(0, index),
-                                 { ... categories[category][index], checked: e.target.checked },
-                                 ...categories[category].slice(index + 1)]
-                  }
-    })
+    //update redux store
+    this.props.toggleChecked(index, category, e.target.checked);
     //make patch request
     const obj = e.target.checked ? { checked: true } : { checked: false };
     this.patchItem(obj, id);
@@ -58,20 +23,14 @@ export default class ChecklistContainer extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    //make post request
+    //make post request to server/db
     this.postItem();
   }
 
   removeItem = (index, category, id) => {
-    //set state
-    const categories = this.state.categories;
-    this.setState({
-      ...this.state,
-      categories: { ...categories, [category]: [...categories[category].slice(0, index),
-                                                ...categories[category].slice(index + 1)]
-                                              }
-    })
-    //make delete request
+    //update redux store
+    this.props.removeItem(index, category);
+    //make delete request to server/db
     this.deleteItem(id);
   }
 
@@ -91,29 +50,11 @@ export default class ChecklistContainer extends React.Component {
     this.changeItemName(index, category, editing, id, e);
   }
 
-  toggleEditing = (index, category, editing) => {
-    const categories = this.state.categories;
-    this.setState({
-      ...this.state,
-      categories: { ...categories,
-                    [category]: [...categories[category].slice(0, index),
-                                 { ... categories[category][index], editing: !editing },
-                                 ...categories[category].slice(index + 1)]
-                  }
-    })
-  }
-
   //helper function invoked in handleBlur() and handleKeyPress()
   changeItemName(index, category, editing, id, e) {
-    const categories = this.state.categories;
-    this.setState({
-      ...this.state,
-      categories: { ...categories,
-                    [category]: [...categories[category].slice(0, index),
-                                 { ... categories[category][index], name: e.target.value, editing: !editing },
-                                 ...categories[category].slice(index + 1)]
-                  }
-    });
+    //update redux store
+    this.props.updateItemName(index, category, editing, e.target.value);
+    //make patch request to server/db
     this.patchItem({ name: e.target.value }, id);
   }
 
@@ -122,29 +63,17 @@ export default class ChecklistContainer extends React.Component {
   getItems() {
     axios.get('/items')
       .then((response) => {
+        //populate redux store with data from server/db
         this.props.populateStore(response.data);
       });
   }
 
   postItem() {
-    axios.post('/items', { category: this.state.selectedCategory, name: this.state.itemInput })
+    axios.post('/items', { category: this.props.checklists.selectedCategory,
+                           name: this.props.checklists.itemInput })
       .then(response => {
-        //store id in variable
-        const id = response.data.id;
-        //check for invalid input
-        if (!this.state.itemInput || !this.state.selectedCategory) {
-          alert('please choose a category and/or enter an item');
-          return;
-        }
-        //set state
-        const categories = this.state.categories;
-        const category = this.state.selectedCategory;
-        const item = { name: this.state.itemInput, checked: false, editing: false, id: id  };
-        this.setState({
-          ...this.state,
-          itemInput: '',
-          categories: { ...categories, [category]: [...categories[category], item] }
-        });
+        //update redux store
+        this.props.addItem(response.data.id);
       });
   }
 
@@ -171,7 +100,7 @@ export default class ChecklistContainer extends React.Component {
                         category={category}
                         removeItem={this.removeItem}
                         markAsChecked={this.markAsChecked}
-                        toggleEditing={this.toggleEditing}
+                        toggleEditing={this.props.toggleEditing}
                         handleBlur={this.handleBlur}
                         handleKeyPress={this.handleKeyPress}
                       />
@@ -182,8 +111,13 @@ export default class ChecklistContainer extends React.Component {
         <h1>Happy Camper</h1>
         <img src="./assets/logo.jpg" height="67.5" width="85" />
         <form className='add-form' onSubmit={this.handleSubmit}>
-          <Dropdown handleDropDownChange={this.handleDropDownChange}/>
-          <input className="search-bar" type="text" placeholder="item" name="itemInput" value={this.props.checklists.itemInput} onChange={this.handleChange} />
+          <Dropdown updateSelectedCategory={(e) => this.props.updateSelectedCategory(e.target.value)}/>
+          <input
+            className="search-bar"
+            type="text"
+            placeholder="item"
+            value={this.props.checklists.itemInput}
+            onChange={(e) => this.props.updateInput(e.target.value)} />
           <button type="submit">Add item</button>
         </form>
       </div>

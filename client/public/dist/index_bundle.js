@@ -12578,6 +12578,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.populateStore = populateStore;
+exports.updateInput = updateInput;
+exports.updateSelectedCategory = updateSelectedCategory;
+exports.addItem = addItem;
+exports.removeItem = removeItem;
+exports.toggleChecked = toggleChecked;
+exports.toggleEditing = toggleEditing;
+exports.updateItemName = updateItemName;
 
 var _actionTypes = __webpack_require__(262);
 
@@ -12592,33 +12599,62 @@ function populateStore(data) {
   };
 }
 
-// export function addTaskActionCreator(task) {
-//   return {
-//     type: types.ADD_TASK,
-//     task
-//   }
-// }
-//
-// export function updateTaskActionCreator(taskName) {
-//   return {
-//     type: types.UPDATE_INPUT,
-//     taskName
-//   }
-// }
-//
-// export function deleteTaskActionCreator(taskIndex) {
-//   return {
-//     type: types.DELETE_TASK,
-//     taskIndex
-//   }
-// }
-//
-// export function markTaskActionCreator(taskIndex) {
-//   return {
-//     type: types.MARK_COMPLETED,
-//     taskIndex
-//   }
-// }
+function updateInput(value) {
+  return {
+    type: types.UPDATE_INPUT,
+    value: value
+  };
+}
+
+function updateSelectedCategory(value) {
+  return {
+    type: types.UPDATE_SELECTED_CATEGORY,
+    value: value
+  };
+}
+
+function addItem(id) {
+  return {
+    type: types.ADD_ITEM,
+    id: id
+  };
+}
+
+function removeItem(index, category) {
+  return {
+    type: types.REMOVE_ITEM,
+    index: index,
+    category: category
+  };
+}
+
+function toggleChecked(index, category, checked) {
+  return {
+    type: types.TOGGLE_CHECKED,
+    index: index,
+    category: category,
+    checked: checked
+  };
+}
+
+function toggleEditing(index, category, editing) {
+  return {
+    type: types.TOGGLE_EDITING,
+    index: index,
+    category: category,
+    editing: editing
+  };
+}
+
+function updateItemName(index, category, editing, value) {
+  return {
+    type: types.UPDATE_ITEM_NAME,
+    index: index,
+    category: category,
+    editing: editing,
+    value: value
+  };
+}
 
 /***/ }),
 /* 123 */
@@ -12681,8 +12717,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(14);
@@ -12705,10 +12739,6 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -12719,79 +12749,42 @@ var ChecklistContainer = function (_React$Component) {
   _inherits(ChecklistContainer, _React$Component);
 
   function ChecklistContainer() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, ChecklistContainer);
 
-    var _this = _possibleConstructorReturn(this, (ChecklistContainer.__proto__ || Object.getPrototypeOf(ChecklistContainer)).call(this));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.handleChange = function (e) {
-      _this.setState(_defineProperty({}, e.target.name, e.target.value));
-    };
-
-    _this.handleDropDownChange = function (e) {
-      _this.setState({ selectedCategory: e.target.value });
-    };
-
-    _this.markAsChecked = function (index, category, id, e) {
-      //set state
-      var categories = _this.state.categories;
-      _this.setState(_extends({}, _this.state, {
-        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), [_extends({}, categories[category][index], { checked: e.target.checked })], _toConsumableArray(categories[category].slice(index + 1)))))
-      }));
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ChecklistContainer.__proto__ || Object.getPrototypeOf(ChecklistContainer)).call.apply(_ref, [this].concat(args))), _this), _this.markAsChecked = function (index, category, id, e) {
+      //update redux store
+      _this.props.toggleChecked(index, category, e.target.checked);
       //make patch request
       var obj = e.target.checked ? { checked: true } : { checked: false };
       _this.patchItem(obj, id);
-    };
-
-    _this.handleSubmit = function (e) {
+    }, _this.handleSubmit = function (e) {
       e.preventDefault();
-      //make post request
+      //make post request to server/db
       _this.postItem();
-    };
-
-    _this.removeItem = function (index, category, id) {
-      //set state
-      var categories = _this.state.categories;
-      _this.setState(_extends({}, _this.state, {
-        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), _toConsumableArray(categories[category].slice(index + 1)))))
-      }));
-      //make delete request
+    }, _this.removeItem = function (index, category, id) {
+      //update redux store
+      _this.props.removeItem(index, category);
+      //make delete request to server/db
       _this.deleteItem(id);
-    };
-
-    _this.handleKeyPress = function (index, category, editing, id, e) {
+    }, _this.handleKeyPress = function (index, category, editing, id, e) {
       if (e.key === 'Enter') {
         _this.changeItemName(index, category, editing, id, e);
       }
-    };
-
-    _this.handleBlur = function (index, category, editing, id, e) {
+    }, _this.handleBlur = function (index, category, editing, id, e) {
       if (!e.target.value) {
         alert('please enter an item');
         return;
       }
       _this.changeItemName(index, category, editing, id, e);
-    };
-
-    _this.toggleEditing = function (index, category, editing) {
-      var categories = _this.state.categories;
-      _this.setState(_extends({}, _this.state, {
-        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), [_extends({}, categories[category][index], { editing: !editing })], _toConsumableArray(categories[category].slice(index + 1)))))
-      }));
-    };
-
-    _this.state = {
-      categories: {
-        Sleeping: [],
-        Cooking: [],
-        Shelter: [],
-        Clothing: [],
-        Miscellaneous: [],
-        Food: []
-      },
-      selectedCategory: '',
-      itemInput: ''
-    };
-    return _this;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(ChecklistContainer, [{
@@ -12800,10 +12793,7 @@ var ChecklistContainer = function (_React$Component) {
       this.getItems();
     }
 
-    //APP COMPONENT EVENT HANDLERS
-
     //CHILD COMPONENT EVENT HANDLERS
-
     //Item Event Handlers
 
     //ItemText Event Handlers
@@ -12814,10 +12804,9 @@ var ChecklistContainer = function (_React$Component) {
 
     //helper function invoked in handleBlur() and handleKeyPress()
     value: function changeItemName(index, category, editing, id, e) {
-      var categories = this.state.categories;
-      this.setState(_extends({}, this.state, {
-        categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category].slice(0, index)), [_extends({}, categories[category][index], { name: e.target.value, editing: !editing })], _toConsumableArray(categories[category].slice(index + 1)))))
-      }));
+      //update redux store
+      this.props.updateItemName(index, category, editing, e.target.value);
+      //make patch request to server/db
       this.patchItem({ name: e.target.value }, id);
     }
 
@@ -12829,6 +12818,7 @@ var ChecklistContainer = function (_React$Component) {
       var _this2 = this;
 
       _axios2.default.get('/items').then(function (response) {
+        //populate redux store with data from server/db
         _this2.props.populateStore(response.data);
       });
     }
@@ -12837,22 +12827,10 @@ var ChecklistContainer = function (_React$Component) {
     value: function postItem() {
       var _this3 = this;
 
-      _axios2.default.post('/items', { category: this.state.selectedCategory, name: this.state.itemInput }).then(function (response) {
-        //store id in variable
-        var id = response.data.id;
-        //check for invalid input
-        if (!_this3.state.itemInput || !_this3.state.selectedCategory) {
-          alert('please choose a category and/or enter an item');
-          return;
-        }
-        //set state
-        var categories = _this3.state.categories;
-        var category = _this3.state.selectedCategory;
-        var item = { name: _this3.state.itemInput, checked: false, editing: false, id: id };
-        _this3.setState(_extends({}, _this3.state, {
-          itemInput: '',
-          categories: _extends({}, categories, _defineProperty({}, category, [].concat(_toConsumableArray(categories[category]), [item])))
-        }));
+      _axios2.default.post('/items', { category: this.props.checklists.selectedCategory,
+        name: this.props.checklists.itemInput }).then(function (response) {
+        //update redux store
+        _this3.props.addItem(response.data.id);
       });
     }
   }, {
@@ -12882,7 +12860,7 @@ var ChecklistContainer = function (_React$Component) {
           category: category,
           removeItem: _this4.removeItem,
           markAsChecked: _this4.markAsChecked,
-          toggleEditing: _this4.toggleEditing,
+          toggleEditing: _this4.props.toggleEditing,
           handleBlur: _this4.handleBlur,
           handleKeyPress: _this4.handleKeyPress
         });
@@ -12902,8 +12880,17 @@ var ChecklistContainer = function (_React$Component) {
           _react2.default.createElement(
             'form',
             { className: 'add-form', onSubmit: this.handleSubmit },
-            _react2.default.createElement(_Dropdown2.default, { handleDropDownChange: this.handleDropDownChange }),
-            _react2.default.createElement('input', { className: 'search-bar', type: 'text', placeholder: 'item', name: 'itemInput', value: this.props.checklists.itemInput, onChange: this.handleChange }),
+            _react2.default.createElement(_Dropdown2.default, { updateSelectedCategory: function updateSelectedCategory(e) {
+                return _this4.props.updateSelectedCategory(e.target.value);
+              } }),
+            _react2.default.createElement('input', {
+              className: 'search-bar',
+              type: 'text',
+              placeholder: 'item',
+              value: this.props.checklists.itemInput,
+              onChange: function onChange(e) {
+                return _this4.props.updateInput(e.target.value);
+              } }),
             _react2.default.createElement(
               'button',
               { type: 'submit' },
@@ -12945,7 +12932,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Dropdown = function Dropdown(props) {
   return _react2.default.createElement(
     "select",
-    { name: "days", onChange: props.handleDropDownChange },
+    { name: "days", onChange: props.updateSelectedCategory },
     _react2.default.createElement(
       "option",
       { value: "" },
@@ -28526,6 +28513,10 @@ var types = _interopRequireWildcard(_actionTypes);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var initialState = {
   categories: {
     Sleeping: [],
@@ -28559,31 +28550,61 @@ var checklists = function checklists() {
       }
     case types.UPDATE_INPUT:
       {
-        return {};
+        return _extends({}, state, { itemInput: action.value });
       }
     case types.UPDATE_SELECTED_CATEGORY:
       {
-        return {};
-      }
-    case types.UPDATE_ITEM_NAME:
-      {
-        return {};
+        return _extends({}, state, { selectedCategory: action.value });
       }
     case types.ADD_ITEM:
       {
-        return {};
+        //check for invalid input
+        if (!state.itemInput || !state.selectedCategory) {
+          alert('please choose a category and/or enter an item');
+          return state;
+        }
+        var _categories = state.categories;
+        var category = state.selectedCategory;
+        var item = { name: state.itemInput, checked: false, editing: false, id: action.id };
+        return _extends({}, state, {
+          itemInput: '',
+          categories: _extends({}, _categories, _defineProperty({}, category, [].concat(_toConsumableArray(_categories[category]), [item])))
+        });
       }
     case types.REMOVE_ITEM:
       {
-        return {};
+        var _categories2 = state.categories;
+        return _extends({}, state, {
+          categories: _extends({}, _categories2, _defineProperty({}, action.category, [].concat(_toConsumableArray(_categories2[action.category].slice(0, action.index)), _toConsumableArray(_categories2[action.category].slice(action.index + 1)))))
+        });
       }
     case types.TOGGLE_CHECKED:
       {
-        return {};
+        var _categories3 = state.categories;
+        var _category = action.category;
+        var index = action.index;
+        var checked = action.checked;
+        return _extends({}, state, {
+          categories: _extends({}, _categories3, _defineProperty({}, _category, [].concat(_toConsumableArray(_categories3[_category].slice(0, index)), [_extends({}, _categories3[_category][index], { checked: checked })], _toConsumableArray(_categories3[_category].slice(index + 1)))))
+        });
       }
     case types.TOGGLE_EDITING:
       {
-        return {};
+        var _categories4 = state.categories;
+        var _category2 = action.category;
+        var _index = action.index;
+        return _extends({}, state, {
+          categories: _extends({}, _categories4, _defineProperty({}, _category2, [].concat(_toConsumableArray(_categories4[_category2].slice(0, _index)), [_extends({}, _categories4[_category2][_index], { editing: !action.editing })], _toConsumableArray(_categories4[_category2].slice(_index + 1)))))
+        });
+      }
+    case types.UPDATE_ITEM_NAME:
+      {
+        var _categories5 = state.categories;
+        var _category3 = action.category;
+        var _index2 = action.index;
+        return _extends({}, state, {
+          categories: _extends({}, _categories5, _defineProperty({}, _category3, [].concat(_toConsumableArray(_categories5[_category3].slice(0, _index2)), [_extends({}, _categories5[_category3][_index2], { name: action.value, editing: !action.editing })], _toConsumableArray(_categories5[_category3].slice(_index2 + 1)))))
+        });
       }
     default:
       return state;
@@ -28605,11 +28626,11 @@ Object.defineProperty(exports, "__esModule", {
 var POPULATE_STORE = exports.POPULATE_STORE = 'POPULATE_STORE';
 var UPDATE_INPUT = exports.UPDATE_INPUT = 'UPDATE_INPUT';
 var UPDATE_SELECTED_CATEGORY = exports.UPDATE_SELECTED_CATEGORY = 'UPDATE_SELECTED_CATEGORY';
-var UPDATE_ITEM_NAME = exports.UPDATE_ITEM_NAME = 'UPDATE_ITEM_NAME';
 var ADD_ITEM = exports.ADD_ITEM = 'ADD_ITEM';
 var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_ITEM';
 var TOGGLE_CHECKED = exports.TOGGLE_CHECKED = 'TOGGLE_CHECKED';
 var TOGGLE_EDITING = exports.TOGGLE_EDITING = 'TOGGLE_EDITING';
+var UPDATE_ITEM_NAME = exports.UPDATE_ITEM_NAME = 'UPDATE_ITEM_NAME';
 
 /***/ })
 /******/ ]);
