@@ -1,5 +1,12 @@
-// import * as types from './actionTypes';
-//
+import * as types from './actionTypes';
+
+export function populateStore(data) {
+  return {
+    type: types.POPULATE_STORE,
+    data
+  }
+}
+
 // export function addTaskActionCreator(task) {
 //   return {
 //     type: types.ADD_TASK,

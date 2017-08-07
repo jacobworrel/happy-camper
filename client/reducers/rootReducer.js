@@ -1,10 +1,7 @@
 import { combineReducers } from 'redux';
-
 //import individual reducers here and then pass them into combineReducers()
-// import posts from './posts';
-// import comments from './comments';
+import checklists from './checklists.js'
 
-// const rootReducer = combineReducers({ posts, comments });
-const rootReducer = combineReducers({ });
+const rootReducer = combineReducers({ checklists });
 
 export default rootReducer;

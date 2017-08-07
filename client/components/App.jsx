@@ -6,10 +6,7 @@ import ChecklistContainer from './ChecklistContainer.jsx';
 //makes state in redux store accessible as props at componenent level
 //called whenever store is updated
 function mapStateToProps(state) {
-  return {
-    // posts: state.posts,
-    // comments: state.comments
-  }
+  return { ...state };
 }
 
 //wraps actionCreators in dispatch() call and merged into component's props
