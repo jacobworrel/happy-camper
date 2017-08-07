@@ -122,15 +122,8 @@ export default class ChecklistContainer extends React.Component {
   getItems() {
     axios.get('/items')
       .then((response) => {
-        const data = response.data;
-        const state = {};
-        const categories = Object.keys(data);
-        categories.forEach((category) => {
-          //get stored item properties and add editing: false property to every item
-          state[category] = data[category].map((item) => ({ ...item, editing: false }));
-        })
-        this.setState({ categories: state });
-      })
+        this.props.populateStore(response.data);
+      });
   }
 
   postItem() {
@@ -170,11 +163,11 @@ export default class ChecklistContainer extends React.Component {
   }
 
   render() {
-    const checklists = Object.keys(this.state.categories).map((category, i) => {
+    const checklists = Object.keys(this.props.checklists.categories).map((category, i) => {
       return <Checklist
                         key={i}
                         className='checklist'
-                        items={this.state.categories[category]}
+                        items={this.props.checklists.categories[category]}
                         category={category}
                         removeItem={this.removeItem}
                         markAsChecked={this.markAsChecked}
@@ -190,7 +183,7 @@ export default class ChecklistContainer extends React.Component {
         <img src="./assets/logo.jpg" height="67.5" width="85" />
         <form className='add-form' onSubmit={this.handleSubmit}>
           <Dropdown handleDropDownChange={this.handleDropDownChange}/>
-          <input className="search-bar" type="text" placeholder="item" name="itemInput" value={this.state.itemInput} onChange={this.handleChange} />
+          <input className="search-bar" type="text" placeholder="item" name="itemInput" value={this.props.checklists.itemInput} onChange={this.handleChange} />
           <button type="submit">Add item</button>
         </form>
       </div>

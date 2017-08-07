@@ -1,4 +1,8 @@
-// export const ADD_TASK = 'ADD_TASK';
-// export const UPDATE_INPUT = 'UPDATE_INPUT';
-// export const DELETE_TASK = 'DELETE_TASK';
-// export const MARK_COMPLETED = 'MARK_COMPLETED';
+export const POPULATE_STORE = 'POPULATE_STORE';
+export const UPDATE_INPUT = 'UPDATE_INPUT';
+export const UPDATE_SELECTED_CATEGORY = 'UPDATE_SELECTED_CATEGORY';
+export const UPDATE_ITEM_NAME = 'UPDATE_ITEM_NAME';
+export const ADD_ITEM = 'ADD_ITEM';
+export const REMOVE_ITEM = 'REMOVE_ITEM';
+export const TOGGLE_CHECKED = 'TOGGLE_CHECKED';
+export const TOGGLE_EDITING = 'TOGGLE_EDITING';

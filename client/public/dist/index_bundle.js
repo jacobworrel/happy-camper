@@ -11689,6 +11689,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _redux = __webpack_require__(101);
 
 var _reactRedux = __webpack_require__(236);
@@ -11708,10 +11710,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 //makes state in redux store accessible as props at componenent level
 //called whenever store is updated
 function mapStateToProps(state) {
-  return {
-    // posts: state.posts,
-    // comments: state.comments
-  };
+  return _extends({}, state);
 }
 
 //wraps actionCreators in dispatch() call and merged into component's props
@@ -12573,8 +12572,26 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-// import * as types from './actionTypes';
-//
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.populateStore = populateStore;
+
+var _actionTypes = __webpack_require__(262);
+
+var types = _interopRequireWildcard(_actionTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function populateStore(data) {
+  return {
+    type: types.POPULATE_STORE,
+    data: data
+  };
+}
+
 // export function addTaskActionCreator(task) {
 //   return {
 //     type: types.ADD_TASK,
@@ -12602,7 +12619,6 @@ module.exports = function spread(callback) {
 //     taskIndex
 //   }
 // }
-
 
 /***/ }),
 /* 123 */
@@ -12813,16 +12829,7 @@ var ChecklistContainer = function (_React$Component) {
       var _this2 = this;
 
       _axios2.default.get('/items').then(function (response) {
-        var data = response.data;
-        var state = {};
-        var categories = Object.keys(data);
-        categories.forEach(function (category) {
-          //get stored item properties and add editing: false property to every item
-          state[category] = data[category].map(function (item) {
-            return _extends({}, item, { editing: false });
-          });
-        });
-        _this2.setState({ categories: state });
+        _this2.props.populateStore(response.data);
       });
     }
   }, {
@@ -12867,11 +12874,11 @@ var ChecklistContainer = function (_React$Component) {
     value: function render() {
       var _this4 = this;
 
-      var checklists = Object.keys(this.state.categories).map(function (category, i) {
+      var checklists = Object.keys(this.props.checklists.categories).map(function (category, i) {
         return _react2.default.createElement(_Checklist2.default, {
           key: i,
           className: 'checklist',
-          items: _this4.state.categories[category],
+          items: _this4.props.checklists.categories[category],
           category: category,
           removeItem: _this4.removeItem,
           markAsChecked: _this4.markAsChecked,
@@ -12896,7 +12903,7 @@ var ChecklistContainer = function (_React$Component) {
             'form',
             { className: 'add-form', onSubmit: this.handleSubmit },
             _react2.default.createElement(_Dropdown2.default, { handleDropDownChange: this.handleDropDownChange }),
-            _react2.default.createElement('input', { className: 'search-bar', type: 'text', placeholder: 'item', name: 'itemInput', value: this.state.itemInput, onChange: this.handleChange }),
+            _react2.default.createElement('input', { className: 'search-bar', type: 'text', placeholder: 'item', name: 'itemInput', value: this.props.checklists.itemInput, onChange: this.handleChange }),
             _react2.default.createElement(
               'button',
               { type: 'submit' },
@@ -28490,14 +28497,119 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(101);
 
+var _checklists = __webpack_require__(261);
+
+var _checklists2 = _interopRequireDefault(_checklists);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rootReducer = (0, _redux.combineReducers)({ checklists: _checklists2.default });
 //import individual reducers here and then pass them into combineReducers()
-// import posts from './posts';
-// import comments from './comments';
-
-// const rootReducer = combineReducers({ posts, comments });
-var rootReducer = (0, _redux.combineReducers)({});
-
 exports.default = rootReducer;
+
+/***/ }),
+/* 261 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _actionTypes = __webpack_require__(262);
+
+var types = _interopRequireWildcard(_actionTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var initialState = {
+  categories: {
+    Sleeping: [],
+    Cooking: [],
+    Shelter: [],
+    Clothing: [],
+    Miscellaneous: [],
+    Food: []
+  },
+  selectedCategory: '',
+  itemInput: ''
+};
+
+var checklists = function checklists() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case types.POPULATE_STORE:
+      {
+        var data = action.data;
+        var obj = {};
+        var categories = Object.keys(data);
+        categories.forEach(function (category) {
+          //get stored item properties and add editing: false property to every item
+          obj[category] = data[category].map(function (item) {
+            return _extends({}, item, { editing: false });
+          });
+        });
+        return _extends({}, state, { categories: obj });
+      }
+    case types.UPDATE_INPUT:
+      {
+        return {};
+      }
+    case types.UPDATE_SELECTED_CATEGORY:
+      {
+        return {};
+      }
+    case types.UPDATE_ITEM_NAME:
+      {
+        return {};
+      }
+    case types.ADD_ITEM:
+      {
+        return {};
+      }
+    case types.REMOVE_ITEM:
+      {
+        return {};
+      }
+    case types.TOGGLE_CHECKED:
+      {
+        return {};
+      }
+    case types.TOGGLE_EDITING:
+      {
+        return {};
+      }
+    default:
+      return state;
+  }
+};
+
+exports.default = checklists;
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var POPULATE_STORE = exports.POPULATE_STORE = 'POPULATE_STORE';
+var UPDATE_INPUT = exports.UPDATE_INPUT = 'UPDATE_INPUT';
+var UPDATE_SELECTED_CATEGORY = exports.UPDATE_SELECTED_CATEGORY = 'UPDATE_SELECTED_CATEGORY';
+var UPDATE_ITEM_NAME = exports.UPDATE_ITEM_NAME = 'UPDATE_ITEM_NAME';
+var ADD_ITEM = exports.ADD_ITEM = 'ADD_ITEM';
+var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_ITEM';
+var TOGGLE_CHECKED = exports.TOGGLE_CHECKED = 'TOGGLE_CHECKED';
+var TOGGLE_EDITING = exports.TOGGLE_EDITING = 'TOGGLE_EDITING';
 
 /***/ })
 /******/ ]);
