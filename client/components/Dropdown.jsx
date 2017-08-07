@@ -2,7 +2,7 @@ import React from 'react';
 
 const Dropdown = (props) => {
   return (
-    <select name="days" onChange={props.handleDropDownChange}>
+    <select name="days" onChange={props.updateSelectedCategory}>
       <option value="">Select Category</option>
       <option value="Sleeping">Sleeping</option>
       <option value="Cooking">Cooking</option>

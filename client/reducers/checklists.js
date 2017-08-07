@@ -26,19 +26,37 @@ const checklists = (state = initialState, action) => {
       return { ...state, categories: obj };
     }
     case types.UPDATE_INPUT : {
-      return { };
+      return { ...state, itemInput: action.value };
     }
     case types.UPDATE_SELECTED_CATEGORY : {
-      return { };
+      return { ...state, selectedCategory: action.value};
     }
     case types.UPDATE_ITEM_NAME : {
       return { };
     }
     case types.ADD_ITEM : {
-      return { };
+      //check for invalid input
+      if (!state.itemInput || !state.selectedCategory) {
+        alert('please choose a category and/or enter an item');
+        return;
+      }
+      const categories = state.categories;
+      const category = state.selectedCategory;
+      const item = { name: state.itemInput, checked: false, editing: false, id: action.id  };
+      return {
+        ...state,
+        itemInput: '',
+        categories: { ...categories, [category]: [...categories[category], item] }
+      }
     }
     case types.REMOVE_ITEM : {
-      return { };
+      const categories = state.categories;
+      return {
+        ...state,
+        categories: { ...categories, [action.category]: [...categories[action.category].slice(0, action.index),
+                                                  ...categories[action.category].slice(action.index + 1)]
+                                                }
+      }
     }
     case types.TOGGLE_CHECKED : {
       return { };
