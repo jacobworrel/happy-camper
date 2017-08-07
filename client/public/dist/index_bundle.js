@@ -28467,7 +28467,12 @@ var _rootReducer2 = _interopRequireDefault(_rootReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var store = (0, _redux.createStore)(_rootReducer2.default);
+//hook up redux dev tools
+var enhancers = (0, _redux.compose)(window.devToolsExtension ? window.devToolsExtension() : function (f) {
+  return f;
+});
+
+var store = (0, _redux.createStore)(_rootReducer2.default, enhancers);
 
 exports.default = store;
 
