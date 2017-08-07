@@ -12830,14 +12830,6 @@ var ChecklistContainer = function (_React$Component) {
 
       _axios2.default.get('/items').then(function (response) {
         _this2.props.populateStore(response.data);
-        // const data = response.data;
-        // const state = {};
-        // const categories = Object.keys(data);
-        // categories.forEach((category) => {
-        //   //get stored item properties and add editing: false property to every item
-        //   state[category] = data[category].map((item) => ({ ...item, editing: false }));
-        // })
-        // this.setState({ categories: state });
       });
     }
   }, {
