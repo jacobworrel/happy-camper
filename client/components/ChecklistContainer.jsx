@@ -5,42 +5,17 @@ import Checklist from './Checklist.jsx';
 import axios from 'axios';
 
 export default class ChecklistContainer extends React.Component {
-  constructor() {
-    super();
-
-    // this.state = {
-    //   categories: {
-    //     Sleeping: [],
-    //     Cooking: [],
-    //     Shelter: [],
-    //     Clothing: [],
-    //     Miscellaneous: [],
-    //     Food: []
-    //   },
-    //   selectedCategory: '',
-    //   itemInput: ''
-    // }
-  }
 
   componentDidMount() {
     this.getItems();
   }
 
   //CHILD COMPONENT EVENT HANDLERS
-
   //Item Event Handlers
 
   markAsChecked = (index, category, id, e) => {
-    //set state
-    const categories = this.state.categories;
-    this.setState({
-      ...this.state,
-      categories: { ...categories,
-                    [category]: [...categories[category].slice(0, index),
-                                 { ... categories[category][index], checked: e.target.checked },
-                                 ...categories[category].slice(index + 1)]
-                  }
-    })
+    //update redux store
+    this.props.toggleChecked(index, category, e.target.checked);
     //make patch request
     const obj = e.target.checked ? { checked: true } : { checked: false };
     this.patchItem(obj, id);
@@ -75,29 +50,11 @@ export default class ChecklistContainer extends React.Component {
     this.changeItemName(index, category, editing, id, e);
   }
 
-  toggleEditing = (index, category, editing) => {
-    const categories = this.state.categories;
-    this.setState({
-      ...this.state,
-      categories: { ...categories,
-                    [category]: [...categories[category].slice(0, index),
-                                 { ... categories[category][index], editing: !editing },
-                                 ...categories[category].slice(index + 1)]
-                  }
-    })
-  }
-
   //helper function invoked in handleBlur() and handleKeyPress()
   changeItemName(index, category, editing, id, e) {
-    const categories = this.state.categories;
-    this.setState({
-      ...this.state,
-      categories: { ...categories,
-                    [category]: [...categories[category].slice(0, index),
-                                 { ... categories[category][index], name: e.target.value, editing: !editing },
-                                 ...categories[category].slice(index + 1)]
-                  }
-    });
+    //update redux store
+    this.props.updateItemName(index, category, editing, e.target.value);
+    //make patch request to server/db
     this.patchItem({ name: e.target.value }, id);
   }
 
@@ -106,13 +63,16 @@ export default class ChecklistContainer extends React.Component {
   getItems() {
     axios.get('/items')
       .then((response) => {
+        //populate redux store with data from server/db
         this.props.populateStore(response.data);
       });
   }
 
   postItem() {
-    axios.post('/items', { category: this.props.checklists.selectedCategory, name: this.props.checklists.itemInput })
+    axios.post('/items', { category: this.props.checklists.selectedCategory,
+                           name: this.props.checklists.itemInput })
       .then(response => {
+        //update redux store
         this.props.addItem(response.data.id);
       });
   }
@@ -140,7 +100,7 @@ export default class ChecklistContainer extends React.Component {
                         category={category}
                         removeItem={this.removeItem}
                         markAsChecked={this.markAsChecked}
-                        toggleEditing={this.toggleEditing}
+                        toggleEditing={this.props.toggleEditing}
                         handleBlur={this.handleBlur}
                         handleKeyPress={this.handleKeyPress}
                       />

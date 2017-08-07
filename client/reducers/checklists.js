@@ -31,14 +31,11 @@ const checklists = (state = initialState, action) => {
     case types.UPDATE_SELECTED_CATEGORY : {
       return { ...state, selectedCategory: action.value};
     }
-    case types.UPDATE_ITEM_NAME : {
-      return { };
-    }
     case types.ADD_ITEM : {
       //check for invalid input
       if (!state.itemInput || !state.selectedCategory) {
         alert('please choose a category and/or enter an item');
-        return;
+        return state;
       }
       const categories = state.categories;
       const category = state.selectedCategory;
@@ -59,10 +56,44 @@ const checklists = (state = initialState, action) => {
       }
     }
     case types.TOGGLE_CHECKED : {
-      return { };
+      const categories = state.categories;
+      const category = action.category;
+      const index = action.index;
+      const checked = action.checked;
+      return {
+        ...state,
+        categories: { ...categories,
+                      [category]: [...categories[category].slice(0, index),
+                                   { ...categories[category][index], checked },
+                                   ...categories[category].slice(index + 1)]
+                    }
+      }
     }
     case types.TOGGLE_EDITING : {
-      return { };
+      const categories = state.categories;
+      const category = action.category;
+      const index = action.index;
+      return {
+        ...state,
+        categories: { ...categories,
+                      [category]: [...categories[category].slice(0, index),
+                                   { ... categories[category][index], editing: !action.editing },
+                                   ...categories[category].slice(index + 1)]
+                    }
+      }
+    }
+    case types.UPDATE_ITEM_NAME : {
+      const categories = state.categories;
+      const category = action.category;
+      const index = action.index;
+      return {
+        ...state,
+        categories: { ...categories,
+                      [category]: [...categories[category].slice(0, index),
+                                   { ... categories[category][index], name: action.value, editing: !action.editing },
+                                   ...categories[category].slice(index + 1)]
+                    }
+      };
     }
     default:
       return state;

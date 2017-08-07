@@ -35,3 +35,31 @@ export function removeItem(index, category) {
     category
   }
 }
+
+export function toggleChecked(index, category, checked) {
+  return {
+    type: types.TOGGLE_CHECKED,
+    index,
+    category,
+    checked
+  }
+}
+
+export function toggleEditing(index, category, editing) {
+  return {
+    type: types.TOGGLE_EDITING,
+    index,
+    category,
+    editing
+  }
+}
+
+export function updateItemName(index, category, editing, value) {
+  return {
+    type: types.UPDATE_ITEM_NAME,
+    index,
+    category,
+    editing,
+    value
+  }
+}
