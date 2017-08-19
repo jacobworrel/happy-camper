@@ -11,16 +11,11 @@ checklistController.findItems = (obj) => {
 }
 
 checklistController.getChecklists = (req, res) => {
-  Promise.all([
-    checklistController.findItems({ category: 'Sleeping' }),
-    checklistController.findItems({ category: 'Cooking' }),
-    checklistController.findItems({ category: 'Shelter' }),
-    checklistController.findItems({ category: 'Miscellaneous' }),
-    checklistController.findItems({ category: 'Clothing' }),
-    checklistController.findItems({ category: 'Food' }),
-  ]).then((checklists) => {
+  const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];
+  const promises = categories.map((category, i) => checklistController.findItems({ category: category[i]}));
+  Promise.all(promises)
+  .then((checklists) => {
     const payload = {};
-    const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];
     checklists.forEach((checklist, i) => {
       payload[categories[i]] = checklist.reduce((a, c) => {
         return [...a, { name: c.name, checked: c.checked, id: c._id }];
