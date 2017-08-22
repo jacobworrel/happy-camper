@@ -14,7 +14,6 @@ const initialState = {
 };
 
 const checklists = (state = initialState, action) => {
-  console.log('in checklists reducer')
   switch (action.type) {
     case types.POPULATE_STORE : {
       const data = action.data;

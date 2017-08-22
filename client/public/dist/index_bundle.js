@@ -13090,7 +13090,6 @@ var checklists = function checklists() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
-  console.log('in checklists reducer');
   switch (action.type) {
     case types.POPULATE_STORE:
       {
@@ -28580,52 +28579,27 @@ var Login = function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Login.__proto__ || Object.getPrototypeOf(Login)).call.apply(_ref, [this].concat(args))), _this), _this.handleSubmit = function (e) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Login.__proto__ || Object.getPrototypeOf(Login)).call.apply(_ref, [this].concat(args))), _this), _this.handleLoginSubmit = function (e) {
       e.preventDefault();
-      //make post request to server/db
-      _this.postItem();
+      if (!_this.props.username || !_this.props.password) alert('please enter a valid username/password');else {
+        //make post request to server/db
+        _axios2.default.post('/login', { username: _this.props.username,
+          password: _this.props.password }).then(function (response) {
+          if (!response.data) alert('please enter a valid username/password');
+        });
+      }
+    }, _this.handleSignupSubmit = function (e) {
+      e.preventDefault();
+      if (!_this.props.username || !_this.props.password) alert('please enter a valid username/password');else {
+        //make post request to server/db
+        _axios2.default.post('/signup', { username: _this.props.username,
+          password: _this.props.password }).then(function (response) {});
+      }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  //CHILD COMPONENT EVENT HANDLERS
-
   _createClass(Login, [{
     key: 'render',
-
-
-    //GET/POST/PATCH/DELETE REQUESTS
-
-    // getItems() {
-    //   axios.get('/items')
-    //     .then((response) => {
-    //       //populate redux store with data from server/db
-    //       this.props.populateStore(response.data);
-    //     });
-    // }
-    //
-    // postItem() {
-    //   axios.post('/items', { category: this.props.checklists.selectedCategory,
-    //                          name: this.props.checklists.itemInput })
-    //     .then(response => {
-    //       //update redux store
-    //       this.props.addItem(response.data.id);
-    //     });
-    // }
-    //
-    // patchItem(obj, id) {
-    //   axios.patch('/items', obj, { params: { _id: id }})
-    //     .then((response) => {
-    //       console.log(response.data);
-    //     });
-    // }
-    //
-    // deleteItem(id) {
-    //   axios.delete('/items', { params: { _id: id }})
-    //     .then(response => {
-    //       console.log(response.data);
-    //     });
-    // }
-
     value: function render() {
       var _this2 = this;
 
@@ -28638,12 +28612,12 @@ var Login = function (_React$Component) {
           _react2.default.createElement(
             'h1',
             null,
-            'Happy Camper'
+            'Login'
           ),
           _react2.default.createElement('img', { src: './assets/logo.jpg', height: '67.5', width: '85' }),
           _react2.default.createElement(
             'form',
-            { className: 'add-form', onSubmit: this.handleSubmit },
+            { className: 'add-form', onSubmit: this.handleLoginSubmit },
             _react2.default.createElement('input', {
               className: 'search-bar',
               type: 'text',
@@ -28665,6 +28639,16 @@ var Login = function (_React$Component) {
               { type: 'submit' },
               'Login'
             )
+          ),
+          _react2.default.createElement(
+            'span',
+            null,
+            'Don\'t have an account?'
+          ),
+          _react2.default.createElement(
+            'span',
+            null,
+            'Sign up'
           )
         )
       );
@@ -28874,7 +28858,6 @@ var auth = function auth() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
-  console.log('action -->', action);
   switch (action.type) {
     case types.UPDATE_USERNAME:
       {

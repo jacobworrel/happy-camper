@@ -7,54 +7,39 @@ import * as actionCreators from '../../actions/auth/authActionCreators.js';
 
 class Login extends React.Component {
 
-  //CHILD COMPONENT EVENT HANDLERS
-
-  handleSubmit = (e) => {
+  handleLoginSubmit = (e) => {
     e.preventDefault();
-    //make post request to server/db
-    this.postItem();
+    if (!this.props.username || !this.props.password) alert('please enter a valid username/password');
+    else {
+      //make post request to server/db
+      axios.post('/login', { username: this.props.username,
+                             password: this.props.password })
+        .then(response => {
+          if (!response.data) alert('please enter a valid username/password');
+        });
+    }
   }
 
-  //GET/POST/PATCH/DELETE REQUESTS
+  handleSignupSubmit = (e) => {
+    e.preventDefault();
+    if (!this.props.username || !this.props.password) alert('please enter a valid username/password');
+    else {
+      //make post request to server/db
+      axios.post('/signup', { username: this.props.username,
+                             password: this.props.password })
+        .then(response => {
 
-  // getItems() {
-  //   axios.get('/items')
-  //     .then((response) => {
-  //       //populate redux store with data from server/db
-  //       this.props.populateStore(response.data);
-  //     });
-  // }
-  //
-  // postItem() {
-  //   axios.post('/items', { category: this.props.checklists.selectedCategory,
-  //                          name: this.props.checklists.itemInput })
-  //     .then(response => {
-  //       //update redux store
-  //       this.props.addItem(response.data.id);
-  //     });
-  // }
-  //
-  // patchItem(obj, id) {
-  //   axios.patch('/items', obj, { params: { _id: id }})
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     });
-  // }
-  //
-  // deleteItem(id) {
-  //   axios.delete('/items', { params: { _id: id }})
-  //     .then(response => {
-  //       console.log(response.data);
-  //     });
-  // }
+        });
+    }
+  }
 
   render() {
     return (
      <div>
       <div className='header'>
-        <h1>Happy Camper</h1>
+        <h1>Login</h1>
         <img src="./assets/logo.jpg" height="67.5" width="85" />
-        <form className='add-form' onSubmit={this.handleSubmit}>
+        <form className='add-form' onSubmit={this.handleLoginSubmit}>
           <input
             className="search-bar"
             type="text"
@@ -67,10 +52,13 @@ class Login extends React.Component {
               placeholder="password"
               value={this.props.password}
               onChange={(e) => this.props.updatePassword(e.target.value)} />
-          <button type="submit">Login</button>
-        </form>
+            <button type="submit">Login</button>
+          </form>
+          <span>Don't have an account?</span>
+          <span>Sign up</span>
+        </div>
       </div>
-    </div>);
+    );
   }
 }
 

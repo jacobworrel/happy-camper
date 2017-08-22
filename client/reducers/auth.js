@@ -6,7 +6,6 @@ const initialState = {
 }
 
 const auth = (state = initialState, action) => {
-  console.log('action -->', action)
   switch (action.type) {
     case types.UPDATE_USERNAME : {
       return { ...state, username: action.value };

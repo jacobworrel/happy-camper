@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
+const authController = require('./controllers/authController');
 const checklistController = require('./controllers/checklistController');
 const mongoose = require('mongoose');
 const Item = require('./models/item-model.js');
@@ -18,7 +19,8 @@ app.post('/items', checklistController.addItem);
 app.delete('/items', checklistController.deleteItem);
 app.patch('/items', checklistController.updateItem);
 
-//login routes:
+//auth routes:
 app.post('/login', authController.verifyUser);
+app.post('/signup', authController.addUser);
 
 app.listen(3000);
