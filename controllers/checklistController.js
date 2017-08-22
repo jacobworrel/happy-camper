@@ -12,7 +12,7 @@ checklistController.findItems = (obj) => {
 
 checklistController.getChecklists = (req, res) => {
   const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];
-  const promises = categories.map((category, i) => checklistController.findItems({ category: category[i]}));
+  const promises = categories.map((category) => checklistController.findItems({ category }));
   Promise.all(promises)
   .then((checklists) => {
     const payload = {};

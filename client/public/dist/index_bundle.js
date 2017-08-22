@@ -11751,7 +11751,7 @@ function mapStateToProps(state) {
   return _extends({}, state);
 }
 
-//wraps actionCreators in dispatch() call and merged into component's props
+//wraps actionCreators in dispatch() call and merges them into component's props
 //action creators can be invoked at component level without needing to call dispatch()
 function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)(actionCreators, dispatch);
