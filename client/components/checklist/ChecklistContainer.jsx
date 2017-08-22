@@ -3,8 +3,11 @@ import { render } from 'react-dom';
 import Dropdown from './Dropdown.jsx';
 import Checklist from './Checklist.jsx';
 import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../actions/checklist/checklistActionCreators.js';
 
-export default class ChecklistContainer extends React.Component {
+class ChecklistContainer extends React.Component {
 
   componentDidMount() {
     this.getItems();
@@ -69,8 +72,8 @@ export default class ChecklistContainer extends React.Component {
   }
 
   postItem() {
-    axios.post('/items', { category: this.props.checklists.selectedCategory,
-                           name: this.props.checklists.itemInput })
+    axios.post('/items', { category: this.props.selectedCategory,
+                           name: this.props.itemInput })
       .then(response => {
         //update redux store
         this.props.addItem(response.data.id);
@@ -92,11 +95,11 @@ export default class ChecklistContainer extends React.Component {
   }
 
   render() {
-    const checklists = Object.keys(this.props.checklists.categories).map((category, i) => {
+    const checklists = Object.keys(this.props.categories).map((category, i) => {
       return <Checklist
                         key={i}
                         className='checklist'
-                        items={this.props.checklists.categories[category]}
+                        items={this.props.categories[category]}
                         category={category}
                         removeItem={this.removeItem}
                         markAsChecked={this.markAsChecked}
@@ -116,7 +119,7 @@ export default class ChecklistContainer extends React.Component {
             className="search-bar"
             type="text"
             placeholder="item"
-            value={this.props.checklists.itemInput}
+            value={this.props.itemInput}
             onChange={(e) => this.props.updateInput(e.target.value)} />
           <button type="submit">Add item</button>
         </form>
@@ -127,3 +130,18 @@ export default class ChecklistContainer extends React.Component {
     </div>);
   }
 }
+
+//makes state.checklists in redux store accessible as props at componenent level
+//called whenever store is updated
+function mapStateToProps(state) {
+  return { ...state.checklists };
+}
+
+//wraps actionCreators in dispatch() call and merges them into component's props
+//action creators can be invoked at component level without needing to call dispatch()
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actionCreators, dispatch);
+}
+
+//connects component to redux store
+export default connect(mapStateToProps, mapDispatchToProps)(ChecklistContainer);

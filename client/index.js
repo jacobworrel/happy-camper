@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store.js';
-import App from './components/App.jsx';
+import ChecklistContainer from './components/checklist/ChecklistContainer.jsx';
+import Login from './components/auth/Login.jsx';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Login />
+    {/* <ChecklistContainer /> */}
   </Provider>
   , document.getElementById('root'));

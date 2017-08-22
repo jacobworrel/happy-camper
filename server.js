@@ -12,9 +12,13 @@ mongoose.connection.once('open', () => console.log('Connected to Database'));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'client/public')));
 
+//item routes:
 app.get('/items', checklistController.getChecklists);
 app.post('/items', checklistController.addItem);
 app.delete('/items', checklistController.deleteItem);
 app.patch('/items', checklistController.updateItem);
+
+//login routes:
+app.post('/login', authController.verifyUser);
 
 app.listen(3000);

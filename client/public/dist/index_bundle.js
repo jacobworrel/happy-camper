@@ -7577,25 +7577,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var POPULATE_STORE = exports.POPULATE_STORE = 'POPULATE_STORE';
-var UPDATE_INPUT = exports.UPDATE_INPUT = 'UPDATE_INPUT';
-var UPDATE_SELECTED_CATEGORY = exports.UPDATE_SELECTED_CATEGORY = 'UPDATE_SELECTED_CATEGORY';
-var ADD_ITEM = exports.ADD_ITEM = 'ADD_ITEM';
-var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_ITEM';
-var TOGGLE_CHECKED = exports.TOGGLE_CHECKED = 'TOGGLE_CHECKED';
-var TOGGLE_EDITING = exports.TOGGLE_EDITING = 'TOGGLE_EDITING';
-var UPDATE_ITEM_NAME = exports.UPDATE_ITEM_NAME = 'UPDATE_ITEM_NAME';
-
-/***/ }),
+/* 65 */,
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11717,52 +11699,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _redux = __webpack_require__(34);
-
-var _reactRedux = __webpack_require__(59);
-
-var _actionCreators = __webpack_require__(125);
-
-var actionCreators = _interopRequireWildcard(_actionCreators);
-
-var _ChecklistContainer = __webpack_require__(127);
-
-var _ChecklistContainer2 = _interopRequireDefault(_ChecklistContainer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-//makes state in redux store accessible as props at componenent level
-//called whenever store is updated
-function mapStateToProps(state) {
-  return _extends({}, state);
-}
-
-//wraps actionCreators in dispatch() call and merges them into component's props
-//action creators can be invoked at component level without needing to call dispatch()
-function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)(actionCreators, dispatch);
-}
-
-//connects component to redux store
-var App = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_ChecklistContainer2.default);
-
-exports.default = App;
-
-/***/ }),
+/* 105 */,
 /* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12634,95 +12571,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 125 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.populateStore = populateStore;
-exports.updateInput = updateInput;
-exports.updateSelectedCategory = updateSelectedCategory;
-exports.addItem = addItem;
-exports.removeItem = removeItem;
-exports.toggleChecked = toggleChecked;
-exports.toggleEditing = toggleEditing;
-exports.updateItemName = updateItemName;
-
-var _actionTypes = __webpack_require__(65);
-
-var types = _interopRequireWildcard(_actionTypes);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function populateStore(data) {
-  return {
-    type: types.POPULATE_STORE,
-    data: data
-  };
-}
-
-function updateInput(value) {
-  return {
-    type: types.UPDATE_INPUT,
-    value: value
-  };
-}
-
-function updateSelectedCategory(value) {
-  return {
-    type: types.UPDATE_SELECTED_CATEGORY,
-    value: value
-  };
-}
-
-function addItem(id) {
-  return {
-    type: types.ADD_ITEM,
-    id: id
-  };
-}
-
-function removeItem(index, category) {
-  return {
-    type: types.REMOVE_ITEM,
-    index: index,
-    category: category
-  };
-}
-
-function toggleChecked(index, category, checked) {
-  return {
-    type: types.TOGGLE_CHECKED,
-    index: index,
-    category: category,
-    checked: checked
-  };
-}
-
-function toggleEditing(index, category, editing) {
-  return {
-    type: types.TOGGLE_EDITING,
-    index: index,
-    category: category,
-    editing: editing
-  };
-}
-
-function updateItemName(index, category, editing, value) {
-  return {
-    type: types.UPDATE_ITEM_NAME,
-    index: index,
-    category: category,
-    editing: editing,
-    value: value
-  };
-}
-
-/***/ }),
+/* 125 */,
 /* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12783,6 +12632,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(14);
@@ -12802,6 +12653,16 @@ var _Checklist2 = _interopRequireDefault(_Checklist);
 var _axios = __webpack_require__(107);
 
 var _axios2 = _interopRequireDefault(_axios);
+
+var _redux = __webpack_require__(34);
+
+var _reactRedux = __webpack_require__(59);
+
+var _checklistActionCreators = __webpack_require__(265);
+
+var actionCreators = _interopRequireWildcard(_checklistActionCreators);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12893,8 +12754,8 @@ var ChecklistContainer = function (_React$Component) {
     value: function postItem() {
       var _this3 = this;
 
-      _axios2.default.post('/items', { category: this.props.checklists.selectedCategory,
-        name: this.props.checklists.itemInput }).then(function (response) {
+      _axios2.default.post('/items', { category: this.props.selectedCategory,
+        name: this.props.itemInput }).then(function (response) {
         //update redux store
         _this3.props.addItem(response.data.id);
       });
@@ -12918,11 +12779,11 @@ var ChecklistContainer = function (_React$Component) {
     value: function render() {
       var _this4 = this;
 
-      var checklists = Object.keys(this.props.checklists.categories).map(function (category, i) {
+      var checklists = Object.keys(this.props.categories).map(function (category, i) {
         return _react2.default.createElement(_Checklist2.default, {
           key: i,
           className: 'checklist',
-          items: _this4.props.checklists.categories[category],
+          items: _this4.props.categories[category],
           category: category,
           removeItem: _this4.removeItem,
           markAsChecked: _this4.markAsChecked,
@@ -12953,7 +12814,7 @@ var ChecklistContainer = function (_React$Component) {
               className: 'search-bar',
               type: 'text',
               placeholder: 'item',
-              value: this.props.checklists.itemInput,
+              value: this.props.itemInput,
               onChange: function onChange(e) {
                 return _this4.props.updateInput(e.target.value);
               } }),
@@ -12976,7 +12837,22 @@ var ChecklistContainer = function (_React$Component) {
   return ChecklistContainer;
 }(_react2.default.Component);
 
-exports.default = ChecklistContainer;
+//makes state.checklists in redux store accessible as props at componenent level
+//called whenever store is updated
+
+
+function mapStateToProps(state) {
+  return _extends({}, state.checklists);
+}
+
+//wraps actionCreators in dispatch() call and merges them into component's props
+//action creators can be invoked at component level without needing to call dispatch()
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)(actionCreators, dispatch);
+}
+
+//connects component to redux store
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ChecklistContainer);
 
 /***/ }),
 /* 128 */
@@ -13158,16 +13034,20 @@ var _store = __webpack_require__(106);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _App = __webpack_require__(105);
+var _ChecklistContainer = __webpack_require__(127);
 
-var _App2 = _interopRequireDefault(_App);
+var _ChecklistContainer2 = _interopRequireDefault(_ChecklistContainer);
+
+var _Login = __webpack_require__(263);
+
+var _Login2 = _interopRequireDefault(_Login);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: _store2.default },
-  _react2.default.createElement(_App2.default, null)
+  _react2.default.createElement(_Login2.default, null)
 ), document.getElementById('root'));
 
 /***/ }),
@@ -13183,9 +13063,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _actionTypes = __webpack_require__(65);
+var _checklistActionTypes = __webpack_require__(266);
 
-var types = _interopRequireWildcard(_actionTypes);
+var types = _interopRequireWildcard(_checklistActionTypes);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -13210,6 +13090,7 @@ var checklists = function checklists() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
+  console.log('in checklists reducer');
   switch (action.type) {
     case types.POPULATE_STORE:
       {
@@ -13306,10 +13187,15 @@ var _checklists = __webpack_require__(132);
 
 var _checklists2 = _interopRequireDefault(_checklists);
 
+var _auth = __webpack_require__(269);
+
+var _auth2 = _interopRequireDefault(_auth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var rootReducer = (0, _redux.combineReducers)({ checklists: _checklists2.default });
 //import individual reducers here and then pass them into combineReducers()
+var rootReducer = (0, _redux.combineReducers)({ checklists: _checklists2.default, auth: _auth2.default });
+
 exports.default = rootReducer;
 
 /***/ }),
@@ -28636,6 +28522,374 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 263 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(14);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(58);
+
+var _axios = __webpack_require__(107);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _redux = __webpack_require__(34);
+
+var _reactRedux = __webpack_require__(59);
+
+var _authActionCreators = __webpack_require__(267);
+
+var actionCreators = _interopRequireWildcard(_authActionCreators);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Login = function (_React$Component) {
+  _inherits(Login, _React$Component);
+
+  function Login() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Login);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Login.__proto__ || Object.getPrototypeOf(Login)).call.apply(_ref, [this].concat(args))), _this), _this.handleSubmit = function (e) {
+      e.preventDefault();
+      //make post request to server/db
+      _this.postItem();
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  //CHILD COMPONENT EVENT HANDLERS
+
+  _createClass(Login, [{
+    key: 'render',
+
+
+    //GET/POST/PATCH/DELETE REQUESTS
+
+    // getItems() {
+    //   axios.get('/items')
+    //     .then((response) => {
+    //       //populate redux store with data from server/db
+    //       this.props.populateStore(response.data);
+    //     });
+    // }
+    //
+    // postItem() {
+    //   axios.post('/items', { category: this.props.checklists.selectedCategory,
+    //                          name: this.props.checklists.itemInput })
+    //     .then(response => {
+    //       //update redux store
+    //       this.props.addItem(response.data.id);
+    //     });
+    // }
+    //
+    // patchItem(obj, id) {
+    //   axios.patch('/items', obj, { params: { _id: id }})
+    //     .then((response) => {
+    //       console.log(response.data);
+    //     });
+    // }
+    //
+    // deleteItem(id) {
+    //   axios.delete('/items', { params: { _id: id }})
+    //     .then(response => {
+    //       console.log(response.data);
+    //     });
+    // }
+
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'header' },
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Happy Camper'
+          ),
+          _react2.default.createElement('img', { src: './assets/logo.jpg', height: '67.5', width: '85' }),
+          _react2.default.createElement(
+            'form',
+            { className: 'add-form', onSubmit: this.handleSubmit },
+            _react2.default.createElement('input', {
+              className: 'search-bar',
+              type: 'text',
+              placeholder: 'username',
+              value: this.props.username,
+              onChange: function onChange(e) {
+                return _this2.props.updateUsername(e.target.value);
+              } }),
+            _react2.default.createElement('input', {
+              className: 'search-bar',
+              type: 'text',
+              placeholder: 'password',
+              value: this.props.password,
+              onChange: function onChange(e) {
+                return _this2.props.updatePassword(e.target.value);
+              } }),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit' },
+              'Login'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Login;
+}(_react2.default.Component);
+
+//makes state.checklists in redux store accessible as props at componenent level
+//called whenever store is updated
+
+
+function mapStateToProps(state) {
+  return _extends({}, state.auth);
+}
+
+//wraps actionCreators in dispatch() call and merges them into component's props
+//action creators can be invoked at component level without needing to call dispatch()
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)(actionCreators, dispatch);
+}
+
+//connects component to redux store
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Login);
+
+/***/ }),
+/* 264 */,
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.populateStore = populateStore;
+exports.updateInput = updateInput;
+exports.updateSelectedCategory = updateSelectedCategory;
+exports.addItem = addItem;
+exports.removeItem = removeItem;
+exports.toggleChecked = toggleChecked;
+exports.toggleEditing = toggleEditing;
+exports.updateItemName = updateItemName;
+
+var _checklistActionTypes = __webpack_require__(266);
+
+var types = _interopRequireWildcard(_checklistActionTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function populateStore(data) {
+  return {
+    type: types.POPULATE_STORE,
+    data: data
+  };
+}
+
+function updateInput(value) {
+  return {
+    type: types.UPDATE_INPUT,
+    value: value
+  };
+}
+
+function updateSelectedCategory(value) {
+  return {
+    type: types.UPDATE_SELECTED_CATEGORY,
+    value: value
+  };
+}
+
+function addItem(id) {
+  return {
+    type: types.ADD_ITEM,
+    id: id
+  };
+}
+
+function removeItem(index, category) {
+  return {
+    type: types.REMOVE_ITEM,
+    index: index,
+    category: category
+  };
+}
+
+function toggleChecked(index, category, checked) {
+  return {
+    type: types.TOGGLE_CHECKED,
+    index: index,
+    category: category,
+    checked: checked
+  };
+}
+
+function toggleEditing(index, category, editing) {
+  return {
+    type: types.TOGGLE_EDITING,
+    index: index,
+    category: category,
+    editing: editing
+  };
+}
+
+function updateItemName(index, category, editing, value) {
+  return {
+    type: types.UPDATE_ITEM_NAME,
+    index: index,
+    category: category,
+    editing: editing,
+    value: value
+  };
+}
+
+/***/ }),
+/* 266 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var POPULATE_STORE = exports.POPULATE_STORE = 'POPULATE_STORE';
+var UPDATE_INPUT = exports.UPDATE_INPUT = 'UPDATE_INPUT';
+var UPDATE_SELECTED_CATEGORY = exports.UPDATE_SELECTED_CATEGORY = 'UPDATE_SELECTED_CATEGORY';
+var ADD_ITEM = exports.ADD_ITEM = 'ADD_ITEM';
+var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_ITEM';
+var TOGGLE_CHECKED = exports.TOGGLE_CHECKED = 'TOGGLE_CHECKED';
+var TOGGLE_EDITING = exports.TOGGLE_EDITING = 'TOGGLE_EDITING';
+var UPDATE_ITEM_NAME = exports.UPDATE_ITEM_NAME = 'UPDATE_ITEM_NAME';
+
+/***/ }),
+/* 267 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateUsername = updateUsername;
+exports.updatePassword = updatePassword;
+
+var _authActionTypes = __webpack_require__(268);
+
+var types = _interopRequireWildcard(_authActionTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function updateUsername(value) {
+  return {
+    type: types.UPDATE_USERNAME,
+    value: value
+  };
+}
+
+function updatePassword(value) {
+  return {
+    type: types.UPDATE_PASSWORD,
+    value: value
+  };
+}
+
+/***/ }),
+/* 268 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var UPDATE_USERNAME = exports.UPDATE_USERNAME = 'UPDATE_USERNAME';
+var UPDATE_PASSWORD = exports.UPDATE_PASSWORD = 'UPDATE_PASSWORD';
+
+/***/ }),
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _authActionTypes = __webpack_require__(268);
+
+var types = _interopRequireWildcard(_authActionTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var initialState = {
+  username: '',
+  password: ''
+};
+
+var auth = function auth() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  console.log('action -->', action);
+  switch (action.type) {
+    case types.UPDATE_USERNAME:
+      {
+        return _extends({}, state, { username: action.value });
+      }
+    case types.UPDATE_PASSWORD:
+      {
+        return _extends({}, state, { password: action.value });
+      }
+    default:
+      return state;
+  }
+};
+
+exports.default = auth;
 
 /***/ })
 /******/ ]);
