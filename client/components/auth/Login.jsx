@@ -4,33 +4,23 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/auth/authActionCreators.js';
+import { Link } from 'react-router-dom';
+import Form from './Form.jsx';
 
 class Login extends React.Component {
 
-  handleLoginSubmit = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    if (!this.props.username || !this.props.password) alert('please enter a valid username/password');
-    else {
-      //make post request to server/db
-      axios.post('/login', { username: this.props.username,
-                             password: this.props.password })
-        .then(response => {
-          if (!response.data) alert('please enter a valid username/password');
-        });
-    }
-  }
-
-  handleSignupSubmit = (e) => {
-    e.preventDefault();
-    if (!this.props.username || !this.props.password) alert('please enter a valid username/password');
-    else {
-      //make post request to server/db
-      axios.post('/signup', { username: this.props.username,
-                             password: this.props.password })
-        .then(response => {
-
-        });
-    }
+    console.log('in login submit')
+    // if (!this.props.username || !this.props.password) alert('please enter a valid username/password');
+    // else {
+    //   //make post request to server/db
+    //   axios.post('/login', { username: this.props.username,
+    //                          password: this.props.password })
+    //     .then(response => {
+    //       if (!response.data) alert('please enter a valid username/password');
+    //     });
+    // }
   }
 
   render() {
@@ -39,23 +29,18 @@ class Login extends React.Component {
       <div className='header'>
         <h1>Login</h1>
         <img src="./assets/logo.jpg" height="67.5" width="85" />
-        <form className='add-form' onSubmit={this.handleLoginSubmit}>
-          <input
-            className="search-bar"
-            type="text"
-            placeholder="username"
-            value={this.props.username}
-            onChange={(e) => this.props.updateUsername(e.target.value)} />
-            <input
-              className="search-bar"
-              type="text"
-              placeholder="password"
-              value={this.props.password}
-              onChange={(e) => this.props.updatePassword(e.target.value)} />
-            <button type="submit">Login</button>
-          </form>
+          <Form
+            buttonText={'Login'}
+            username={this.props.username}
+            password={this.props.password}
+            handleSubmit={this.handleSubmit}
+            updateUsername={this.props.updateUsername}
+            updatePassword={this.props.updatePassword}
+          />
           <span>Don't have an account?</span>
-          <span>Sign up</span>
+          <span>
+            <Link to='/signup'>Sign Up</Link>
+          </span>
         </div>
       </div>
     );

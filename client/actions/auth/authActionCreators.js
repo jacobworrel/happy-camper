@@ -13,3 +13,10 @@ export function updatePassword(value) {
     value
   }
 }
+
+export function authenticate(value) {
+  return {
+    type: types.AUTHENTICATE,
+    value
+  }
+}

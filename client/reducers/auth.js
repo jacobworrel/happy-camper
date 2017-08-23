@@ -2,7 +2,8 @@ import * as types from './../actions/auth/authActionTypes.js';
 
 const initialState = {
   username: '',
-  password: ''
+  password: '',
+  isAuthenticated: false
 }
 
 const auth = (state = initialState, action) => {
@@ -12,6 +13,9 @@ const auth = (state = initialState, action) => {
     }
     case types.UPDATE_PASSWORD : {
       return { ...state, password: action.value }
+    }
+    case types.AUTHENTICATE : {
+      return { ...state, isAuthenticated: action.value }
     }
     default:
       return state;
