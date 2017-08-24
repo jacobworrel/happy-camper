@@ -34,8 +34,7 @@ class Login extends React.Component {
             username={this.props.username}
             password={this.props.password}
             handleSubmit={this.handleSubmit}
-            updateUsername={this.props.updateUsername}
-            updatePassword={this.props.updatePassword}
+            updateField={this.props.updateField}
           />
           <span>Don't have an account?</span>
           <span>

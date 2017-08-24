@@ -1,15 +1,9 @@
 import * as types from './authActionTypes';
 
-export function updateUsername(value) {
+export function updateField(field, value) {
   return {
-    type: types.UPDATE_USERNAME,
-    value
-  }
-}
-
-export function updatePassword(value) {
-  return {
-    type: types.UPDATE_PASSWORD,
+    type: types.UPDATE_FIELD,
+    field,
     value
   }
 }

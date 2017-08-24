@@ -34,8 +34,7 @@ class Signup extends React.Component {
             username={this.props.username}
             password={this.props.password}
             handleSubmit={this.handleSubmit}
-            updateUsername={this.props.updateUsername}
-            updatePassword={this.props.updatePassword}
+            updateField={this.props.updateField}
           />
         </div>
       </div>

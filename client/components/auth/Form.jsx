@@ -8,14 +8,16 @@ const Form = (props) => {
             className="search-bar"
             type="text"
             placeholder="username"
+            name="username"
             value={props.username}
-            onChange={(e) => props.updateUsername(e.target.value)} />
+            onChange={(e) => props.updateField(e.target.name, e.target.value)} />
           <input
             className="search-bar"
             type="text"
             placeholder="password"
+            name="password"
             value={props.password}
-            onChange={(e) => props.updatePassword(e.target.value)} />
+            onChange={(e) => props.updateField(e.target.name, e.target.value)} />
           <button>{props.buttonText}</button>
           {/* <Link to="/checklist"></Link> */}
         </form>

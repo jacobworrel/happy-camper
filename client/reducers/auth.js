@@ -8,11 +8,8 @@ const initialState = {
 
 const auth = (state = initialState, action) => {
   switch (action.type) {
-    case types.UPDATE_USERNAME : {
-      return { ...state, username: action.value };
-    }
-    case types.UPDATE_PASSWORD : {
-      return { ...state, password: action.value }
+    case types.UPDATE_FIELD : {
+      return { ...state, [action.field]: action.value }
     }
     case types.AUTHENTICATE : {
       return { ...state, isAuthenticated: action.value }
