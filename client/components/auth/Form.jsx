@@ -16,7 +16,8 @@ const Form = (props) => {
             placeholder="password"
             value={props.password}
             onChange={(e) => props.updatePassword(e.target.value)} />
-          <Link to="/checklist"><button>{props.buttonText}</button></Link>
+          <button>{props.buttonText}</button>
+          {/* <Link to="/checklist"></Link> */}
         </form>
   );
 }

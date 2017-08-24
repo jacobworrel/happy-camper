@@ -11,14 +11,14 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
-        <Route exact path='/' component={Login}/>
-        <Route path='/signup' component={Signup}/>
+        <Route exact path='/' component={ChecklistContainer}/>
+        {/* <Route path='/signup' component={Signup}/>
         <Route path='/checklist' render={() => {
           console.log('we in this')
           const state = store.getState();
           if (state.auth.isAuthenticated) return <ChecklistContainer/>
           else return <Login/>
-        }}/>
+        }}/> */}
       </div>
     </Router>
   </Provider>

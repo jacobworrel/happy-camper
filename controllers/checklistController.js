@@ -1,5 +1,5 @@
 const checklistController = {};
-const Item = require('./../models/item-model.js');
+import Item from './../models/item-model.js';
 
 checklistController.findItems = (obj) => {
   return new Promise((resolve, reject) => {
@@ -52,4 +52,5 @@ checklistController.updateItem = (req, res) => {
   });
 }
 
-module.exports = checklistController;
+export default checklistController;
+// module.exports = checklistController;

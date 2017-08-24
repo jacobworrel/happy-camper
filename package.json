@@ -4,7 +4,7 @@
   "description": "A camping checklist creator",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon --watch server --exec babel-node -- server/server.js",
     "webpack": "./node_modules/.bin/webpack -w"
   },
   "author": "Jacob Worrel",
@@ -26,6 +26,7 @@
     "webpack": "^2.5.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
