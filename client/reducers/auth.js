@@ -1,4 +1,4 @@
-import * as types from './../actions/auth/authActionTypes.js';
+import * as types from './../actions/auth/authActionTypes';
 
 const initialState = {
   username: '',

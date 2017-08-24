@@ -1,5 +1,5 @@
 import React from 'react';
-import Item from './Item.jsx'
+import Item from './Item'
 
 const Checklist = (props) => {
   const items = props.items.map((item, i) => {

@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions/auth/authActionCreators.js';
-import Form from './Form.jsx';
+import * as actionCreators from '../../actions/auth/authActionCreators';
+import Form from './Form';
 
 class Signup extends React.Component {
 

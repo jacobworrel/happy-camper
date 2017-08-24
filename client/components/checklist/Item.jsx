@@ -1,5 +1,5 @@
 import React from 'react';
-import ItemText from './ItemText.jsx';
+import ItemText from './ItemText';
 
 const Item = (props) => {
   const checked = props.item.checked;

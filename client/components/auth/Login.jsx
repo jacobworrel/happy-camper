@@ -3,9 +3,9 @@ import { render } from 'react-dom';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions/auth/authActionCreators.js';
+import * as actionCreators from '../../actions/auth/authActionCreators';
 import { Link } from 'react-router-dom';
-import Form from './Form.jsx';
+import Form from './Form';
 
 class Login extends React.Component {
 
