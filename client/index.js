@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import store from './store.js';
+import store from './store';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import ChecklistContainer from './components/checklist/ChecklistContainer.jsx';
-import Login from './components/auth/Login.jsx';
-import Signup from './components/auth/Signup.jsx';
+import ChecklistContainer from './components/checklist/ChecklistContainer';
+import Login from './components/auth/Login';
+import Signup from './components/auth/Signup';
 
 ReactDOM.render(
   <Provider store={store}>

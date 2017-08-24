@@ -1,5 +1,5 @@
 import { createStore, compose } from 'redux';
-import rootReducer from './reducers/rootReducer.js';
+import rootReducer from './reducers/rootReducer';
 
 //hook up redux dev tools
 const enhancers = compose(

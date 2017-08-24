@@ -1,4 +1,4 @@
-import * as types from './../actions/checklist/checklistActionTypes.js';
+import * as types from './../actions/checklist/checklistActionTypes';
 
 const initialState = {
   categories: {

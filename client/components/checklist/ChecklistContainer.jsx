@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import Dropdown from './Dropdown.jsx';
-import Checklist from './Checklist.jsx';
+import Dropdown from './Dropdown';
+import Checklist from './Checklist';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions/checklist/checklistActionCreators.js';
+import * as actionCreators from '../../actions/checklist/checklistActionCreators';
 
 class ChecklistContainer extends React.Component {
 
