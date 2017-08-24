@@ -3,40 +3,41 @@ import { render } from 'react-dom';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions/auth/authActionCreators';
-import Form from './Form';
+import * as actionCreators from '../../../actions/auth/authActionCreators';
+import { Link } from 'react-router-dom';
+import LoginForm from './LoginForm';
 
-class Signup extends React.Component {
+class LoginPage extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log('in signup submit')
-    this.props.authenticate(true);
+    console.log('in login submit')
     // if (!this.props.username || !this.props.password) alert('please enter a valid username/password');
     // else {
     //   //make post request to server/db
-    //   axios.post('/signup', { username: this.props.username,
+    //   axios.post('/login', { username: this.props.username,
     //                          password: this.props.password })
     //     .then(response => {
-    //
+    //       if (!response.data) alert('please enter a valid username/password');
     //     });
     // }
   }
 
   render() {
     return (
-      <div>
-        <div className='header'>
-          <h1>Signup</h1>
-          <img src="./assets/logo.jpg" height="67.5" width="85" />
-          <Form
-            buttonText={'Sign Up'}
-            username={this.props.username}
-            password={this.props.password}
-            handleSubmit={this.handleSubmit}
-            updateField={this.props.updateField}
-          />
-        </div>
+     <div>
+      <h1>Login</h1>
+        <LoginForm
+          buttonText={'Login'}
+          username={this.props.username}
+          password={this.props.password}
+          handleSubmit={this.handleSubmit}
+          updateField={this.props.updateField}
+        />
+        <span>Don't have an account?</span>
+        <span>
+          <Link to='/signup'>Sign Up</Link>
+        </span>
       </div>
     );
   }
@@ -55,4 +56,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 //connects component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

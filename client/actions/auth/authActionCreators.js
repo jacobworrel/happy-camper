@@ -1,4 +1,5 @@
 import * as types from './authActionTypes';
+import axios from 'axios';
 
 export function updateField(field, value) {
   return {
@@ -12,5 +13,18 @@ export function authenticate(value) {
   return {
     type: types.AUTHENTICATE,
     value
+  }
+}
+
+export function userSignupRequest(userData) {
+  return (dispatch) => {
+    return axios.post('/signup', userData);
+  }
+}
+
+export function updateErrors(errors) {
+  return {
+    type: types.UPDATE_ERRORS,
+    errors
   }
 }

@@ -113,7 +113,10 @@ class ChecklistContainer extends React.Component {
      <div>
       <div className='checklist-form-container'>
         <form className='checklist-form' onSubmit={this.handleSubmit}>
-          <Dropdown updateSelectedCategory={(e) => this.props.updateSelectedCategory(e.target.value)}/>
+          <Dropdown
+            updateSelectedCategory={(e) => this.props.updateSelectedCategory(e.target.value)}
+            categories={['Select Category', ...Object.keys(this.props.categories)]}
+          />
           <input
             className="search-bar"
             type="text"

@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import ChecklistContainer from './components/checklist/ChecklistContainer';
-import Login from './components/auth/Login';
-import Signup from './components/auth/Signup';
+import LoginPage from './components/auth/login/LoginPage';
+import SignupPage from './components/auth/signup/SignupPage';
 import NavBar from './components/NavBar';
 
 ReactDOM.render(
@@ -15,7 +15,8 @@ ReactDOM.render(
         <NavBar/>
         <Route exact path='/' component={ChecklistContainer}/>
         <Route exact path='/checklist' component={ChecklistContainer}/>
-        <Route path='/signup' component={Signup}/>
+        <Route path='/signup' component={SignupPage}/>
+        <Route path='/login' component={LoginPage}/>
         {/* <Route path='/checklist' render={() => {
           console.log('we in this')
           const state = store.getState();

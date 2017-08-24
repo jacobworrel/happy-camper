@@ -1,8 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
-import authController from './../controllers/authController';
-import checklistController from './../controllers/checklistController';
+import authController from './controllers/authController';
+import checklistController from './controllers/checklistController';
 import mongoose from 'mongoose';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
@@ -23,7 +23,7 @@ app.use(webpackMiddleware(compiler, {
 app.use(webpackHotMiddleware(compiler));
 
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, './../client/public')));
+// app.use(express.static(path.join(__dirname, './../client/public')));
 
 //catch all to serve index.html file at every route
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname,'./../client/public/index.html')));
