@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Dropdown from './Dropdown';
 import Checklist from './Checklist';
+import NavBar from './../NavBar';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -110,10 +111,8 @@ class ChecklistContainer extends React.Component {
     });
     return (
      <div>
-      <div className='header'>
-        <h1>Happy Camper</h1>
-        <img src="./assets/logo.jpg" height="67.5" width="85" />
-        <form className='add-form' onSubmit={this.handleSubmit}>
+      <div className='checklist-form-container'>
+        <form className='checklist-form' onSubmit={this.handleSubmit}>
           <Dropdown updateSelectedCategory={(e) => this.props.updateSelectedCategory(e.target.value)}/>
           <input
             className="search-bar"

@@ -3,15 +3,30 @@ body {
   font-size: 18px;
 }
 
-/* HEADER */
+/* NAV */
 
-.header {
+.nav-container {
+  display: flex;
+}
+
+.nav-link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+
+/* CHECKLIST */
+
+.checklist-form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.add-form {
+.checklist-form {
   margin: 20px;
 }
 
@@ -19,8 +34,6 @@ body {
   margin: 0 10px;
   text-indent: 10px;
 }
-
-/* MAIN */
 
 .checklist-container {
   display: flex;

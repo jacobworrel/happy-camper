@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './../client/public')));
 
 //catch all to serve index.html file at every route
-// app.get('/*', (req, res) => res.sendFile(path.join(__dirname,'./../client/public/index.html')));
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname,'./../client/public/index.html')));
 
 //item routes:
 app.get('/items', checklistController.getChecklists);
