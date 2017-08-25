@@ -11,7 +11,9 @@ import * as actionCreators from '../../actions/checklist/checklistActionCreators
 class ChecklistContainer extends React.Component {
 
   componentDidMount() {
-    this.getItems();
+    this.props.getData()
+      .then((response) => this.props.populateStore(response.data))
+      .catch((error) => console.log(error));
   }
 
   //CHILD COMPONENT EVENT HANDLERS
@@ -62,15 +64,7 @@ class ChecklistContainer extends React.Component {
     this.patchItem({ name: e.target.value }, id);
   }
 
-  //GET/POST/PATCH/DELETE REQUESTS
-
-  getItems() {
-    axios.get('/items')
-      .then((response) => {
-        //populate redux store with data from server/db
-        this.props.populateStore(response.data);
-      });
-  }
+  //POST/PATCH/DELETE REQUESTS
 
   postItem() {
     axios.post('/items', { category: this.props.selectedCategory,

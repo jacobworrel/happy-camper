@@ -1,9 +1,16 @@
 import * as types from './checklistActionTypes';
+import axios from 'axios';
 
 export function populateStore(data) {
   return {
     type: types.POPULATE_STORE,
     data
+  }
+}
+
+export function getData() {
+  return (dispatch) => {
+    return axios.get('/items');
   }
 }
 

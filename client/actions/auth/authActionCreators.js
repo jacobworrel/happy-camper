@@ -9,10 +9,9 @@ export function updateField(field, value) {
   }
 }
 
-
 export function userSignupRequest(userData) {
   return (dispatch) => {
-    return axios.post('/signup', userData);
+    return axios.post('/users/signup', userData);
   }
 }
 
