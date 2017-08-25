@@ -5,23 +5,41 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../actions/auth/authActionCreators';
 import SignupForm from './SignupForm';
+import validateInput from '../../../../server/shared/validations/signup';
 
 class SignupPage extends React.Component {
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    //empty errors object in redux store so old error messages aren't rendered
-    this.props.updateErrors({});
+  isValid() {
+    //implement client side validation
     const { username, email, password, passwordConfirmation } = this.props;
     const userData = { username, email, password, passwordConfirmation };
-    //make post request to server using redux thunk
-    this.props.userSignupRequest(userData)
+    const { errors, isValid} = validateInput(userData);
+    if (!isValid) this.props.updateErrors(errors);
+    return isValid;
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    if (this.isValid()) {
+      //disable button to keep user from submitting multiple forms
+      this.props.toggleLoading();
+      //empty errors object in redux store so old error messages aren't rendered
+      this.props.updateErrors({});
+      const { username, email, password, passwordConfirmation } = this.props;
+      const userData = { username, email, password, passwordConfirmation };
+      //make post request to server using redux thunk
+      this.props.userSignupRequest(userData)
       .then((response) => {
-        console.log('response -->', response);
+        //REDIRECT HERE?
+        console.log();
       })
       .catch((error) => {
+        //enable button again so user can resubmit form if necessary
+        this.props.toggleLoading();
+        //update redux store with errors
         if (error.response) this.props.updateErrors(error.response.data);
       });
+    }
 
     // this.props.authenticate(true);
     // if (!this.props.username || !this.props.password) alert('please enter a valid username/password');
@@ -45,16 +63,14 @@ class SignupPage extends React.Component {
           email={this.props.email}
           password={this.props.password}
           passwordConfirmation={this.props.passwordConfirmation}
+          errors={this.props.errors}
           handleSubmit={this.handleSubmit}
           updateField={this.props.updateField}
+          isLoading={this.props.isLoading}
         />
       </div>
     );
   }
-}
-
-SignupPage.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired
 }
 
 //makes state.checklists in redux store accessible as props at componenent level

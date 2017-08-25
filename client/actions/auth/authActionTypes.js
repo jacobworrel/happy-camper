@@ -1,3 +1,4 @@
 export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const UPDATE_ERRORS = 'UPDATE_ERRORS';
+export const TOGGLE_LOADING = 'TOGGLE_LOADING';
 export const AUTHENTICATE = 'AUTHENTICATE';

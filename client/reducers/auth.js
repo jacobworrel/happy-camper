@@ -6,6 +6,7 @@ const initialState = {
   password: '',
   passwordConfirmation: '',
   errors: {},
+  isLoading: false,
   isAuthenticated: false
 }
 
@@ -17,9 +18,12 @@ const auth = (state = initialState, action) => {
     case types.UPDATE_ERRORS : {
       return { ...state, errors: action.errors }
     }
-    case types.AUTHENTICATE : {
-      return { ...state, isAuthenticated: action.value }
+    case types.TOGGLE_LOADING : {
+      return { ...state, isLoading: !state.isLoading }
     }
+    // case types.AUTHENTICATE : {
+    //   return { ...state, isAuthenticated: action.value }
+    // }
     default:
       return state;
   }

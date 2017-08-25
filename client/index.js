@@ -7,6 +7,7 @@ import ChecklistContainer from './components/checklist/ChecklistContainer';
 import LoginPage from './components/auth/login/LoginPage';
 import SignupPage from './components/auth/signup/SignupPage';
 import NavBar from './components/NavBar';
+import styles from './public/styles.css';
 
 ReactDOM.render(
   <Provider store={store}>

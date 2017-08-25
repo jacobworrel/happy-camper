@@ -23,13 +23,21 @@ export default {
     loaders: [
       {
         test: /\.js$/,
-        include: path.join(__dirname, 'client'),
+        include: [
+          path.join(__dirname, 'client'),
+          path.join(__dirname, 'server/shared')
+        ],
         loaders: ['react-hot-loader', 'babel-loader']
       },
       {
         test: /\.jsx$/,
         include: path.join(__dirname, 'client'),
         loaders: ['react-hot-loader', 'babel-loader']
+      },
+      {
+        test: /\.css$/,
+        include: path.join(__dirname, 'client'),
+        loaders: ['style-loader', 'css-loader']
       }
     ]
   },

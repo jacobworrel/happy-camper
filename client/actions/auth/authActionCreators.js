@@ -9,12 +9,6 @@ export function updateField(field, value) {
   }
 }
 
-export function authenticate(value) {
-  return {
-    type: types.AUTHENTICATE,
-    value
-  }
-}
 
 export function userSignupRequest(userData) {
   return (dispatch) => {
@@ -28,3 +22,16 @@ export function updateErrors(errors) {
     errors
   }
 }
+
+export function toggleLoading() {
+  return {
+    type: types.TOGGLE_LOADING
+  }
+}
+
+// export function authenticate(value) {
+//   return {
+//     type: types.AUTHENTICATE,
+//     value
+//   }
+// }
