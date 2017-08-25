@@ -12,8 +12,8 @@ authController.verifyUser = (req, res) => {
 
 authController.addUser = (req, res) => {
   const { errors, isValid } = validateInput(req.body);
-  if (!isValid) res.status(400).json(errors);
-  res.send('success');
+  if (isValid) res.json({ success: true });
+  else res.status(400).json(errors);
 }
 
 export default authController;

@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
-import authController from './controllers/authController';
 import mongoose from 'mongoose';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';

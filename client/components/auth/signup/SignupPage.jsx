@@ -4,6 +4,7 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../actions/auth/authActionCreators';
+import { Redirect } from 'react-router-dom';
 import SignupForm from './SignupForm';
 import validateInput from '../../../../server/shared/validations/signup';
 
@@ -30,8 +31,7 @@ class SignupPage extends React.Component {
       //make post request to server using redux thunk
       this.props.userSignupRequest(userData)
       .then((response) => {
-        //REDIRECT HERE?
-        console.log();
+        this.props.authenticate();
       })
       .catch((error) => {
         //enable button again so user can resubmit form if necessary
@@ -40,17 +40,6 @@ class SignupPage extends React.Component {
         if (error.response) this.props.updateErrors(error.response.data);
       });
     }
-
-    // this.props.authenticate(true);
-    // if (!this.props.username || !this.props.password) alert('please enter a valid username/password');
-    // else {
-    //   //make post request to server/db
-    //   axios.post('/signup', { username: this.props.username,
-    //                          password: this.props.password })
-    //     .then(response => {
-    //
-    //     });
-    // }
   }
 
   render() {
@@ -68,6 +57,7 @@ class SignupPage extends React.Component {
           updateField={this.props.updateField}
           isLoading={this.props.isLoading}
         />
+        {this.props.isAuthenticated && <Redirect to='/checklist'/>}
       </div>
     );
   }

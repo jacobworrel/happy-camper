@@ -21,9 +21,9 @@ const auth = (state = initialState, action) => {
     case types.TOGGLE_LOADING : {
       return { ...state, isLoading: !state.isLoading }
     }
-    // case types.AUTHENTICATE : {
-    //   return { ...state, isAuthenticated: action.value }
-    // }
+    case types.AUTHENTICATE : {
+      return { ...state, isAuthenticated: true }
+    }
     default:
       return state;
   }

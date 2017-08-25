@@ -28,9 +28,8 @@ export function toggleLoading() {
   }
 }
 
-// export function authenticate(value) {
-//   return {
-//     type: types.AUTHENTICATE,
-//     value
-//   }
-// }
+export function authenticate() {
+  return {
+    type: types.AUTHENTICATE,
+  }
+}
