@@ -1,6 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-import TextFieldGroup from './TextFieldGroup';
+import TextFieldGroup from './../TextFieldGroup';
 
 const SignupForm = (props) => {
   const fields = ['username', 'email', 'password', 'passwordConfirmation'];
@@ -18,7 +17,6 @@ const SignupForm = (props) => {
         <form className='add-form' onSubmit={props.handleSubmit}>
           {textFieldGroups}
           <button disabled={props.isLoading}>{props.buttonText}</button>
-          {/* <Link to="/checklist"></Link> */}
         </form>
   );
 }

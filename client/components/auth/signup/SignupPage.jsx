@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../../actions/auth/authActionCreators';
 import { Redirect } from 'react-router-dom';
 import SignupForm from './SignupForm';
-import validateInput from '../../../../server/shared/validations/signup';
+import validateSignupInput from '../../../../server/shared/validations/signup';
 
 class SignupPage extends React.Component {
 
@@ -14,7 +14,7 @@ class SignupPage extends React.Component {
     //implement client side validation
     const { username, email, password, passwordConfirmation } = this.props;
     const userData = { username, email, password, passwordConfirmation };
-    const { errors, isValid} = validateInput(userData);
+    const { errors, isValid} = validateSignupInput(userData);
     if (!isValid) this.props.updateErrors(errors);
     return isValid;
   }

@@ -23,7 +23,7 @@ checklistController.getChecklists = (req, res) => {
     })
     res.json(payload);
   }).catch((err) => {
-    res.status(418).send(err);
+    res.status(500).send(err);
   })
 }
 
@@ -32,7 +32,7 @@ checklistController.addItem = (req, res) => {
     res.send('please enter an item');
   } else {
     Item.create(req.body, (err, item) => {
-      if (err) res.status(418).send(err);
+      if (err) res.status(500).send(err);
       res.send({ id: item._id })
     });
   }
@@ -40,17 +40,16 @@ checklistController.addItem = (req, res) => {
 
 checklistController.deleteItem = (req, res) => {
   Item.remove(req.query, (err) => {
-    if (err) res.status(418).send(err);
+    if (err) res.status(500).send(err);
     res.send('removed from database')
   });
 }
 
 checklistController.updateItem = (req, res) => {
   Item.findOneAndUpdate(req.query, req.body, (err, updatedItem) => {
-    if (err) res.status(418).send(err);
+    if (err) res.status(500).send(err);
     res.send('item updated');
   });
 }
 
 export default checklistController;
-// module.exports = checklistController;

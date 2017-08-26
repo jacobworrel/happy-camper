@@ -9,8 +9,10 @@ import webpackConfig from '../webpack.config.dev.js';
 import items from './routes/items';
 import users from './routes/users';
 
-mongoose.connect('mongodb://jacobworrel:mlabpass1@ds143071.mlab.com:43071/camping-gear');
-mongoose.connection.once('open', () => console.log('Connected to Database'));
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://jacobworrel:mlabpass1@ds143071.mlab.com:43071/camping-gear', {
+  useMongoClient: true
+}).then(() => console.log('Connected to Database'));
 
 const app = express();
 const compiler = webpack(webpackConfig);

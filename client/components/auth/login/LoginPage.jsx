@@ -4,23 +4,35 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../actions/auth/authActionCreators';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import LoginForm from './LoginForm';
+import validateLoginInput from '../../../../server/shared/validations/login';
 
 class LoginPage extends React.Component {
 
+  isValid() {
+    const { username, password } = this.props;
+    const { errors, isValid } = validateLoginInput({ username, password });
+    if (!isValid) this.props.updateErrors(errors);
+    return isValid;
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log('in login submit')
-    // if (!this.props.username || !this.props.password) alert('please enter a valid username/password');
-    // else {
-    //   //make post request to server/db
-    //   axios.post('/login', { username: this.props.username,
-    //                          password: this.props.password })
-    //     .then(response => {
-    //       if (!response.data) alert('please enter a valid username/password');
-    //     });
-    // }
+    if (this.isValid()) {
+      this.props.toggleLoading();
+      this.props.updateErrors({});
+      const { username, password } = this.props;
+      this.props.userLoginRequest({ username, password })
+        .then(() => {
+          //authenticate user
+          this.props.authenticate();
+        })
+        .catch((error) => {
+          //display error msg 'invalid username/password'
+          if (error.response) this.props.updateErrors(error.response.data);
+        });
+    }
   }
 
   render() {
@@ -31,13 +43,16 @@ class LoginPage extends React.Component {
           buttonText={'Login'}
           username={this.props.username}
           password={this.props.password}
+          errors={this.props.errors}
           handleSubmit={this.handleSubmit}
           updateField={this.props.updateField}
+          isLoading={this.props.isLoading}
         />
         <span>Don't have an account?</span>
         <span>
           <Link to='/signup'>Sign Up</Link>
         </span>
+        {this.props.isAuthenticated && <Redirect to='/checklist'/>}
       </div>
     );
   }

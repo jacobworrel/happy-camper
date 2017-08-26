@@ -1,25 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import TextFieldGroup from './../TextFieldGroup';
 
 const LoginForm = (props) => {
+  const fields = ['username', 'password'];
+  const labels = ['Username', 'Password'];
+  const textFieldGroups = fields.map((field, i) => {
+    return <TextFieldGroup
+            key={i}
+            label={labels[i]}
+            field={field}
+            updateField={props.updateField}
+            errors={props.errors}
+            value={props[field]} />
+  });
   return (
         <form className='add-form' onSubmit={props.handleSubmit}>
-          <input
-            className="search-bar"
-            type="text"
-            placeholder="username"
-            name="username"
-            value={props.username}
-            onChange={(e) => props.updateField(e.target.name, e.target.value)} />
-          <input
-            className="search-bar"
-            type="text"
-            placeholder="password"
-            name="password"
-            value={props.password}
-            onChange={(e) => props.updateField(e.target.name, e.target.value)} />
+          {textFieldGroups}
           <button>{props.buttonText}</button>
-          {/* <Link to="/checklist"></Link> */}
+          {props.errors.invalid && <span>{props.errors.invalid}</span>}
         </form>
   );
 }

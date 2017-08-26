@@ -1,9 +1,9 @@
 import express from 'express';
-import authController from './../controllers/authController';
+import userController from './../controllers/userController';
 
 let router = express.Router();
 
-router.get('/login', authController.verifyUser);
-router.post('/signup', authController.addUser);
+router.post('/login', userController.authenticateUser);
+router.post('/signup', userController.addUser);
 
 export default router;

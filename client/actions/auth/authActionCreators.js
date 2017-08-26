@@ -15,6 +15,12 @@ export function userSignupRequest(userData) {
   }
 }
 
+export function userLoginRequest(userData) {
+  return (dispatch) => {
+    return axios.post('/users/login', userData);
+  }
+}
+
 export function updateErrors(errors) {
   return {
     type: types.UPDATE_ERRORS,
