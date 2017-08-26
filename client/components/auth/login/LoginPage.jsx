@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../actions/auth/authActionCreators';
@@ -23,15 +22,7 @@ class LoginPage extends React.Component {
       this.props.toggleLoading();
       this.props.updateErrors({});
       const { username, password } = this.props;
-      this.props.userLoginRequest({ username, password })
-        .then(() => {
-          //authenticate user
-          this.props.authenticate();
-        })
-        .catch((error) => {
-          //display error msg 'invalid username/password'
-          if (error.response) this.props.updateErrors(error.response.data);
-        });
+      this.props.userLoginRequest({ username, password });
     }
   }
 

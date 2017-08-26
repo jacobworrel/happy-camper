@@ -9,18 +9,6 @@ export function updateField(field, value) {
   }
 }
 
-export function userSignupRequest(userData) {
-  return (dispatch) => {
-    return axios.post('/users/signup', userData);
-  }
-}
-
-export function userLoginRequest(userData) {
-  return (dispatch) => {
-    return axios.post('/users/login', userData);
-  }
-}
-
 export function updateErrors(errors) {
   return {
     type: types.UPDATE_ERRORS,
@@ -37,5 +25,36 @@ export function toggleLoading() {
 export function authenticate() {
   return {
     type: types.AUTHENTICATE,
+  }
+}
+
+//THUNKS
+export function userSignupRequest(userData) {
+  return (dispatch) => {
+    // make post request to server/db
+    axios.post('/users/signup', userData)
+      .then((response) => {
+        dispatch(authenticate());
+      })
+      .catch((error) => {
+        //enable button again so user can resubmit form if necessary
+        dispatch(toggleLoading());
+        //update redux store with errors
+        if (error.response) dispatch(updateErrors(error.response.data));
+      });
+  }
+}
+
+export function userLoginRequest(userData) {
+  return (dispatch) => {
+    axios.post('/users/login', userData)
+      .then(() => {
+        //authenticate user
+        dispatch(authenticate());
+      })
+      .catch((error) => {
+        //display error msg 'invalid username/password'
+        if (error.response) dispatch(updateErrors(error.response.data));
+      });
   }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../actions/auth/authActionCreators';
@@ -30,15 +29,6 @@ class SignupPage extends React.Component {
       const userData = { username, email, password, passwordConfirmation };
       //make post request to server using redux thunk
       this.props.userSignupRequest(userData)
-      .then((response) => {
-        this.props.authenticate();
-      })
-      .catch((error) => {
-        //enable button again so user can resubmit form if necessary
-        this.props.toggleLoading();
-        //update redux store with errors
-        if (error.response) this.props.updateErrors(error.response.data);
-      });
     }
   }
 

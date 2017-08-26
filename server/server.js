@@ -27,6 +27,9 @@ app.use('/items', items);
 app.use('/users', users);
 
 //catch all to serve index.html file at every route
-app.get('/*', (req, res) => res.sendFile(path.join(__dirname,'./../client/public/index.html')));
+app.get('/*', (req, res) => {
+  console.log('serving index html')
+  res.sendFile(path.join(__dirname,'./../client/public/index.html'))
+});
 
 app.listen(3000);
