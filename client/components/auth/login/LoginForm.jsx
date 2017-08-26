@@ -16,7 +16,7 @@ const LoginForm = (props) => {
   return (
         <form className='add-form' onSubmit={props.handleSubmit}>
           {textFieldGroups}
-          <button>{props.buttonText}</button>
+          <button>Login</button>
           {props.errors.invalid && <span>{props.errors.invalid}</span>}
         </form>
   );

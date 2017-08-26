@@ -47,7 +47,6 @@ class SignupPage extends React.Component {
       <div>
         <h1>Signup</h1>
         <SignupForm
-          buttonText={'Sign Up'}
           username={this.props.username}
           email={this.props.email}
           password={this.props.password}

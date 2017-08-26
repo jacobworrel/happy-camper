@@ -36,25 +36,25 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    return (
-     <div>
-      <h1>Login</h1>
-        <LoginForm
-          buttonText={'Login'}
-          username={this.props.username}
-          password={this.props.password}
-          errors={this.props.errors}
-          handleSubmit={this.handleSubmit}
-          updateField={this.props.updateField}
-          isLoading={this.props.isLoading}
-        />
-        <span>Don't have an account?</span>
-        <span>
-          <Link to='/signup'>Sign Up</Link>
-        </span>
-        {this.props.isAuthenticated && <Redirect to='/checklist'/>}
-      </div>
-    );
+    return this.props.isAuthenticated
+      ? <Redirect to='/checklist'/>
+      : (
+       <div>
+        <h1>Login</h1>
+          <LoginForm
+            username={this.props.username}
+            password={this.props.password}
+            errors={this.props.errors}
+            handleSubmit={this.handleSubmit}
+            updateField={this.props.updateField}
+            isLoading={this.props.isLoading}
+          />
+          <span>Don't have an account?</span>
+          <span>
+            <Link to='/signup'>Sign Up</Link>
+          </span>
+        </div>
+      );
   }
 }
 

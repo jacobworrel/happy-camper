@@ -16,7 +16,7 @@ const SignupForm = (props) => {
   return (
         <form className='add-form' onSubmit={props.handleSubmit}>
           {textFieldGroups}
-          <button disabled={props.isLoading}>{props.buttonText}</button>
+          <button disabled={props.isLoading}>Sign Up</button>
         </form>
   );
 }
