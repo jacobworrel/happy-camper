@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Dropdown from './Dropdown';
 import Checklist from './Checklist';
-import NavBar from './../NavBar';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

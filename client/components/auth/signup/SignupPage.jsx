@@ -33,7 +33,9 @@ class SignupPage extends React.Component {
   }
 
   render() {
-    return (
+    return this.props.isAuthenticated
+      ? <Redirect to='/profile'/>
+      : (
       <div>
         <h1>Signup</h1>
         <SignupForm
@@ -46,7 +48,6 @@ class SignupPage extends React.Component {
           updateField={this.props.updateField}
           isLoading={this.props.isLoading}
         />
-        {this.props.isAuthenticated && <Redirect to='/checklist'/>}
       </div>
     );
   }

@@ -28,7 +28,7 @@ class LoginPage extends React.Component {
 
   render() {
     return this.props.isAuthenticated
-      ? <Redirect to='/checklist'/>
+      ? <Redirect to='/profile'/>
       : (
        <div>
         <h1>Login</h1>
