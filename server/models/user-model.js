@@ -1,12 +1,16 @@
 import mongoose from 'mongoose';
+import { tripSchema } from './trip-model';
 import bcrypt from 'bcryptjs';
+
 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema ({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  trips: [tripSchema],
+  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 });
 
 //must use ES5 function notation here or 'this' context will be undefined

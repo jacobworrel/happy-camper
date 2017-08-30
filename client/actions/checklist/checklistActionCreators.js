@@ -8,12 +8,6 @@ export function populateStore(data) {
   }
 }
 
-export function getData() {
-  return (dispatch) => {
-    return axios.get('/items');
-  }
-}
-
 export function updateInput(value) {
   return {
     type: types.UPDATE_INPUT,
@@ -68,5 +62,33 @@ export function updateItemName(index, category, editing, value) {
     category,
     editing,
     value
+  }
+}
+
+//THUNKS
+
+export function getData() {
+  return (dispatch) => {
+    axios.get('/items')
+      .then((response) => {
+        dispatch(populateStore(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+}
+
+export function postItem(category, item) {
+  return (dispatch) => {
+    axios.post('/items', { category,
+                           name: item })
+      .then((response) => {
+        //update redux store
+        dispatch(addItem(response.data.id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }

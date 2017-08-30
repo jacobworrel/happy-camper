@@ -1,5 +1,5 @@
 const checklistController = {};
-import Item from './../models/item-model.js';
+import { Item } from './../models/item-model';
 
 checklistController.findItems = (obj) => {
   return new Promise((resolve, reject) => {
