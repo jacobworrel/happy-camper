@@ -16,7 +16,7 @@ export default {
   plugins: [
     //hot reloading
     new webpack.HotModuleReplacementPlugin(),
-    //clearn error messages
+    //clean error messages
     new webpack.NoEmitOnErrorsPlugin()
   ],
   module: {
