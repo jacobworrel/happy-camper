@@ -2,16 +2,21 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Dropdown from './Dropdown';
 import Checklist from './Checklist';
+import Button from './../Button';
+import TextInput from './../TextInput';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions/checklist/checklistActionCreators';
+import * as checklistActionCreators from '../../actions/checklist/checklistActionCreators';
+import * as formsActionCreators from '../../actions/forms/formsActionCreators';
+
+const actionCreators = {...checklistActionCreators, ...formsActionCreators };
 
 class ChecklistContainer extends React.Component {
 
   componentDidMount() {
     //get data from server/db and populate redux store
-    this.props.getData();
+    this.props.getChecklistData();
   }
 
   //CHILD COMPONENT EVENT HANDLERS
@@ -28,7 +33,8 @@ class ChecklistContainer extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     //update redux store and make post request to server/db
-    this.props.postItem(this.props.selectedCategory, this.props.itemInput);
+    this.props.postItem(this.props.selectedChecklist, this.props.itemInput);
+    this.props.clearInput('itemInput');
   }
 
   removeItem = (index, category, id) => {
@@ -97,16 +103,16 @@ class ChecklistContainer extends React.Component {
       <div className='checklist-form-container'>
         <form className='checklist-form' onSubmit={this.handleSubmit}>
           <Dropdown
-            updateSelectedCategory={(e) => this.props.updateSelectedCategory(e.target.value)}
+            updateSelectedCategory={(e) => this.props.updateSelectedCategory('selectedChecklist', e.target.value)}
             categories={['Select Category', ...Object.keys(this.props.categories)]}
           />
-          <input
-            className="search-bar"
-            type="text"
-            placeholder="item"
+          <TextInput
+            className='search-bar'
+            placeholder='item'
             value={this.props.itemInput}
-            onChange={(e) => this.props.updateInput(e.target.value)} />
-          <button type="submit">Add item</button>
+            behavior={(e) => this.props.updateInput('itemInput', e.target.value)}
+          />
+          <Button type='submit' className='add-btn' text='Add Item'/>
         </form>
       </div>
       <div className='checklist-container'>
@@ -119,7 +125,11 @@ class ChecklistContainer extends React.Component {
 //makes state.checklists in redux store accessible as props at componenent level
 //called whenever store is updated
 function mapStateToProps(state) {
-  return { ...state.checklists };
+  return {
+    ...state.checklists,
+    itemInput: state.forms.itemInput,
+    selectedChecklist: state.forms.selectedChecklist
+  };
 }
 
 //wraps actionCreators in dispatch() call and merges them into component's props

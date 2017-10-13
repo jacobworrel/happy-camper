@@ -8,14 +8,12 @@ const initialState = {
     Clothing: [],
     Miscellaneous: [],
     Food: []
-  },
-  selectedCategory: '',
-  itemInput: ''
+  }
 };
 
 const checklists = (state = initialState, action) => {
   switch (action.type) {
-    case types.POPULATE_STORE : {
+    case types.POPULATE_CHECKLISTS : {
       const data = action.data;
       const obj = {};
       const categories = Object.keys(data);
@@ -25,24 +23,17 @@ const checklists = (state = initialState, action) => {
       })
       return { ...state, categories: obj };
     }
-    case types.UPDATE_INPUT : {
-      return { ...state, itemInput: action.value };
-    }
-    case types.UPDATE_SELECTED_CATEGORY : {
-      return { ...state, selectedCategory: action.value};
-    }
     case types.ADD_ITEM : {
       //check for invalid input
-      if (!state.itemInput || !state.selectedCategory) {
+      if (!action.itemInput || !action.category) {
         alert('please choose a category and/or enter an item');
         return state;
       }
       const categories = state.categories;
-      const category = state.selectedCategory;
-      const item = { name: state.itemInput, checked: false, editing: false, id: action.id  };
+      const category = action.category;
+      const item = { name: action.itemInput, checked: false, editing: false, id: action.id  };
       return {
         ...state,
-        itemInput: '',
         categories: { ...categories, [category]: [...categories[category], item] }
       }
     }

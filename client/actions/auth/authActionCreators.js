@@ -22,9 +22,10 @@ export function toggleLoading() {
   }
 }
 
-export function authenticate() {
+export function authenticate(id) {
   return {
     type: types.AUTHENTICATE,
+    id
   }
 }
 
@@ -35,6 +36,7 @@ export function userSignupRequest(userData) {
     // make post request to server/db
     axios.post('/users/signup', userData)
       .then((response) => {
+        //grab id here
         dispatch(authenticate());
       })
       .catch((error) => {
@@ -49,9 +51,9 @@ export function userSignupRequest(userData) {
 export function userLoginRequest(userData) {
   return (dispatch) => {
     axios.post('/users/login', userData)
-      .then(() => {
+      .then((res) => {
         //authenticate user
-        dispatch(authenticate());
+        dispatch(authenticate(res.data._id));
       })
       .catch((error) => {
         //display error msg 'invalid username/password'

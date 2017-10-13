@@ -1,5 +1,6 @@
 import React from 'react';
 import ItemText from './ItemText';
+import Button from './../Button';
 
 const Item = (props) => {
   const checked = props.item.checked;
@@ -19,9 +20,11 @@ const Item = (props) => {
         handleBlur={props.handleBlur}
         handleKeyPress={props.handleKeyPress}
       />
-      <button
+      <Button
         className='delete-btn'
-        onClick={() => props.removeItem(props.index, props.category, props.item.id)}>delete</button>
+        behavior={() => props.removeItem(props.index, props.category, props.item.id)}
+        text='delete'
+      />
     </li>
  );
 }
