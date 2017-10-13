@@ -14,12 +14,14 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
-        <Route exact path='/' component={ProfilePage}/>
-        <Route path='/profile' component={NavBar}/>
-        <Route exact path='/profile' component={ProfilePage}/>
-        <Route exact path='/profile/checklist' component={ChecklistContainer}/>
-        <Route path='/signup' component={SignupPage}/>
-        <Route path='/login' component={LoginPage}/>
+        {/* remove this for real app */}
+        <Route exact path='/' component={ChecklistContainer}/>
+        {/* <Route exact path='/' component={ProfilePage}/> */}
+        {/* <Route path='/profile' component={NavBar}/> */}
+        {/* <Route exact path='/profile' component={ProfilePage}/> */}
+        {/* <Route exact path='/profile/checklist' component={ChecklistContainer}/> */}
+        {/* <Route path='/signup' component={SignupPage}/> */}
+        {/* <Route path='/login' component={LoginPage}/> */}
       </div>
     </Router>
   </Provider>

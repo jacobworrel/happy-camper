@@ -28,6 +28,7 @@ checklistController.getChecklists = (req, res) => {
         return [...a, { name: c.name, checked: c.checked, id: c._id }];
       }, []);
     })
+    console.log('payload -->', payload)
     res.json(payload);
   }).catch((err) => {
     res.status(500).send(err);

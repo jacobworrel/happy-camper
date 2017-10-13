@@ -85,11 +85,11 @@ class ChecklistContainer extends React.Component {
   }
 
   render() {
-    const checklists = Object.keys(this.props.categories).map((category, i) => {
+    const checklists = Object.keys(this.props.checklists).map((category, i) => {
       return <Checklist
                         key={i}
                         className='checklist'
-                        items={this.props.categories[category]}
+                        items={this.props.checklists[category]}
                         category={category}
                         removeItem={this.removeItem}
                         markAsChecked={this.markAsChecked}
@@ -104,7 +104,7 @@ class ChecklistContainer extends React.Component {
         <form className='checklist-form' onSubmit={this.handleSubmit}>
           <Dropdown
             updateSelectedCategory={(e) => this.props.updateSelectedCategory('selectedChecklist', e.target.value)}
-            categories={['Select Category', ...Object.keys(this.props.categories)]}
+            categories={['Select Category', ...Object.keys(this.props.checklists)]}
           />
           <TextInput
             className='search-bar'
@@ -126,7 +126,7 @@ class ChecklistContainer extends React.Component {
 //called whenever store is updated
 function mapStateToProps(state) {
   return {
-    ...state.checklists,
+    checklists: state.checklists,
     itemInput: state.forms.itemInput,
     selectedChecklist: state.forms.selectedChecklist
   };
