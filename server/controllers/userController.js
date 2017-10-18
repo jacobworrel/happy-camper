@@ -20,15 +20,12 @@ userController.authenticateUser = (req, res) => {
 }
 
 userController.addUser = (req, res) => {
-  console.log('in add user')
   const { errors, isValid } = validateSignupInput(req.body);
   if (isValid) {
-    console.log('is valid')
     const { username, email, password } = req.body;
     const user = new User({ username, email, password });
     user.save((err) => {
-      console.log('in save')
-      if (err) res.status(500).send('ERROR');
+      if (err) res.status(500).send(err);
       res.send(user);
     });
   }

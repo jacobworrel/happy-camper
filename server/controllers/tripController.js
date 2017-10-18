@@ -24,7 +24,7 @@ tripController.addTrip = (req, res) => {
   trip.users.push(mongoose.Types.ObjectId(userId));
   trip.save((err) => {
     if (err) res.status(500).send(err);
-    res.send('trip saved to db!');
+    res.send(trip);
   })
 }
 

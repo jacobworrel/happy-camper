@@ -8,13 +8,33 @@ export function populateTrips(data) {
   }
 }
 
+export function addTrip(trip) {
+  console.log('trip -->', trip)
+  return {
+    type: types.ADD_TRIP,
+    trip
+  }
+}
+
 //THUNKS
 
-export function getTrips(username) {
+export function getTrips(userId) {
   return (dispatch) => {
-    axios.get(`/trips/${username}`)
+    axios.get(`/trips/${userId}`)
       .then((response) => {
         dispatch(populateTrips(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+}
+
+export function postTrip(tripName, userId) {
+  return (dispatch) => {
+    axios.post('/trips', { tripName, userId })
+      .then((response) => {
+        dispatch(addTrip(response.data));
       })
       .catch((error) => {
         console.log(error);

@@ -13,28 +13,39 @@ const actionCreators = {...tripsActionCreators, updateInput };
 class ProfilePage extends React.Component {
 
   componentDidMount() {
-    this.props.getTrips(this.props.username);
+    this.props.getTrips(this.props.userId);
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.postTrip(this.props.tripInput, this.props.userId);
   }
 
   render() {
     const trips = this.props.trips.map((trip) => (
-      <li>{trip.name}</li>
+      <li>{trip.tripName}</li>
     ))
     return !this.props.isAuthenticated
       ? <Redirect to='/login'/>
       : (
         <div>
           <h1>Profile Page</h1>
-          <h2>Upcoming Trips:</h2>
-          <TextInput
-            className='search-bar'
-            type='text'
-            placeholder='Trip Name'
-            value={this.props.tripInput}
-            behavior={(e) => this.props.updateInput('tripInput', e.target.value)}
-          />
+          <form onSubmit={this.handleSubmit}>
+            <TextInput
+              className='search-bar'
+              type='text'
+              placeholder='Trip Name'
+              value={this.props.tripInput}
+              behavior={(e) => this.props.updateInput('tripInput', e.target.value)}
+            />
 
-          <Button text='Add Trip' className='add-btn' />
+            <Button
+              text='Add Trip'
+              className='add-btn'
+              type='submit'
+            />
+          </form>
+          <h4>Upcoming Trips:</h4>
           <ul>
             {trips}
           </ul>

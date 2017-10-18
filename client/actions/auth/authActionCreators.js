@@ -36,7 +36,7 @@ export function userSignupRequest(userData) {
     // make post request to server/db
     axios.post('/users/signup', userData)
       .then((res) => {
-        dispatch(authenticate());
+        dispatch(authenticate(res.data._id));
       })
       .catch((error) => {
         //enable button again so user can resubmit form if necessary
