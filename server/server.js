@@ -8,6 +8,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../webpack.config.dev.js';
 import items from './routes/items';
 import users from './routes/users';
+import trips from './routes/trips';
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://jacobworrel:mlabpass1@ds143071.mlab.com:43071/camping-gear', {
@@ -25,6 +26,7 @@ app.use(webpackHotMiddleware(compiler));
 app.use(bodyParser.json());
 app.use('/items', items);
 app.use('/users', users);
+app.use('/trips', trips);
 
 //catch all to serve index.html file at every route
 app.get('/*', (req, res) => {

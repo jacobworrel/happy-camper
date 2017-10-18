@@ -26,7 +26,7 @@ userController.addUser = (req, res) => {
     const user = new User({ username, email, password });
     user.save((err) => {
       if (err) res.status(500).send(err);
-      res.send('user saved in db');
+      res.send(user);
     });
   }
   else res.status(400).json(errors);

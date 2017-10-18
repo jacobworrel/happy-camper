@@ -1,4 +1,5 @@
 const checklistController = {};
+import { User } from './../models/user-model';
 import { Item } from './../models/item-model';
 
 checklistController.findItems = (obj) => {
@@ -9,6 +10,12 @@ checklistController.findItems = (obj) => {
     });
   });
 }
+
+// checklistController.getChecklists = (req, res) => {
+//   //need username to find user
+//   User.find()
+//   //need trip name to find trip
+// }
 
 checklistController.getChecklists = (req, res) => {
   const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];

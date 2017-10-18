@@ -3,29 +3,17 @@ import axios from 'axios';
 
 export function populateStore(data) {
   return {
-    type: types.POPULATE_STORE,
+    type: types.POPULATE_CHECKLISTS,
     data
   }
 }
 
-export function updateInput(value) {
-  return {
-    type: types.UPDATE_INPUT,
-    value
-  }
-}
-
-export function updateSelectedCategory(value) {
-  return {
-    type: types.UPDATE_SELECTED_CATEGORY,
-    value
-  }
-}
-
-export function addItem(id) {
+export function addItem(id, itemInput, category) {
   return {
     type: types.ADD_ITEM,
-    id
+    id,
+    itemInput,
+    category
   }
 }
 
@@ -67,7 +55,7 @@ export function updateItemName(index, category, editing, value) {
 
 //THUNKS
 
-export function getData() {
+export function getChecklistData() {
   return (dispatch) => {
     axios.get('/items')
       .then((response) => {
@@ -85,7 +73,7 @@ export function postItem(category, item) {
                            name: item })
       .then((response) => {
         //update redux store
-        dispatch(addItem(response.data.id));
+        dispatch(addItem(response.data.id, item, category));
       })
       .catch((error) => {
         console.log(error);

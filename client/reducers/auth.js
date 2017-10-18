@@ -2,6 +2,7 @@ import * as types from './../actions/auth/authActionTypes';
 
 const initialState = {
   username: '',
+  userId: '',
   email: '',
   password: '',
   passwordConfirmation: '',
@@ -22,7 +23,7 @@ const auth = (state = initialState, action) => {
       return { ...state, isLoading: !state.isLoading }
     }
     case types.AUTHENTICATE : {
-      return { ...state, isAuthenticated: true }
+      return { ...state, isAuthenticated: true, userId: action.id }
     }
     default:
       return state;
