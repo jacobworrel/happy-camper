@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { tripSchema } from './trip-model';
 import bcrypt from 'bcryptjs';
 
 
@@ -9,7 +8,6 @@ const userSchema = new Schema ({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  trips: [tripSchema],
   friends: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 });
 

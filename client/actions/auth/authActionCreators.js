@@ -35,8 +35,7 @@ export function userSignupRequest(userData) {
   return (dispatch) => {
     // make post request to server/db
     axios.post('/users/signup', userData)
-      .then((response) => {
-        //grab id here
+      .then((res) => {
         dispatch(authenticate());
       })
       .catch((error) => {
