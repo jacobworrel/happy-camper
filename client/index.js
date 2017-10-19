@@ -8,7 +8,7 @@ import ProfilePage from './components/profile/ProfilePage';
 import ChecklistContainer from './components/checklist/ChecklistContainer';
 import LoginPage from './components/auth/login/LoginPage';
 import SignupPage from './components/auth/signup/SignupPage';
-import styles from './public/styles.css';
+import './styles.css';
 
 ReactDOM.render(
   <Provider store={store}>

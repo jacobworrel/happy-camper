@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as checklistActionCreators from '../../actions/checklist/checklistActionCreators';
 import * as formsActionCreators from '../../actions/forms/formsActionCreators';
+import styles from './ChecklistContainer.css';
 
 const actionCreators = {...checklistActionCreators, ...formsActionCreators };
 
@@ -100,14 +101,14 @@ class ChecklistContainer extends React.Component {
     });
     return (
      <div>
-      <div className='checklist-form-container'>
-        <form className='checklist-form' onSubmit={this.handleSubmit}>
+      <div className={styles.formContainer}>
+        <form className={styles.form} onSubmit={this.handleSubmit}>
           <Dropdown
             updateSelectedCategory={(e) => this.props.updateSelectedCategory('selectedChecklist', e.target.value)}
             categories={['Select Category', ...Object.keys(this.props.checklists)]}
           />
           <TextInput
-            className='search-bar'
+            className={styles.textInput}
             placeholder='item'
             value={this.props.itemInput}
             behavior={(e) => this.props.updateInput('itemInput', e.target.value)}
@@ -115,7 +116,7 @@ class ChecklistContainer extends React.Component {
           <Button type='submit' className='add-btn' text='Add Item'/>
         </form>
       </div>
-      <div className='checklist-container'>
+      <div className={styles.container}>
         {checklists}
       </div>
     </div>);

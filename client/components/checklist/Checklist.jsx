@@ -1,5 +1,6 @@
 import React from 'react';
-import Item from './Item'
+import Item from './Item';
+import styles from './Checklist.css';
 
 const Checklist = (props) => {
   const items = props.items.map((item, i) => {
@@ -16,7 +17,7 @@ const Checklist = (props) => {
             />
   });
   return (
-    <ul>
+    <ul className={styles.container}>
       <h3>{props.category}:</h3>
       {items}
     </ul>

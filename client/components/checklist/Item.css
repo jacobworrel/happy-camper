@@ -1,0 +1,17 @@
+
+.item {
+  margin: 5px;
+}
+
+.delete {
+  margin-left: 10px;
+  float: right;
+}
+
+.checkbox {
+    width:15px;
+    height:15px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+}

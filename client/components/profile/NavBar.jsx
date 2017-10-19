@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import styles from './NavBar.css';
 
 const NavBar = (props) => {
   return (
-    <div className='nav-container'>
-      <NavLink to='/profile' className='nav-link'>Profile</NavLink>
-      {/* <NavLink to='/profile' className='nav-link'><img src="./assets/logo.jpg" height="67.5" width="85" /></NavLink> */}
-      <NavLink to={'/profile/checklist'} className='nav-link'>Checklists</NavLink>
-      <NavLink to='/profile/map' className='nav-link'>Map</NavLink>
-      <NavLink to='/profile/itinerary' className='nav-link'>Itinerary</NavLink>
+    <div className={styles.container}>
+      <NavLink to='/profile' className={styles.link}>Profile</NavLink>
+      <NavLink to={'/profile/checklist'} className={styles.link}>Checklists</NavLink>
+      <NavLink to='/profile/map' className={styles.link}>Map</NavLink>
+      <NavLink to='/profile/itinerary' className={styles.link}>Itinerary</NavLink>
     </div>
   )
 }

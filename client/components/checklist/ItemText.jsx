@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './ItemText.css';
 
 const ItemText = (props) => {
   if (props.item.editing) {
@@ -14,7 +15,7 @@ const ItemText = (props) => {
   }
   else {
     return (
-      <span className='item-name' onClick={() => props.toggleEditing(props.index, props.category, props.item.editing)}>{props.item.name}</span>
+      <span className={styles.name} onClick={() => props.toggleEditing(props.index, props.category, props.item.editing)}>{props.item.name}</span>
     );
   }
 }

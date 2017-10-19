@@ -1,12 +1,14 @@
 import React from 'react';
 import ItemText from './ItemText';
 import Button from './../Button';
+import styles from './Item.css';
 
 const Item = (props) => {
   const checked = props.item.checked;
   return (
-    <li className='item'>
+    <li className={styles.item}>
       <input
+        className={styles.checkbox}
         type='checkbox'
         checked={checked}
         onChange={(e) => props.markAsChecked(props.index, props.category, props.item.id, e)}
@@ -21,7 +23,7 @@ const Item = (props) => {
         handleKeyPress={props.handleKeyPress}
       />
       <Button
-        className='delete-btn'
+        className={styles.delete}
         behavior={() => props.removeItem(props.index, props.category, props.item.id)}
         text='delete'
       />
