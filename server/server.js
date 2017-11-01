@@ -1,14 +1,14 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import path from 'path';
-import mongoose from 'mongoose';
-import webpack from 'webpack';
-import webpackMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../webpack.config.dev.js';
-import items from './routes/items';
-import users from './routes/users';
-import trips from './routes/trips';
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const mongoose = require('mongoose');
+const webpack = require('webpack');
+const webpackMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackConfig = require('../webpack.config.dev.js');
+const items = require('./routes/items');
+const users = require('./routes/users');
+const trips = require('./routes/trips');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://jacobworrel:mlabpass1@ds143071.mlab.com:43071/camping-gear', {

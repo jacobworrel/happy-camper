@@ -1,5 +1,5 @@
-import express from 'express';
-import checklistController from './../controllers/checklistController';
+const express = require('express');
+const checklistController = require('./../controllers/checklistController');
 
 let router = express.Router();
 
@@ -8,4 +8,4 @@ router.post('/', checklistController.addItem);
 router.delete('/', checklistController.deleteItem);
 router.patch('/', checklistController.updateItem);
 
-export default router;
+module.exports = router;

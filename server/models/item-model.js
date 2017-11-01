@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-export const itemSchema = new Schema ({
+const itemSchema = new Schema ({
   category: { type: String, required: true },
   name: { type: String, required: true },
   checked: { type: Boolean, default: false },
   owner: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
-export const Item = mongoose.model('Item', itemSchema);
+module.exports = mongoose.model('Item', itemSchema);

@@ -1,7 +1,7 @@
 const checklistController = {};
-import mongoose from 'mongoose';
-import User from './../models/user-model';
-import { Item } from './../models/item-model';
+const mongoose = require('mongoose');
+const User = require('./../models/user-model');
+const Item = require('./../models/item-model');
 
 checklistController.findItems = (query) => {
   return new Promise((resolve, reject) => {
@@ -63,4 +63,4 @@ checklistController.updateItem = (req, res) => {
   });
 }
 
-export default checklistController;
+module.exports = checklistController;
