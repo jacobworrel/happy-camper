@@ -34,7 +34,7 @@ class ChecklistContainer extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     //update redux store and make post request to server/db
-    this.props.postItem(this.props.selectedChecklist, this.props.itemInput);
+    this.props.postItem(this.props.selectedChecklist, this.props.itemInput, this.props.userId, this.props.username);
     this.props.clearInput('itemInput');
   }
 
@@ -129,7 +129,9 @@ function mapStateToProps(state) {
   return {
     checklists: state.checklists,
     itemInput: state.forms.itemInput,
-    selectedChecklist: state.forms.selectedChecklist
+    selectedChecklist: state.forms.selectedChecklist,
+    userId: state.auth.userId,
+    username: state.auth.username
   };
 }
 

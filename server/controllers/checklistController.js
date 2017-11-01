@@ -1,44 +1,48 @@
 const checklistController = {};
-import { User } from './../models/user-model';
+import mongoose from 'mongoose';
+import User from './../models/user-model';
 import { Item } from './../models/item-model';
 
-checklistController.findItems = (obj) => {
+checklistController.findItems = (query) => {
   return new Promise((resolve, reject) => {
-    Item.find(obj, (err, items) => {
+    Item.find(query)
+    // populate the owner field with the username property from the user object it is referencing
+    .populate('owner', 'username')
+    .exec((err, items) => {
+      if (err) reject(err);
       resolve(items);
-      reject(err);
     });
   });
 }
-
-// checklistController.getChecklists = (req, res) => {
-//   //need username to find user
-//   User.find()
-//   //need trip name to find trip
-// }
 
 checklistController.getChecklists = (req, res) => {
   const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];
   const promises = categories.map((category) => checklistController.findItems({ category }));
   Promise.all(promises)
-  .then((checklists) => {
-    const payload = {};
-    checklists.forEach((checklist, i) => {
-      payload[categories[i]] = checklist.reduce((a, c) => {
-        return [...a, { name: c.name, checked: c.checked, id: c._id }];
-      }, []);
+    .then((checklists) => {
+      const payload = {};
+      checklists.forEach((checklist, i) => {
+        payload[categories[i]] = checklist.reduce((a, c) => {
+          return [...a, { name: c.name, checked: c.checked, id: c._id, owner: c.owner.username }];
+        }, []);
+      })
+      res.json(payload);
+    }).catch((err) => {
+      res.status(500).send(err);
     })
-    res.json(payload);
-  }).catch((err) => {
-    res.status(500).send(err);
-  })
 }
 
 checklistController.addItem = (req, res) => {
+  const { category, name, userId } = req.body;
   if (!req.body.category || !req.body.name) {
     res.send('please enter an item');
   } else {
-    Item.create(req.body, (err, item) => {
+    const item = new Item();
+    item.category = category;
+    item.name = name;
+    // add reference to user in owner field using userId obtained from the client
+    item.owner = mongoose.Types.ObjectId(userId);
+    item.save((err) => {
       if (err) res.status(500).send(err);
       res.send({ id: item._id })
     });

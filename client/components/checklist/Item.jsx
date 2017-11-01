@@ -22,6 +22,7 @@ const Item = (props) => {
         handleBlur={props.handleBlur}
         handleKeyPress={props.handleKeyPress}
       />
+      <span> ({props.item.owner})</span>
       <Button
         className={styles.delete}
         behavior={() => props.removeItem(props.index, props.category, props.item.id)}

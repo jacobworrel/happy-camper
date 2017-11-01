@@ -15,7 +15,7 @@ ReactDOM.render(
     <Router>
       <div>
         <Route exact path='/' component={ProfilePage}/>
-        <Route path='/profile' component={NavBar}/>
+        <Route exact path='/profile' component={NavBar}/>
         <Route exact path='/profile' component={ProfilePage}/>
         <Route exact path='/profile/checklist' component={ChecklistContainer}/>
         <Route path='/signup' component={SignupPage}/>

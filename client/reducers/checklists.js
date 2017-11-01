@@ -32,7 +32,8 @@ const checklists = (state = initialState, action) => {
         name: action.itemInput,
         checked: false,
         editing: false,
-        id: action.id
+        id: action.id,
+        owner: action.username
       }
       return {
         ...state,

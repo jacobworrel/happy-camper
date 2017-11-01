@@ -8,12 +8,13 @@ export function populateStore(data) {
   }
 }
 
-export function addItem(id, itemInput, category) {
+export function addItem(id, itemInput, category, username) {
   return {
     type: types.ADD_ITEM,
     id,
     itemInput,
-    category
+    category,
+    username
   }
 }
 
@@ -67,13 +68,15 @@ export function getChecklistData() {
   }
 }
 
-export function postItem(category, item) {
+export function postItem(category, item, userId, username) {
   return (dispatch) => {
     axios.post('/items', { category,
-                           name: item })
+                           name: item,
+                           userId
+                         })
       .then((response) => {
         //update redux store
-        dispatch(addItem(response.data.id, item, category));
+        dispatch(addItem(response.data.id, item, category, username));
       })
       .catch((error) => {
         console.log(error);
