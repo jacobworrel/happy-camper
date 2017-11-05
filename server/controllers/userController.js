@@ -1,7 +1,7 @@
 const userController = {};
-import User from './../models/user-model.js';
-import validateSignupInput from '../shared/validations/signup';
-import validateLoginInput from '../shared/validations/login';
+const User = require('./../models/user-model.js');
+const validateSignupInput = require('../shared/validations/signup');
+const validateLoginInput = require('../shared/validations/login');
 
 userController.authenticateUser = (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
@@ -32,4 +32,4 @@ userController.addUser = (req, res) => {
   else res.status(400).json(errors);
 }
 
-export default userController;
+module.exports = userController;

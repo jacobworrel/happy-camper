@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
-import User from './../models/user-model.js';
-import { Trip } from './../models/trip-model';
+const mongoose = require('mongoose');
+const User = require('./../models/user-model.js');
+const Trip = require('./../models/trip-model');
 const tripController = {};
 
 
@@ -36,4 +36,4 @@ tripController.updateTrip = (req, res) => {
   console.log('works');
 }
 
-export default tripController;
+module.exports = tripController;

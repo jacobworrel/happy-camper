@@ -1,5 +1,5 @@
-import validator from 'validator';
-import isEmpty from 'lodash/isEmpty';
+const validator = require('validator');
+const isEmpty = require('lodash/isEmpty');
 
 const validateLoginInput = (data) => {
   let errors = {};
@@ -17,4 +17,4 @@ const validateLoginInput = (data) => {
   }
 }
 
-export default validateLoginInput;
+module.exports = validateLoginInput;

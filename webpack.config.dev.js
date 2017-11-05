@@ -1,7 +1,7 @@
-import path from 'path';
-import webpack from 'webpack';
+const path = require('path');
+const webpack = require('webpack');
 
-export default {
+module.exports = {
   //creates source map viewable in sources tab in browser
   devtool: 'source-map',
   entry: [
