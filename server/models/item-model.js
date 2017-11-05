@@ -5,7 +5,7 @@ export const itemSchema = new Schema ({
   category: { type: String, required: true },
   name: { type: String, required: true },
   checked: { type: Boolean, default: false },
-  owner: { type: Schema.Types.ObjectId, ref: 'User' }
+  owner: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
 export const Item = mongoose.model('Item', itemSchema);
