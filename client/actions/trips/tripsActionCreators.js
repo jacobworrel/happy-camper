@@ -9,10 +9,16 @@ export function populateTrips(data) {
 }
 
 export function addTrip(trip) {
-  console.log('trip -->', trip)
   return {
     type: types.ADD_TRIP,
     trip
+  }
+}
+
+export function updateSelectedTrip(selectedTrip) {
+  return {
+    type: types.UPDATE_SELECTED_TRIP,
+    selectedTrip
   }
 }
 

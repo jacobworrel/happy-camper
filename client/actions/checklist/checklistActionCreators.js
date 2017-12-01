@@ -56,9 +56,9 @@ export function updateItemName(index, category, editing, value) {
 
 //THUNKS
 
-export function getChecklistData() {
+export function getChecklistData(selectedTrip) {
   return (dispatch) => {
-    axios.get('/items')
+    axios.get(`/items/${selectedTrip}`)
       .then((response) => {
         dispatch(populateStore(response.data));
       })
@@ -68,9 +68,10 @@ export function getChecklistData() {
   }
 }
 
-export function postItem(category, item, userId, username) {
+export function postItem(tripId, category, item, userId, username) {
   return (dispatch) => {
-    axios.post('/items', { category,
+    axios.post('/items', { tripId,
+                           category,
                            name: item,
                            userId
                          })

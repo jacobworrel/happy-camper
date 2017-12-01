@@ -17,7 +17,7 @@ class ChecklistContainer extends React.Component {
 
   componentDidMount() {
     //get data from server/db and populate redux store
-    this.props.getChecklistData();
+    this.props.getChecklistData(this.props.selectedTrip);
   }
 
   //CHILD COMPONENT EVENT HANDLERS
@@ -34,7 +34,8 @@ class ChecklistContainer extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     //update redux store and make post request to server/db
-    this.props.postItem(this.props.selectedChecklist, this.props.itemInput, this.props.userId, this.props.username);
+    const { selectedChecklist, selectedTrip, itemInput, userId, username } = this.props;
+    this.props.postItem(selectedTrip, selectedChecklist, itemInput, userId, username);
     this.props.clearInput('itemInput');
   }
 
@@ -131,7 +132,8 @@ function mapStateToProps(state) {
     itemInput: state.forms.itemInput,
     selectedChecklist: state.forms.selectedChecklist,
     userId: state.auth.userId,
-    username: state.auth.username
+    username: state.auth.username,
+    selectedTrip: state.trips.selectedTrip
   };
 }
 

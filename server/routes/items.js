@@ -3,7 +3,7 @@ const checklistController = require('./../controllers/checklistController');
 
 let router = express.Router();
 
-router.get('/', checklistController.getChecklists);
+router.get('/:tripId', checklistController.getChecklists);
 router.post('/', checklistController.addItem);
 router.delete('/', checklistController.deleteItem);
 router.patch('/', checklistController.updateItem);

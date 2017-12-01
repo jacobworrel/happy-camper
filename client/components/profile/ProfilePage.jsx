@@ -7,6 +7,7 @@ import { updateInput } from '../../actions/forms/formsActionCreators';
 import { Redirect } from 'react-router-dom';
 import Button from './../Button';
 import TextInput from './../TextInput';
+import Trip from './Trip';
 
 const actionCreators = {...tripsActionCreators, updateInput };
 
@@ -22,8 +23,12 @@ class ProfilePage extends React.Component {
   }
 
   render() {
-    const trips = this.props.trips.map((trip) => (
-      <li>{trip.tripName}</li>
+    const trips = this.props.trips.map(trip => (
+      <Trip
+        tripName={trip.tripName}
+        tripId={trip._id}
+        updateSelectedTrip={this.props.updateSelectedTrip}
+      />
     ))
     return !this.props.isAuthenticated
       ? <Redirect to='/login'/>
@@ -59,7 +64,7 @@ function mapStateToProps(state) {
     isAuthenticated: state.auth.isAuthenticated,
     userId: state.auth.userId,
     username: state.auth.username,
-    trips: [...state.trips],
+    trips: [...state.trips.trips],
     tripInput: state.forms.tripInput
   };
 }
