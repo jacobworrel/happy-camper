@@ -79,8 +79,9 @@ class ChecklistContainer extends React.Component {
       });
   }
 
-  deleteItem(id) {
-    axios.delete('/items', { params: { _id: id }})
+  deleteItem(_id) {
+    const { selectedTrip } = this.props;
+    axios.delete('/items', { data: { _id, selectedTrip }})
       .then(response => {
         console.log(response.data);
       });

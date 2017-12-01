@@ -1,7 +1,7 @@
 const checklistController = {};
 const mongoose = require('mongoose');
 const User = require('./../models/user-model');
-const { Item } = require('./../models/item-model');
+const Item = require('./../models/item-model');
 const Trip = require('./../models/trip-model');
 
 // checklistController.findItems = (query) => {
@@ -67,9 +67,14 @@ checklistController.addItem = (req, res) => {
 }
 
 checklistController.deleteItem = (req, res) => {
-  Item.remove(req.query, (err) => {
+  const { _id, selectedTrip } = req.body;
+  Item.remove({ _id }, (err) => {
     if (err) res.status(500).send(err);
     res.send('removed from database')
+  });
+  Trip.findById(selectedTrip, (err, trip) => {
+    trip.checklist.pull({ _id });
+    trip.save(err => console.log('removed item from trip model'));
   });
 }
 
