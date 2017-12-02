@@ -11,7 +11,7 @@ const userSchema = new Schema({
   friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });
 
-// must use ES5 function notation here or 'this' context will be undefined
+// WARNING! must use ES5 function notation here or 'this' context will be undefined
 userSchema.pre('save', function(next) {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return next(err);
@@ -23,7 +23,7 @@ userSchema.pre('save', function(next) {
   });
 });
 
-// must use ES5 function notation or 'this' context will be undefined
+// WARNING! must use ES5 function notation or 'this' context will be undefined
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, (err, authenticated) => {
     if (err) return callback(err);

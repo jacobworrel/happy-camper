@@ -20,7 +20,7 @@ const compiler = webpack(webpackConfig);
 app.use(webpackMiddleware(compiler, {
   hot: true,
   publicPath: webpackConfig.output.publicPath,
-  noInfo: true
+  noInfo: true,
 }));
 app.use(webpackHotMiddleware(compiler));
 app.use(bodyParser.json());
@@ -28,10 +28,10 @@ app.use('/items', items);
 app.use('/users', users);
 app.use('/trips', trips);
 
-//catch all to serve index.html file at every route
+// catch all to serve index.html file at every route
 app.get('/*', (req, res) => {
   console.log('serving index html')
-  res.sendFile(path.join(__dirname,'./../client/public/index.html'))
+  res.sendFile(path.join(__dirname, './../client/public/index.html'));
 });
 
 app.listen(3000);

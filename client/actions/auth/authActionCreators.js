@@ -1,35 +1,35 @@
-import * as types from './authActionTypes';
 import axios from 'axios';
+import * as types from './authActionTypes';
 
 export function updateField(field, value) {
   return {
     type: types.UPDATE_FIELD,
     field,
-    value
-  }
+    value,
+  };
 }
 
 export function updateErrors(errors) {
   return {
     type: types.UPDATE_ERRORS,
-    errors
-  }
+    errors,
+  };
 }
 
 export function toggleLoading() {
   return {
-    type: types.TOGGLE_LOADING
-  }
+    type: types.TOGGLE_LOADING,
+  };
 }
 
 export function authenticate(id) {
   return {
     type: types.AUTHENTICATE,
-    id
-  }
+    id,
+  };
 }
 
-//THUNKS
+// THUNKS
 
 export function userSignupRequest(userData) {
   return (dispatch) => {
@@ -39,24 +39,24 @@ export function userSignupRequest(userData) {
         dispatch(authenticate(res.data._id));
       })
       .catch((error) => {
-        //enable button again so user can resubmit form if necessary
+        // enable button again so user can resubmit form if necessary
         dispatch(toggleLoading());
-        //update redux store with errors
+        // update redux store with errors
         if (error.response) dispatch(updateErrors(error.response.data));
       });
-  }
+  };
 }
 
 export function userLoginRequest(userData) {
   return (dispatch) => {
     axios.post('/users/login', userData)
       .then((res) => {
-        //authenticate user
+        // authenticate user
         dispatch(authenticate(res.data._id));
       })
       .catch((error) => {
-        //display error msg 'invalid username/password'
+        // display error msg 'invalid username/password'
         if (error.response) dispatch(updateErrors(error.response.data));
       });
-  }
+  };
 }

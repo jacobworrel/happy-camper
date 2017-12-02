@@ -1,7 +1,8 @@
-const checklistController = {};
 const mongoose = require('mongoose');
 const Item = require('./../models/item-model');
 const Trip = require('./../models/trip-model');
+
+const checklistController = {};
 
 // checklistController.findItems = (query) => {
 //   return new Promise((resolve, reject) => {

@@ -16,6 +16,7 @@ const actionCreators = {...checklistActionCreators, ...formsActionCreators };
 class ChecklistContainer extends React.Component {
 
   componentDidMount() {
+    console.log('component did mount (checklist)')
     //get data from server/db and populate redux store
     this.props.getChecklistData(this.props.selectedTrip);
   }

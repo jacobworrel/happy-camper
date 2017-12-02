@@ -1,28 +1,28 @@
-import * as types from './tripsActionTypes';
 import axios from 'axios';
+import * as types from './tripsActionTypes';
 
 export function populateTrips(data) {
   return {
     type: types.POPULATE_TRIPS,
-    data
-  }
+    data,
+  };
 }
 
 export function addTrip(trip) {
   return {
     type: types.ADD_TRIP,
-    trip
-  }
+    trip,
+  };
 }
 
 export function updateSelectedTrip(selectedTrip) {
   return {
     type: types.UPDATE_SELECTED_TRIP,
-    selectedTrip
-  }
+    selectedTrip,
+  };
 }
 
-//THUNKS
+// THUNKS
 
 export function getTrips(userId) {
   return (dispatch) => {
@@ -33,7 +33,7 @@ export function getTrips(userId) {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 }
 
 export function postTrip(tripName, userId) {
@@ -45,5 +45,5 @@ export function postTrip(tripName, userId) {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 }

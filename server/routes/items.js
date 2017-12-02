@@ -1,7 +1,7 @@
 const express = require('express');
 const checklistController = require('./../controllers/checklistController');
 
-let router = express.Router();
+const router = express.Router();
 
 router.get('/:tripId', checklistController.getChecklists);
 router.post('/', checklistController.addItem);

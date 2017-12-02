@@ -14,7 +14,11 @@ const actionCreators = {...tripsActionCreators, updateInput };
 class ProfilePage extends React.Component {
 
   componentDidMount() {
-    this.props.getTrips(this.props.userId);
+    // only fetch trips once userId comes back from server
+    // without this check, userId will be an empty string and server will respond with index.html
+    if (this.props.userId) {
+      this.props.getTrips(this.props.userId);
+    }
   }
 
   handleSubmit = (e) => {
@@ -23,13 +27,15 @@ class ProfilePage extends React.Component {
   }
 
   render() {
+    console.log(this.props.trips)
     const trips = this.props.trips.map(trip => (
       <Trip
+        key={trip._id}
         tripName={trip.tripName}
         tripId={trip._id}
         updateSelectedTrip={this.props.updateSelectedTrip}
       />
-    ))
+    ));
     return !this.props.isAuthenticated
       ? <Redirect to='/login'/>
       : (
@@ -64,7 +70,7 @@ function mapStateToProps(state) {
     isAuthenticated: state.auth.isAuthenticated,
     userId: state.auth.userId,
     username: state.auth.username,
-    trips: [...state.trips.trips],
+    trips: state.trips.trips,
     tripInput: state.forms.tripInput
   };
 }

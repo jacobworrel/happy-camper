@@ -5,6 +5,7 @@ const tripController = {};
 
 
 tripController.getTrips = (req, res) => {
+  console.log('getting trips')
   const { userId } = req.params;
   Trip.find({})
     .populate({
