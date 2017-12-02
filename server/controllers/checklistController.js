@@ -1,6 +1,5 @@
 const checklistController = {};
 const mongoose = require('mongoose');
-const User = require('./../models/user-model');
 const Item = require('./../models/item-model');
 const Trip = require('./../models/trip-model');
 
@@ -19,35 +18,35 @@ const Trip = require('./../models/trip-model');
 checklistController.findItems = (tripId, category) => {
   return new Promise((resolve, reject) => {
     Trip.findById(tripId)
-        .populate({
-          path: 'checklist',
-          match: { category }
-        })
-        .exec((err, trip) => {
-          if (err) reject(err);
-          resolve(trip.checklist);
-        })
+      .populate({
+        path: 'checklist',
+        match: { category },
+      })
+      .exec((err, trip) => {
+        if (err) reject(err);
+        resolve(trip.checklist);
+      });
   });
-}
+};
 
 checklistController.getChecklists = (req, res) => {
   const { tripId } = req.params;
   const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];
   const promises = categories.map(category => checklistController.findItems(tripId, category));
   Promise.all(promises)
-    .then(checklists => {
+    .then((checklists) => {
       const payload = {};
       checklists.forEach((checklist, i) => {
         payload[categories[i]] = checklist.reduce((a, c) => {
           return [...a, { name: c.name, checked: c.checked, id: c._id, owner: c.owner.username }];
         }, []);
-      })
+      });
       res.json(payload);
     })
     .catch((err) => {
       res.status(500).send(err);
-    })
-}
+    });
+};
 
 checklistController.addItem = (req, res) => {
   const { tripId, category, name, userId } = req.body;
@@ -55,16 +54,16 @@ checklistController.addItem = (req, res) => {
     res.send('please enter an item');
   } else {
     const item = new Item({ category, name, owner: mongoose.Types.ObjectId(userId) });
-    item.save(err => {
+    item.save((err) => {
       if (err) res.status(500).send(err);
       res.send({ id: item._id });
     });
     Trip.findById(tripId, (err, trip) => {
       trip.checklist.push(item);
-      trip.save((err) => console.log('saved item in trip!'))
+      trip.save(err => console.log('saved item in trip!'))
     });
   }
-}
+};
 
 checklistController.deleteItem = (req, res) => {
   const { _id, selectedTrip } = req.body;
@@ -76,13 +75,13 @@ checklistController.deleteItem = (req, res) => {
     trip.checklist.pull({ _id });
     trip.save(err => console.log('removed item from trip model'));
   });
-}
+};
 
 checklistController.updateItem = (req, res) => {
   Item.findOneAndUpdate(req.query, req.body, (err, updatedItem) => {
     if (err) res.status(500).send(err);
     res.send('item updated');
   });
-}
+};
 
 module.exports = checklistController;

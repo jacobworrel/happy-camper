@@ -27,8 +27,8 @@ class ChecklistContainer extends React.Component {
     //update redux store
     this.props.toggleChecked(index, category, e.target.checked);
     //make patch request
-    const obj = e.target.checked ? { checked: true } : { checked: false };
-    this.patchItem(obj, id);
+    const checkedStatus = e.target.checked ? { checked: true } : { checked: false };
+    this.patchItem(checkedStatus, id);
   }
 
   handleSubmit = (e) => {
@@ -72,9 +72,9 @@ class ChecklistContainer extends React.Component {
 
   //PATCH/DELETE REQUESTS
 
-  patchItem(obj, id) {
-    axios.patch('/items', obj, { params: { _id: id }})
-      .then((response) => {
+  patchItem(payload, id) {
+    axios.patch('/items', payload, { params: { _id: id }})
+      .then(response => {
         console.log(response.data);
       });
   }
