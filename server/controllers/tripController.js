@@ -5,17 +5,11 @@ const tripController = {};
 
 
 tripController.getTrips = (req, res) => {
-  console.log('getting trips')
   const { userId } = req.params;
-  Trip.find({})
-    .populate({
-      path: 'users',
-      match: { _id: userId },
-    })
-    .exec((err, trips) => {
-      if (err) res.status(500).send(err);
-      res.send(trips);
-    });
+  Trip.find({ users: { $in: [userId] } }, (err, trips) => {
+    if (err) res.status(500).send(err);
+    res.send(trips);
+  });
 };
 
 tripController.addTrip = (req, res) => {
