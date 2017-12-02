@@ -7,7 +7,7 @@ const TextFieldGroup = (props) => {
   let autofocus = false;
   let type = 'text';
   if (field === 'username') autofocus = true;
-  if (field === 'password') type = 'password';
+  if (field === 'password' || field === 'passwordConfirmation') type = 'password';
   return (
     <div>
       <label>{props.label}</label>

@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
-const userSchema = new Schema ({
+const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });
 
-//must use ES5 function notation here or 'this' context will be undefined
+// must use ES5 function notation here or 'this' context will be undefined
 userSchema.pre('save', function(next) {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return next(err);
@@ -23,10 +23,11 @@ userSchema.pre('save', function(next) {
   });
 });
 
-userSchema.methods.comparePassword = (candidatePassword, cb) => {
-  bcrypt.compare(candidatePassword, this.password, (err, docs) => {
+// must use ES5 function notation or 'this' context will be undefined
+userSchema.methods.comparePassword = function(candidatePassword, callback) {
+  bcrypt.compare(candidatePassword, this.password, (err, authenticated) => {
     if (err) return callback(err);
-    callback(null, docs);
+    callback(null, authenticated);
   });
 };
 

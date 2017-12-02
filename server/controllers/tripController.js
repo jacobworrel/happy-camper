@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
-const User = require('./../models/user-model.js');
 const Trip = require('./../models/trip-model');
+
 const tripController = {};
 
 
 tripController.getTrips = (req, res) => {
-  const userId = req.params.userId;
+  const { userId } = req.params;
   Trip.find({})
-      .populate({
-        path: 'users',
-        match: { _id: userId }
-      })
-      .exec((err, trips) => {
-        if (err) res.status(500).send(err);
-        res.send(trips);
-      })
-}
+    .populate({
+      path: 'users',
+      match: { _id: userId },
+    })
+    .exec((err, trips) => {
+      if (err) res.status(500).send(err);
+      res.send(trips);
+    });
+};
 
 tripController.addTrip = (req, res) => {
   const { tripName } = req.body;
@@ -25,8 +25,8 @@ tripController.addTrip = (req, res) => {
   trip.save((err) => {
     if (err) res.status(500).send(err);
     res.send(trip);
-  })
-}
+  });
+};
 
 tripController.removeTrip = (req, res) => {
   console.log('works');

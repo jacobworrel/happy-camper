@@ -9,15 +9,24 @@ userController.authenticateUser = (req, res) => {
     const { username, password } = req.body;
     User.findOne({ username }, (err, user) => {
       if (err) res.status(500).send(err);
-      else if (user) res.status(200).send(user);
-      else {
-        const error = { invalid: 'Invalid username/password'};
+      else if (user) {
+        user.comparePassword(password, (err, authenticated) => {
+          if (err) res.status(500).send(err);
+          else if (authenticated) res.status(200).send(user);
+          else {
+            const error = { invalid: 'Invalid username/password' };
+            res.status(400).json(error);
+          }
+        });
+      } else {
+        const error = { invalid: 'Invalid username/password' };
         res.status(400).json(error);
       }
     });
+  } else {
+    res.status(400).json(errors);
   }
-  else res.status(400).json(errors);
-}
+};
 
 userController.addUser = (req, res) => {
   const { errors, isValid } = validateSignupInput(req.body);
@@ -28,8 +37,9 @@ userController.addUser = (req, res) => {
       if (err) res.status(500).send(err);
       res.send(user);
     });
+  } else {
+    res.status(400).json(errors);
   }
-  else res.status(400).json(errors);
-}
+};
 
 module.exports = userController;
