@@ -27,7 +27,6 @@ class ProfilePage extends React.Component {
   }
 
   render() {
-    console.log(this.props.trips)
     const trips = this.props.trips.map(trip => (
       <Trip
         key={trip._id}

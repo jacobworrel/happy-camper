@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Item = require('./../models/item-model');
 const Trip = require('./../models/trip-model');
+const User = require('./../models/user-model');
 
 const checklistController = {};
 
@@ -16,6 +17,15 @@ const checklistController = {};
 //   });
 // }
 
+checklistController.findOwner = (id) => {
+  return new Promise((resolve, reject) => {
+    User.findById(id, (err, user) => {
+      if (err) reject(err);
+      resolve(user.username);
+    });
+  });
+};
+
 checklistController.findItems = (tripId, category) => {
   return new Promise((resolve, reject) => {
     Trip.findById(tripId)
@@ -25,7 +35,12 @@ checklistController.findItems = (tripId, category) => {
       })
       .exec((err, trip) => {
         if (err) reject(err);
-        resolve(trip.checklist);
+        const promises = trip.checklist.map(item => checklistController.findOwner(item.owner));
+        Promise.all(promises)
+          .then((owners) => {
+            const checklist = trip.checklist.map((item, i) => ({ ...item._doc, owner: owners[i] }));
+            resolve(checklist);
+          });
       });
   });
 };
@@ -39,7 +54,7 @@ checklistController.getChecklists = (req, res) => {
       const payload = {};
       checklists.forEach((checklist, i) => {
         payload[categories[i]] = checklist.reduce((a, c) => {
-          return [...a, { name: c.name, checked: c.checked, id: c._id, owner: c.owner.username }];
+          return [...a, { name: c.name, checked: c.checked, id: c._id, owner: c.owner }];
         }, []);
       });
       res.json(payload);
@@ -66,6 +81,8 @@ checklistController.addItem = (req, res) => {
   }
 };
 
+// when deleting an item, item must be removed from item collection
+// but also from trip.checklist to maintain referential integrity
 checklistController.deleteItem = (req, res) => {
   const { _id, selectedTrip } = req.body;
   Item.remove({ _id }, (err) => {
