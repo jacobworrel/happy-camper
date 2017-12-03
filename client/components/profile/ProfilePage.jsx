@@ -32,6 +32,7 @@ class ProfilePage extends React.Component {
         key={trip._id}
         tripName={trip.tripName}
         tripId={trip._id}
+        users={trip.users.map(user => user.username)}
         updateSelectedTrip={this.props.updateSelectedTrip}
       />
     ));

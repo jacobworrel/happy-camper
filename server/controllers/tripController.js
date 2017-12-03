@@ -4,12 +4,23 @@ const Trip = require('./../models/trip-model');
 const tripController = {};
 
 
+// tripController.getTrips = (req, res) => {
+//   const { userId } = req.params;
+//   Trip.find({ users: { $in: [userId] } }, (err, trips) => {
+//     console.log('trips -->', trips)
+//     if (err) res.status(500).send(err);
+//     res.send(trips);
+//   });
+// };
+
 tripController.getTrips = (req, res) => {
   const { userId } = req.params;
-  Trip.find({ users: { $in: [userId] } }, (err, trips) => {
-    if (err) res.status(500).send(err);
-    res.send(trips);
-  });
+  Trip.find({ users: { $in: [userId] } })
+    .populate('users', 'username')
+    .exec((err, trips) => {
+      if (err) res.status(500).send(err);
+      res.send(trips);
+    });
 };
 
 tripController.addTrip = (req, res) => {
@@ -31,4 +42,7 @@ tripController.updateTrip = (req, res) => {
   console.log('works');
 }
 
+tripController.addParticipant = (req, res) => {
+  console.log('works');
+}
 module.exports = tripController;

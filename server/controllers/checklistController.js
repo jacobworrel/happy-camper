@@ -3,28 +3,26 @@ const Item = require('./../models/item-model');
 const Trip = require('./../models/trip-model');
 const User = require('./../models/user-model');
 
+/**
+* @module checklistController
+* @description Module containing all business logic dealing with database
+* operations on checklist items.
+*/
+
 const checklistController = {};
 
-// checklistController.findItems = (query) => {
-//   return new Promise((resolve, reject) => {
-//     Item.find(query)
-//     // populate the owner field with the username property from the user object it is referencing
-//     .populate('owner', 'username')
-//     .exec((err, items) => {
-//       if (err) reject(err);
-//       resolve(items);
-//     });
-//   });
-// }
-
-checklistController.findOwner = (id) => {
-  return new Promise((resolve, reject) => {
-    User.findById(id, (err, user) => {
-      if (err) reject(err);
-      resolve(user.username);
-    });
-  });
-};
+/**
+* @function findItems
+* @param {string} tripId - The trip id.
+* @param {string} category - The checklist category.
+* @description Function that queries the database for a trip and
+* and gets all checklist items matching the given category.
+*
+* Uses Mongoose's populate() method to populate the checklist field
+* (which is an array of ObjectId references to Items) as well as
+* each item's nested owner field (which is an ObjectId reference to User).
+*
+*/
 
 checklistController.findItems = (tripId, category) => {
   return new Promise((resolve, reject) => {
@@ -32,15 +30,15 @@ checklistController.findItems = (tripId, category) => {
       .populate({
         path: 'checklist',
         match: { category },
+        populate: {
+          path: 'owner',
+          model: 'User',
+          select: 'username',
+        },
       })
       .exec((err, trip) => {
         if (err) reject(err);
-        const promises = trip.checklist.map(item => checklistController.findOwner(item.owner));
-        Promise.all(promises)
-          .then((owners) => {
-            const checklist = trip.checklist.map((item, i) => ({ ...item._doc, owner: owners[i] }));
-            resolve(checklist);
-          });
+        resolve(trip.checklist);
       });
   });
 };
@@ -51,10 +49,11 @@ checklistController.getChecklists = (req, res) => {
   const promises = categories.map(category => checklistController.findItems(tripId, category));
   Promise.all(promises)
     .then((checklists) => {
+      console.log('checklists -->', checklists)
       const payload = {};
       checklists.forEach((checklist, i) => {
         payload[categories[i]] = checklist.reduce((a, c) => {
-          return [...a, { name: c.name, checked: c.checked, id: c._id, owner: c.owner }];
+          return [...a, { name: c.name, checked: c.checked, id: c._id, owner: c.owner.username }];
         }, []);
       });
       res.json(payload);
