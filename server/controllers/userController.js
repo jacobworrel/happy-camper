@@ -1,7 +1,22 @@
-const userController = {};
 const User = require('./../models/user-model.js');
 const validateSignupInput = require('../shared/validations/signup');
 const validateLoginInput = require('../shared/validations/login');
+
+/**
+* @module userController
+* @description Handles user authentication and contains
+* business logic dealing with database operations on users.
+*/
+
+const userController = {};
+
+/**
+* @function authenticateUser
+* @description Authenticates user by using comparePassword() method
+* accessible on all User instances to compare candidate password
+* with bcrypted password stored in database.
+*
+*/
 
 userController.authenticateUser = (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
@@ -27,6 +42,14 @@ userController.authenticateUser = (req, res) => {
     res.status(400).json(errors);
   }
 };
+
+/**
+* @function addUser
+* @description Adds a new user to the database.
+*
+* Uses validateSignupInput() helper to validate form input.
+*
+*/
 
 userController.addUser = (req, res) => {
   const { errors, isValid } = validateSignupInput(req.body);

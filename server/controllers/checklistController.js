@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const Item = require('./../models/item-model');
 const Trip = require('./../models/trip-model');
-const User = require('./../models/user-model');
 
 /**
 * @module checklistController
-* @description Module containing all business logic dealing with database
+* @description Contains all business logic dealing with database
 * operations on checklist items.
 */
 
@@ -15,8 +14,9 @@ const checklistController = {};
 * @function findItems
 * @param {string} tripId - The trip id.
 * @param {string} category - The checklist category.
-* @description Function that queries the database for a trip and
-* and gets all checklist items matching the given category.
+* @returns {Promise}
+* @description Queries the database for a trip and
+* and returns a promise of all checklist items matching the given category.
 *
 * Uses Mongoose's populate() method to populate the checklist field
 * (which is an array of ObjectId references to Items) as well as
@@ -43,17 +43,32 @@ checklistController.findItems = (tripId, category) => {
   });
 };
 
+/**
+* @function getChecklists
+* @description Queries the database via the findItems() helper
+* and transforms the data into an object with checklist categories as keys
+* and arrays of items as their values.
+*
+*/
+
 checklistController.getChecklists = (req, res) => {
   const { tripId } = req.params;
   const categories = ['Sleeping', 'Cooking', 'Shelter', 'Miscellaneous', 'Clothing', 'Food'];
   const promises = categories.map(category => checklistController.findItems(tripId, category));
   Promise.all(promises)
     .then((checklists) => {
-      console.log('checklists -->', checklists)
       const payload = {};
       checklists.forEach((checklist, i) => {
         payload[categories[i]] = checklist.reduce((a, c) => {
-          return [...a, { name: c.name, checked: c.checked, id: c._id, owner: c.owner.username }];
+          return [
+            ...a,
+            {
+              name: c.name,
+              checked: c.checked,
+              id: c._id,
+              owner: c.owner.username,
+            },
+          ];
         }, []);
       });
       res.json(payload);
@@ -62,6 +77,15 @@ checklistController.getChecklists = (req, res) => {
       res.status(500).send(err);
     });
 };
+
+/**
+* @function addItem
+* @description Adds a newly created item to the database.
+*
+* Stores a reference to the signed in user under the item's owner property.
+* Pushes a reference to the newly created item into the trip's checklist array.
+*
+*/
 
 checklistController.addItem = (req, res) => {
   const { tripId, category, name, userId } = req.body;
@@ -80,8 +104,15 @@ checklistController.addItem = (req, res) => {
   }
 };
 
-// when deleting an item, item must be removed from item collection
-// but also from trip.checklist to maintain referential integrity
+/**
+* @function deleteItem
+* @description Deletes an item from the database.
+*
+* Item is deleted from the items collection as well as the selected trip's
+* checklist array to preserve referential integrity.
+*
+*/
+
 checklistController.deleteItem = (req, res) => {
   const { _id, selectedTrip } = req.body;
   Item.remove({ _id }, (err) => {
@@ -93,6 +124,12 @@ checklistController.deleteItem = (req, res) => {
     trip.save(err => console.log('removed item from trip model'));
   });
 };
+
+/**
+* @function updateItem
+* @description Updates an item in the database.
+*
+*/
 
 checklistController.updateItem = (req, res) => {
   Item.findOneAndUpdate(req.query, req.body, (err, updatedItem) => {

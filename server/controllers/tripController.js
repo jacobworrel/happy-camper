@@ -1,17 +1,23 @@
 const mongoose = require('mongoose');
 const Trip = require('./../models/trip-model');
 
+/**
+* @module checklistController
+* @description Contains all business logic dealing with database
+* operations on trips.
+*/
+
 const tripController = {};
 
-
-// tripController.getTrips = (req, res) => {
-//   const { userId } = req.params;
-//   Trip.find({ users: { $in: [userId] } }, (err, trips) => {
-//     console.log('trips -->', trips)
-//     if (err) res.status(500).send(err);
-//     res.send(trips);
-//   });
-// };
+/**
+* @function getTrips
+* @description Queries the database for trips the signed in
+* user is a participant in.
+*
+* Uses Mongoose's populate() method to populate the users field
+* (which is an array of ObjectId references to Users).
+*
+*/
 
 tripController.getTrips = (req, res) => {
   const { userId } = req.params;
@@ -22,6 +28,15 @@ tripController.getTrips = (req, res) => {
       res.send(trips);
     });
 };
+
+/**
+* @function addTrip
+* @description Saves a new trip in the database.
+*
+* Pushes the signed in user's id into the saved trip's users array
+* so that the trip can be referenced by a given user.
+*
+*/
 
 tripController.addTrip = (req, res) => {
   const { tripName } = req.body;
