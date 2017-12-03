@@ -3,13 +3,13 @@ import { render } from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as tripsActionCreators from '../../actions/trips/tripsActionCreators';
-import { updateInput } from '../../actions/forms/formsActionCreators';
+import { updateInput, updateAutocompleteValue, getMatchingUsers } from '../../actions/forms/formsActionCreators';
 import { Redirect } from 'react-router-dom';
 import Button from './../Button';
 import TextInput from './../TextInput';
 import Trip from './Trip';
 
-const actionCreators = {...tripsActionCreators, updateInput };
+const actionCreators = {...tripsActionCreators, updateInput, updateAutocompleteValue, getMatchingUsers };
 
 class ProfilePage extends React.Component {
 
@@ -34,6 +34,10 @@ class ProfilePage extends React.Component {
         tripId={trip._id}
         users={trip.users.map(user => user.username)}
         updateSelectedTrip={this.props.updateSelectedTrip}
+        autocompleteValue={this.props.autocompleteValue}
+        autocompleteItems={this.props.autocompleteItems}
+        updateAutocompleteValue={this.props.updateAutocompleteValue}
+        getMatchingUsers={this.props.getMatchingUsers}
       />
     ));
     return !this.props.isAuthenticated
@@ -71,7 +75,9 @@ function mapStateToProps(state) {
     userId: state.auth.userId,
     username: state.auth.username,
     trips: state.trips.trips,
-    tripInput: state.forms.tripInput
+    tripInput: state.forms.tripInput,
+    autocompleteValue: state.forms.autocompleteValue,
+    autocompleteItems: state.forms.autocompleteItems,
   };
 }
 

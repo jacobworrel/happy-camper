@@ -65,4 +65,10 @@ userController.addUser = (req, res) => {
   }
 };
 
+userController.getMatchingUsers = (req, res) => {
+  // https://stackoverflow.com/questions/8223841/implement-autocomplete-on-mongodb
+  console.log(req.params)
+  console.log('works');
+};
+
 module.exports = userController;
