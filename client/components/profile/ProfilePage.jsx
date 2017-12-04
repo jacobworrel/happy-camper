@@ -9,7 +9,7 @@ import Button from './../Button';
 import TextInput from './../TextInput';
 import Trip from './Trip';
 
-const actionCreators = {...tripsActionCreators, updateInput, updateAutocompleteValue, getMatchingUsers };
+const actionCreators = { ...tripsActionCreators, updateInput, updateAutocompleteValue, getMatchingUsers };
 
 class ProfilePage extends Component {
 

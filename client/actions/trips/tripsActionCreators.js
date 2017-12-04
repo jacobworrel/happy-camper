@@ -29,10 +29,11 @@ export function updateParticipantId(participantId) {
   };
 }
 
-export function addParticipant(user) {
+export function addParticipant(tripId, users) {
   return {
     type: types.ADD_PARTICIPANT,
-    user,
+    tripId,
+    users,
   };
 }
 
@@ -66,8 +67,8 @@ export function addParticipantAsync(tripId, userId) {
   return (dispatch) => {
     axios.post('/trips/participants', { tripId, userId })
       .then((response) => {
-        console.log(response.data)
-        // dispatch(addParticipant(response.data));
+        const users = response.data.users;
+        dispatch(addParticipant(tripId, users));
       })
       .catch((error) => {
         console.log(error);

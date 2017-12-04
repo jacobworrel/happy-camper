@@ -60,14 +60,15 @@ tripController.updateTrip = (req, res) => {
 }
 
 tripController.addParticipant = (req, res) => {
-  console.log('works');
   const { tripId, userId } = req.body;
   Trip.findById(tripId, (err, trip) => {
     if (err) res.status(500).send(err);
     trip.users.push(mongoose.Types.ObjectId(userId));
     trip.save((err) => {
       if (err) res.status(500).send(err);
-      res.send(trip);
+      Trip.populate(trip, { path: 'users', select: 'username' }, (err, trip) => {
+        res.send(trip);
+      });
     })
   });
 }
