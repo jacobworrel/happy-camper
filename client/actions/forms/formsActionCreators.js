@@ -24,16 +24,7 @@ export function clearInput(input) {
   };
 }
 
-export function updateAutocompleteValue(value) {
-  console.log('in updateAutocompleteValue')
-  return {
-    type: types.UPDATE_AUTOCOMPLETE_VALUE,
-    value,
-  };
-}
-
 export function updateAutocompleteItems(items) {
-  console.log('in updateAutocompleteItems')
   return {
     type: types.UPDATE_AUTOCOMPLETE_ITEMS,
     items,
@@ -43,7 +34,6 @@ export function updateAutocompleteItems(items) {
 // THUNKS
 
 export function getMatchingUsers(value) {
-  console.log('in getMatchingUsers')
   return (dispatch) => {
     axios.get(`/users/${value}`)
       .then((response) => {

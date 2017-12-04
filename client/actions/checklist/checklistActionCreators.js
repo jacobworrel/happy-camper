@@ -1,11 +1,11 @@
-import * as types from './checklistActionTypes';
 import axios from 'axios';
+import * as types from './checklistActionTypes';
 
 export function populateStore(data) {
   return {
     type: types.POPULATE_CHECKLISTS,
-    data
-  }
+    data,
+  };
 }
 
 export function addItem(id, itemInput, category, username) {
@@ -14,16 +14,16 @@ export function addItem(id, itemInput, category, username) {
     id,
     itemInput,
     category,
-    username
-  }
+    username,
+  };
 }
 
 export function removeItem(index, category) {
   return {
     type: types.REMOVE_ITEM,
     index,
-    category
-  }
+    category,
+  };
 }
 
 export function toggleChecked(index, category, checked) {
@@ -31,8 +31,8 @@ export function toggleChecked(index, category, checked) {
     type: types.TOGGLE_CHECKED,
     index,
     category,
-    checked
-  }
+    checked,
+  };
 }
 
 export function toggleEditing(index, category, editing) {
@@ -40,8 +40,8 @@ export function toggleEditing(index, category, editing) {
     type: types.TOGGLE_EDITING,
     index,
     category,
-    editing
-  }
+    editing,
+  };
 }
 
 export function updateItemName(index, category, editing, value) {
@@ -50,11 +50,11 @@ export function updateItemName(index, category, editing, value) {
     index,
     category,
     editing,
-    value
-  }
+    value,
+  };
 }
 
-//THUNKS
+// THUNKS
 
 export function getChecklistData(selectedTrip) {
   return (dispatch) => {
@@ -65,22 +65,26 @@ export function getChecklistData(selectedTrip) {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 }
 
 export function postItem(tripId, category, item, userId, username) {
   return (dispatch) => {
-    axios.post('/items', { tripId,
-                           category,
-                           name: item,
-                           userId
-                         })
+    axios.post(
+      '/items',
+      {
+        tripId,
+        category,
+        name: item,
+        userId,
+      },
+    )
       .then((response) => {
-        //update redux store
+        // update redux store
         dispatch(addItem(response.data.id, item, category, username));
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 }

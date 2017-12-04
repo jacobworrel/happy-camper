@@ -65,10 +65,20 @@ userController.addUser = (req, res) => {
   }
 };
 
+/**
+* @function getMatchingUsers
+* @description Queries database for users whose usernames start with given value.
+* This is used to provide autocomplete options to the front end.
+*/
+
 userController.getMatchingUsers = (req, res) => {
-  // https://stackoverflow.com/questions/8223841/implement-autocomplete-on-mongodb
-  console.log(req.params)
-  console.log('works');
+  const { value } = req.params;
+  const re = new RegExp(`^${value}`);
+  User.find({ username: { $regex: re } }, (err, users) => {
+    if (err) res.status(500).send(err);
+    const usernames = users.map(user => ({ label: user.username, id: user._id }));
+    res.send(usernames);
+  });
 };
 
 module.exports = userController;

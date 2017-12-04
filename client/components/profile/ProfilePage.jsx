@@ -11,7 +11,7 @@ import Trip from './Trip';
 
 const actionCreators = {...tripsActionCreators, updateInput, updateAutocompleteValue, getMatchingUsers };
 
-class ProfilePage extends React.Component {
+class ProfilePage extends Component {
 
   componentDidMount() {
     // only fetch trips once userId comes back from server
@@ -32,12 +32,13 @@ class ProfilePage extends React.Component {
         key={trip._id}
         tripName={trip.tripName}
         tripId={trip._id}
-        users={trip.users.map(user => user.username)}
+        users={trip.users}
         updateSelectedTrip={this.props.updateSelectedTrip}
-        autocompleteValue={this.props.autocompleteValue}
         autocompleteItems={this.props.autocompleteItems}
-        updateAutocompleteValue={this.props.updateAutocompleteValue}
         getMatchingUsers={this.props.getMatchingUsers}
+        addParticipantAsync={this.props.addParticipantAsync}
+        participantId = {this.props.participantId}
+        updateParticipantId = {this.props.updateParticipantId}
       />
     ));
     return !this.props.isAuthenticated
@@ -76,8 +77,8 @@ function mapStateToProps(state) {
     username: state.auth.username,
     trips: state.trips.trips,
     tripInput: state.forms.tripInput,
-    autocompleteValue: state.forms.autocompleteValue,
     autocompleteItems: state.forms.autocompleteItems,
+    participantId: state.trips.participantId,
   };
 }
 

@@ -22,6 +22,20 @@ export function updateSelectedTrip(selectedTrip) {
   };
 }
 
+export function updateParticipantId(participantId) {
+  return {
+    type: types.UPDATE_PARTICIPANT_ID,
+    participantId,
+  };
+}
+
+export function addParticipant(user) {
+  return {
+    type: types.ADD_PARTICIPANT,
+    user,
+  };
+}
+
 // THUNKS
 
 export function getTrips(userId) {
@@ -41,6 +55,20 @@ export function postTrip(tripName, userId) {
     axios.post('/trips', { tripName, userId })
       .then((response) => {
         dispatch(addTrip(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function addParticipantAsync(tripId, userId) {
+  console.log('tripId -->', tripId)
+  console.log('userId -->', userId)
+  return (dispatch) => {
+    axios.post('/trips/participants', { tripId, userId })
+      .then((response) => {
+        // dispatch(addParticipant(response.data));
       })
       .catch((error) => {
         console.log(error);

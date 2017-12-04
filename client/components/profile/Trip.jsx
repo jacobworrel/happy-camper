@@ -1,43 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Autocomplete from 'react-autocomplete';
 
-const Trip = (props) => {
-  const users = props.users.map(user => <li>{user}</li>);
-  return (
-    <li>
-      <div>
-        <h4>{props.tripName}</h4>
-        <Link
-          to="/profile/checklist"
-          onClick={() => props.updateSelectedTrip(props.tripId)}>
-          Checklist
-        </Link>
-        <p>Participants:</p>
-        <form>
+class Trip extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      autocompleteValue: '',
+    };
+  }
+
+  render() {
+    const users = this.props.users.map(user => <li key={user._id}>{user.username}</li>);
+    return (
+      <li>
+        <div>
+          <h4>{this.props.tripName}</h4>
+          <Link
+            to="/profile/checklist"
+            onClick={() => this.props.updateSelectedTrip(this.props.tripId)}>
+            Checklist
+          </Link>
           <Autocomplete
             getItemValue={(item) => item.label}
-            items={props.autocompleteItems}
-            value={props.autocompleteValue}
-            renderItem={(item, isHighlighted) =>
+            items={this.props.autocompleteItems}
+            value={this.state.autocompleteValue}
+            renderItem={(item, isHighlighted) => (
               <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
                 {item.label}
               </div>
-            }
+            )}
             onChange={(e) => {
-              props.getMatchingUsers(e.target.value);
-              props.updateAutocompleteValue(e.target.value);
+              this.props.getMatchingUsers(e.target.value);
+              this.setState({ autocompleteValue: e.target.value });
             }}
-            onSelect={value => updateAutocompleteValue(value)}
+            onSelect={(value, item) => {
+              this.setState({ autocompleteValue: value });
+              this.props.updateParticipantId(item.id);
+            }}
           />
-          <button>Add participant</button>
-        </form>
-        <ul>
-          {users}
-        </ul>
-      </div>
-    </li>
-  );
-};
+          <button
+            onClick={() => this.props.addParticipantAsync(this.props.tripId, this.props.participantId)}>
+            Add participant
+          </button>
+          <p>Participants:</p>
+          <ul>
+            {users}
+          </ul>
+        </div>
+      </li>
+    );
+  }
+}
 
 export default Trip;
