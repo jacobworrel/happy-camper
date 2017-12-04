@@ -9,13 +9,19 @@ const initialState = {
 const trips = (state = initialState, action) => {
   switch (action.type) {
     case types.POPULATE_TRIPS: {
-      return { ...state, trips: [...action.data] };
+      const trips = action.data.reduce((acc, curr) => (
+        { ...acc, [curr._id]: curr }
+      ), {});
+      return { ...state, trips };
+      // return { ...state, trips: [...action.data] };
     }
     case types.UPDATE_SELECTED_TRIP: {
       return { ...state, selectedTrip: action.selectedTrip };
     }
     case types.ADD_TRIP: {
-      return { ...state, trips: [...state.trips, action.trip] };
+      const id = trip._id;
+      return { ...state, trips: { ...state.trips, [id]: action.trip } };
+      // return { ...state, trips: [...state.trips, action.trip] };
     }
     case types.UPDATE_PARTICIPANT_ID: {
       return { ...state, participantId: action.participantId };

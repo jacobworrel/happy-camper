@@ -63,11 +63,10 @@ export function postTrip(tripName, userId) {
 }
 
 export function addParticipantAsync(tripId, userId) {
-  console.log('tripId -->', tripId)
-  console.log('userId -->', userId)
   return (dispatch) => {
     axios.post('/trips/participants', { tripId, userId })
       .then((response) => {
+        console.log(response.data)
         // dispatch(addParticipant(response.data));
       })
       .catch((error) => {

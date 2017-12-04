@@ -23,11 +23,12 @@ class ProfilePage extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.postTrip(this.props.tripInput, this.props.userId);
+    const { postTrip, tripInput, userId } = this.props;
+    postTrip(tripInput, userId);
   }
 
   render() {
-    const trips = this.props.trips.map(trip => (
+    const trips = Object.values(this.props.trips).map(trip => (
       <Trip
         key={trip._id}
         tripName={trip.tripName}
