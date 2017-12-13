@@ -38,7 +38,7 @@ class Trip extends Component {
                 </div>
               )}
               onChange={(e) => {
-                this.props.getMatchingUsers(e.target.value);
+                if (e.target.value) this.props.getMatchingUsers(e.target.value);
                 this.setState({ autocompleteValue: e.target.value });
               }}
               onSelect={(value, item) => {
