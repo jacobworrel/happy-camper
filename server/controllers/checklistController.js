@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 const mongoose = require('mongoose');
 const Item = require('./../models/item-model');
 const Trip = require('./../models/trip-model');
@@ -60,17 +62,19 @@ checklistController.getChecklists = (req, res) => {
       const payload = {};
       checklists.forEach((checklist, i) => {
         payload[categories[i]] = checklist.reduce((a, c) => {
+          const owner = c.owner ? c.owner.username : null;
           return [
             ...a,
             {
               name: c.name,
               checked: c.checked,
               id: c._id,
-              owner: c.owner.username,
+              owner,
             },
           ];
         }, []);
       });
+      console.log('payload -->', payload);
       res.json(payload);
     })
     .catch((err) => {
@@ -117,7 +121,7 @@ checklistController.deleteItem = (req, res) => {
   const { _id, selectedTrip } = req.body;
   Item.remove({ _id }, (err) => {
     if (err) res.status(500).send(err);
-    res.send('removed from database')
+    res.send('removed from database');
   });
   Trip.findById(selectedTrip, (err, trip) => {
     trip.checklist.pull({ _id });

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../../actions/auth/authActionCreators';
 import { Link, Redirect } from 'react-router-dom';
+import * as actionCreators from '../../../actions/auth/authActionCreators';
 import LoginForm from './LoginForm';
 import validateLoginInput from '../../../../server/shared/validations/login';
 
-class LoginPage extends React.Component {
-
+class LoginPage extends Component {
   isValid() {
     const { username, password } = this.props;
     const { errors, isValid } = validateLoginInput({ username, password });
@@ -16,7 +14,7 @@ class LoginPage extends React.Component {
     return isValid;
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     if (this.isValid()) {
       this.props.toggleLoading();
@@ -24,42 +22,41 @@ class LoginPage extends React.Component {
       const { username, password } = this.props;
       this.props.userLoginRequest({ username, password });
     }
-  }
+  };
 
   render() {
-    return this.props.isAuthenticated
-      ? <Redirect to='/profile'/>
-      : (
-       <div>
+    return this.props.isAuthenticated ? (
+      <Redirect to="/profile" />
+    ) : (
+      <div>
         <h1>Login</h1>
-          <LoginForm
-            username={this.props.username}
-            password={this.props.password}
-            errors={this.props.errors}
-            handleSubmit={this.handleSubmit}
-            updateField={this.props.updateField}
-            isLoading={this.props.isLoading}
-          />
-          <span>Don't have an account?</span>
-          <span>
-            <Link to='/signup'>Sign Up</Link>
-          </span>
-        </div>
-      );
+        <LoginForm
+          username={this.props.username}
+          password={this.props.password}
+          errors={this.props.errors}
+          handleSubmit={this.handleSubmit}
+          updateField={this.props.updateField}
+          isLoading={this.props.isLoading}
+        />
+        <span>Don't have an account?</span>
+        <span>
+          <Link to="/signup">Sign Up</Link>
+        </span>
+      </div>
+    );
   }
 }
 
-//makes state.checklists in redux store accessible as props at componenent level
-//called whenever store is updated
+// called whenever store is updated
 function mapStateToProps(state) {
   return { ...state.auth };
 }
 
-//wraps actionCreators in dispatch() call and merges them into component's props
-//action creators can be invoked at component level without needing to call dispatch()
+// wraps actionCreators in dispatch() call and merges them into component's props
+// action creators can be invoked at component level without needing to call dispatch()
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(actionCreators, dispatch);
 }
 
-//connects component to redux store
+// connects component to redux store
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
