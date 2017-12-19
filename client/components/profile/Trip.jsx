@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Autocomplete from 'react-autocomplete';
 
+import Button from './../Button';
+
 class Trip extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +48,7 @@ class Trip extends Component {
                 this.props.updateParticipantId(item.id);
               }}
             />
-            <button>Add participant</button>
+            <Button type="submit">Add participant</Button>
           </form>
           <p>Participants:</p>
           <ul>

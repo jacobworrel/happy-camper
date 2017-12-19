@@ -1,8 +1,10 @@
+/* eslint-disbable react/jsx-filename-extension */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import store from './store';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import NavBar from './components/profile/NavBar';
 import ProfilePage from './components/profile/ProfilePage';
 import ChecklistContainer from './components/checklist/ChecklistContainer';
@@ -14,6 +16,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
+        <Route exact path='/' component={NavBar} />
         <Route exact path='/' component={ProfilePage} />
         <Route exact path='/profile' component={NavBar} />
         <Route exact path='/profile' component={ProfilePage} />

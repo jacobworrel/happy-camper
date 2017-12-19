@@ -1,16 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Button from './../Button';
+import { logout } from './../../actions/auth/authActionCreators';
 import styles from './NavBar.css';
 
-const NavBar = (props) => {
-  return (
-    <div className={styles.container}>
-      <NavLink to='/profile' className={styles.link}>Profile</NavLink>
-      <NavLink to={'/profile/checklist'} className={styles.link}>Checklists</NavLink>
-      <NavLink to='/profile/map' className={styles.link}>Map</NavLink>
-      <NavLink to='/profile/itinerary' className={styles.link}>Itinerary</NavLink>
-    </div>
-  )
+const NavBar = props => (
+  <div className={styles.container}>
+    <NavLink to="/profile" className={styles.link}>
+      Profile
+    </NavLink>
+    <Button handleClick={props.logout}>Logout</Button>
+  </div>
+);
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+  };
 }
 
-export default NavBar;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ logout }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

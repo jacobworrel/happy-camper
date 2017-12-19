@@ -74,7 +74,6 @@ checklistController.getChecklists = (req, res) => {
           ];
         }, []);
       });
-      console.log('payload -->', payload);
       res.json(payload);
     })
     .catch((err) => {

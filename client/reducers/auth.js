@@ -25,6 +25,18 @@ const auth = (state = initialState, action) => {
     case types.AUTHENTICATE: {
       return { ...state, isAuthenticated: true, userId: action.id };
     }
+    case types.RESET_AUTH_STATE: {
+      return {
+        username: '',
+        userId: '',
+        email: '',
+        password: '',
+        passwordConfirmation: '',
+        errors: {},
+        isLoading: false,
+        isAuthenticated: false,
+      };
+    }
     default:
       return state;
   }

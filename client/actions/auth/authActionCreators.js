@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as types from './authActionTypes';
+import { removeState } from './../../utils/localStorage';
 
 export function updateField(field, value) {
   return {
@@ -26,6 +27,12 @@ export function authenticate(id) {
   return {
     type: types.AUTHENTICATE,
     id,
+  };
+}
+
+export function resetAuthState() {
+  return {
+    type: types.RESET_AUTH_STATE,
   };
 }
 
@@ -59,4 +66,11 @@ export function userLoginRequest(userData) {
         if (error.response) dispatch(updateErrors(error.response.data));
       });
   };
+}
+
+export function logout() {
+  return (dispatch) => {
+    removeState();
+    dispatch(resetAuthState());
+  }
 }

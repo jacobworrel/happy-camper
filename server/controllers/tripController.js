@@ -1,3 +1,10 @@
+/* TODO:
+* 1) fix edge case for adding same participant twice in addParticipant()
+* 2) add UI and backend logic to remove trips
+* 3) make trip deletions cascade to items
+* 4) add UI and backend logic to archive trips
+*/
+
 const mongoose = require('mongoose');
 const Trip = require('./../models/trip-model');
 

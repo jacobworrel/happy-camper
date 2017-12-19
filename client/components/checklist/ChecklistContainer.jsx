@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import Checklist from './Checklist';
 import Button from './../Button';
 import TextInput from './../TextInput';
-import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import * as checklistActionCreators from '../../actions/checklist/checklistActionCreators';
 import * as formsActionCreators from '../../actions/forms/formsActionCreators';
 import styles from './ChecklistContainer.css';
 
 const actionCreators = { ...checklistActionCreators, ...formsActionCreators };
 
-class ChecklistContainer extends React.Component {
+class ChecklistContainer extends Component {
   componentDidMount() {
     // get data from server/db and populate redux store
-    this.props.getChecklistData(this.props.selectedTrip);
+    if (this.props.selectedTrip) this.props.getChecklistData(this.props.selectedTrip);
   }
 
   // CHILD COMPONENT EVENT HANDLERS
@@ -139,7 +139,7 @@ class ChecklistContainer extends React.Component {
                 this.props.updateInput('itemInput', e.target.value)
               }
             />
-            <Button type="submit" className="add-btn" text="Add Item" />
+            <Button type="submit">Add item</Button>
           </form>
         </div>
         <div className={styles.container}>{checklists}</div>

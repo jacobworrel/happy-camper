@@ -40,37 +40,40 @@ export function addParticipant(tripId, users) {
 // THUNKS
 
 export function getTrips(userId) {
-  return (dispatch) => {
-    axios.get(`/trips/${userId}`)
-      .then((response) => {
+  return dispatch => {
+    axios
+      .get(`/trips/${userId}`)
+      .then(response => {
         dispatch(populateTrips(response.data));
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 }
 
 export function postTrip(tripName, userId) {
-  return (dispatch) => {
-    axios.post('/trips', { tripName, userId })
-      .then((response) => {
+  return dispatch => {
+    axios
+      .post('/trips', { tripName, userId })
+      .then(response => {
         dispatch(addTrip(response.data));
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 }
 
 export function addParticipantAsync(tripId, userId) {
-  return (dispatch) => {
-    axios.post('/trips/participants', { tripId, userId })
-      .then((response) => {
-        const users = response.data.users;
+  return dispatch => {
+    axios
+      .post('/trips/participants', { tripId, userId })
+      .then(response => {
+        const { users } = response.data;
         dispatch(addParticipant(tripId, users));
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };

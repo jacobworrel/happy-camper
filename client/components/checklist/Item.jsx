@@ -3,15 +3,17 @@ import ItemText from './ItemText';
 import Button from './../Button';
 import styles from './Item.css';
 
-const Item = (props) => {
+const Item = props => {
   const checked = props.item.checked;
   return (
     <li className={styles.item}>
       <input
         className={styles.checkbox}
-        type='checkbox'
+        type="checkbox"
         checked={checked}
-        onChange={(e) => props.markAsChecked(props.index, props.category, props.item.id, e)}
+        onChange={e =>
+          props.markAsChecked(props.index, props.category, props.item.id, e)
+        }
       />
       <ItemText
         item={props.item}
@@ -25,11 +27,14 @@ const Item = (props) => {
       <span> ({props.item.owner})</span>
       <Button
         className={styles.delete}
-        behavior={() => props.removeItem(props.index, props.category, props.item.id)}
-        text='delete'
-      />
+        handleClick={() =>
+          props.removeItem(props.index, props.category, props.item.id)
+        }
+      >
+        delete
+      </Button>
     </li>
- );
-}
+  );
+};
 
 export default Item;
