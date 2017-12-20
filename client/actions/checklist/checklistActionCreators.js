@@ -1,10 +1,10 @@
 import axios from 'axios';
 import * as types from './checklistActionTypes';
 
-export function receiveChecklists(data) {
+export function receiveChecklists(checklists) {
   return {
     type: types.RECEIVE_CHECKLISTS,
-    data,
+    checklists,
   };
 }
 
@@ -26,30 +26,27 @@ export function removeItem(index, category) {
   };
 }
 
-export function toggleChecked(index, category, checked) {
+export function toggleChecked(index, category) {
   return {
     type: types.TOGGLE_CHECKED,
     index,
     category,
-    checked,
   };
 }
 
-export function toggleEditing(index, category, editing) {
+export function toggleEditing(index, category) {
   return {
     type: types.TOGGLE_EDITING,
     index,
     category,
-    editing,
   };
 }
 
-export function updateItemName(index, category, editing, value) {
+export function updateItemName(index, category, value) {
   return {
     type: types.UPDATE_ITEM_NAME,
     index,
     category,
-    editing,
     value,
   };
 }
@@ -60,7 +57,8 @@ export function getChecklistData(selectedTrip) {
   return (dispatch) => {
     axios.get(`/items/${selectedTrip}`)
       .then((response) => {
-        dispatch(receiveChecklists(response.data));
+        const { checklists } = response.data;
+        dispatch(receiveChecklists(checklists));
       })
       .catch((error) => {
         console.log(error);

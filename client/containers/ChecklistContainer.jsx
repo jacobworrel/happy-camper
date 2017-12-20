@@ -3,10 +3,8 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Dropdown from './../components/checklist/Dropdown';
 import Checklist from './../components/checklist/Checklist';
-import Button from './../components/Button';
-import TextInput from './../components/TextInput';
+import ItemForm from './../components/checklist/ItemForm';
 
 import {
   addItem,
@@ -37,7 +35,7 @@ class ChecklistContainer extends Component {
 
   markAsChecked = (index, category, id, e) => {
     // update redux store
-    this.props.toggleChecked(index, category, e.target.checked);
+    this.props.toggleChecked(index, category);
     // make patch request
     const checkedStatus = e.target.checked
       ? { checked: true }
@@ -91,7 +89,7 @@ class ChecklistContainer extends Component {
   // helper function invoked in handleBlur() and handleKeyPress()
   changeItemName(index, category, editing, id, e) {
     // update redux store
-    this.props.updateItemName(index, category, editing, e.target.value);
+    this.props.updateItemName(index, category, e.target.value);
     // make patch request to server/db
     this.patchItem({ name: e.target.value }, id);
   }
@@ -130,31 +128,13 @@ class ChecklistContainer extends Component {
       <Redirect to="/login" />
     ) : (
       <div>
-        <div className={styles.formContainer}>
-          <form className={styles.form} onSubmit={this.handleSubmit}>
-            <Dropdown
-              updateSelectedCategory={e =>
-                this.props.updateSelectedCategory(
-                  'selectedChecklist',
-                  e.target.value,
-                )
-              }
-              categories={[
-                'Select Category',
-                ...this.props.categories,
-              ]}
-            />
-            <TextInput
-              className={styles.textInput}
-              placeholder="item"
-              value={this.props.itemInput}
-              behavior={e =>
-                this.props.updateInput('itemInput', e.target.value)
-              }
-            />
-            <Button type="submit">Add item</Button>
-          </form>
-        </div>
+        <ItemForm
+          handleSubmit={this.handleSubmit}
+          updateSelectedCategory={this.props.updateSelectedCategory}
+          updateInput={this.props.updateInput}
+          categories={this.props.categories}
+          itemInput={this.props.itemInput}
+        />
         <div className={styles.container}>{checklists}</div>
       </div>
     );
@@ -163,7 +143,7 @@ class ChecklistContainer extends Component {
 
 const getCategories = (state) => Object.keys(state.checklists);
 
-// makes state.checklists in redux store accessible as props at componenent level
+// makes state in redux store accessible as props at componenent level
 // called whenever store is updated
 function mapStateToProps(state) {
   return {
@@ -195,5 +175,5 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-// connects component to redux store
+// HOC that connects component to redux store
 export default connect(mapStateToProps, mapDispatchToProps)(ChecklistContainer);

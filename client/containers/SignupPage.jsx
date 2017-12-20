@@ -51,7 +51,7 @@ class SignupPage extends Component {
   }
 }
 
-// makes state.checklists in redux store accessible as props at componenent level
+// makes state in redux store accessible as props at componenent level
 // called whenever store is updated
 function mapStateToProps(state) {
   return { ...state.auth };

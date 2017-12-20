@@ -59,15 +59,19 @@ checklistController.getChecklists = (req, res) => {
   const promises = categories.map(category => checklistController.findItems(tripId, category));
   Promise.all(promises)
     .then((checklists) => {
-      const payload = {};
+      const payload = {
+        checklists: {},
+        categories,
+      };
       checklists.forEach((checklist, i) => {
-        payload[categories[i]] = checklist.reduce((a, c) => {
+        payload.checklists[categories[i]] = checklist.reduce((a, c) => {
           const owner = c.owner ? c.owner.username : null;
           return [
             ...a,
             {
               name: c.name,
               checked: c.checked,
+              editing: false,
               id: c._id,
               owner,
             },

@@ -1,4 +1,5 @@
 import * as types from './../actions/checklist/checklistActionTypes';
+import item from './item';
 
 const initialState = {
   Sleeping: [],
@@ -12,14 +13,7 @@ const initialState = {
 const checklists = (state = initialState, action) => {
   switch (action.type) {
     case types.RECEIVE_CHECKLISTS: {
-      const { data } = action;
-      const checklists = {};
-      const categories = Object.keys(data);
-      categories.forEach((category) => {
-        // get stored item properties and add editing: false property to every item
-        checklists[category] = data[category].map(item => ({ ...item, editing: false }));
-      });
-      return { ...checklists };
+      return { ...action.checklists };
     }
     case types.ADD_ITEM: {
       // check for invalid input
@@ -28,64 +22,34 @@ const checklists = (state = initialState, action) => {
         return state;
       }
       const { category } = action;
-      const item = {
-        name: action.itemInput,
-        checked: false,
-        editing: false,
-        id: action.id,
-        owner: action.username,
-      };
       return {
         ...state,
         [category]: [
           ...state[category],
-          item
+          item(undefined, action)
         ],
       };
     }
     case types.REMOVE_ITEM: {
-      return {
-        ...state,
-        [action.category]: [
-          ...state[action.category].slice(0, action.index),
-          ...state[action.category].slice(action.index + 1)
-        ],
-      };
-    }
-    case types.TOGGLE_CHECKED: {
       const { category } = action;
-      const { index } = action;
-      const { checked } = action;
       return {
         ...state,
         [category]: [
-          ...state[category].slice(0, index),
-          { ...state[category][index], checked },
-          ...state[category].slice(index + 1)
+          ...state[category].slice(0, action.index),
+          ...state[category].slice(action.index + 1),
         ],
       };
     }
-    case types.TOGGLE_EDITING: {
-      const { category } = action;
-      const { index } = action;
-      return {
-        ...state,
-        [category]: [
-          ...state[category].slice(0, index),
-          { ...state[category][index], editing: !action.editing },
-          ...state[category].slice(index + 1)
-        ],
-      };
-    }
+    case types.TOGGLE_CHECKED:
+    case types.TOGGLE_EDITING:
     case types.UPDATE_ITEM_NAME: {
-      const { category } = action;
-      const { index } = action;
+      const { category, index } = action;
       return {
         ...state,
         [category]: [
           ...state[category].slice(0, index),
-          { ...state[category][index], name: action.value, editing: !action.editing },
-          ...state[category].slice(index + 1)
+          item(state[category][index], action),
+          ...state[category].slice(index + 1),
         ],
       };
     }
