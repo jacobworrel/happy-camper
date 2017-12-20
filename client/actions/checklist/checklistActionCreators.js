@@ -1,9 +1,9 @@
 import axios from 'axios';
 import * as types from './checklistActionTypes';
 
-export function populateStore(data) {
+export function receiveChecklists(data) {
   return {
-    type: types.POPULATE_CHECKLISTS,
+    type: types.RECEIVE_CHECKLISTS,
     data,
   };
 }
@@ -60,7 +60,7 @@ export function getChecklistData(selectedTrip) {
   return (dispatch) => {
     axios.get(`/items/${selectedTrip}`)
       .then((response) => {
-        dispatch(populateStore(response.data));
+        dispatch(receiveChecklists(response.data));
       })
       .catch((error) => {
         console.log(error);

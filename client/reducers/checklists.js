@@ -11,7 +11,7 @@ const initialState = {
 
 const checklists = (state = initialState, action) => {
   switch (action.type) {
-    case types.POPULATE_CHECKLISTS: {
+    case types.RECEIVE_CHECKLISTS: {
       const { data } = action;
       const checklists = {};
       const categories = Object.keys(data);

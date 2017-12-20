@@ -30,7 +30,7 @@ store.subscribe(throttle(() => {
     },
     checklists: state.checklists,
     trips: {
-      trips: state.trips.trips,
+      byId: state.trips.byId,
     },
   });
 }, 1000));

@@ -35,7 +35,7 @@ class ProfilePage extends Component {
   };
 
   render() {
-    const trips = Object.values(this.props.trips).map(trip => (
+    const trips = this.props.trips.map(trip => (
       <Trip
         key={trip._id}
         tripName={trip.tripName}
@@ -72,12 +72,14 @@ class ProfilePage extends Component {
   }
 }
 
+const getTrips = (state) => Object.values(state.trips.byId);
+
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     userId: state.auth.userId,
     username: state.auth.username,
-    trips: state.trips.trips,
+    trips: getTrips(state),
     tripInput: state.forms.tripInput,
     autocompleteItems: state.forms.autocompleteItems,
     participantId: state.trips.participantId,

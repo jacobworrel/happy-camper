@@ -1,9 +1,9 @@
 import axios from 'axios';
 import * as types from './tripsActionTypes';
 
-export function populateTrips(data) {
+export function receiveTrips(data) {
   return {
-    type: types.POPULATE_TRIPS,
+    type: types.RECEIVE_TRIPS,
     data,
   };
 }
@@ -44,7 +44,7 @@ export function getTrips(userId) {
     axios
       .get(`/trips/${userId}`)
       .then(response => {
-        dispatch(populateTrips(response.data));
+        dispatch(receiveTrips(response.data));
       })
       .catch(error => {
         console.log(error);

@@ -7,11 +7,24 @@ import Dropdown from './../components/checklist/Dropdown';
 import Checklist from './../components/checklist/Checklist';
 import Button from './../components/Button';
 import TextInput from './../components/TextInput';
-import * as checklistActionCreators from '../actions/checklist/checklistActionCreators';
-import * as formsActionCreators from '../actions/forms/formsActionCreators';
-import styles from './ChecklistContainer.css';
 
-const actionCreators = { ...checklistActionCreators, ...formsActionCreators };
+import {
+  addItem,
+  getChecklistData,
+  postItem,
+  removeItem,
+  toggleChecked,
+  toggleEditing,
+  updateItemName,
+} from '../actions/checklist/checklistActionCreators';
+
+import {
+  clearInput,
+  updateInput,
+  updateSelectedCategory,
+} from '../actions/forms/formsActionCreators';
+
+import styles from './ChecklistContainer.css';
 
 class ChecklistContainer extends Component {
   componentDidMount() {
@@ -128,7 +141,7 @@ class ChecklistContainer extends Component {
               }
               categories={[
                 'Select Category',
-                ...Object.keys(this.props.checklists),
+                ...this.props.categories,
               ]}
             />
             <TextInput
@@ -148,12 +161,15 @@ class ChecklistContainer extends Component {
   }
 }
 
+const getCategories = (state) => Object.keys(state.checklists);
+
 // makes state.checklists in redux store accessible as props at componenent level
 // called whenever store is updated
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     checklists: state.checklists,
+    categories: getCategories(state),
     itemInput: state.forms.itemInput,
     selectedChecklist: state.forms.selectedChecklist,
     userId: state.auth.userId,
@@ -165,7 +181,18 @@ function mapStateToProps(state) {
 // wraps actionCreators in dispatch() call and merges them into component's props
 // action creators can be invoked at component level without needing to call dispatch()
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(actionCreators, dispatch);
+  return bindActionCreators({
+    addItem,
+    getChecklistData,
+    postItem,
+    removeItem,
+    toggleChecked,
+    toggleEditing,
+    updateItemName,
+    clearInput,
+    updateInput,
+    updateSelectedCategory,
+  }, dispatch);
 }
 
 // connects component to redux store
