@@ -3,12 +3,12 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Dropdown from './Dropdown';
-import Checklist from './Checklist';
-import Button from './../Button';
-import TextInput from './../TextInput';
-import * as checklistActionCreators from '../../actions/checklist/checklistActionCreators';
-import * as formsActionCreators from '../../actions/forms/formsActionCreators';
+import Dropdown from './../components/checklist/Dropdown';
+import Checklist from './../components/checklist/Checklist';
+import Button from './../components/Button';
+import TextInput from './../components/TextInput';
+import * as checklistActionCreators from '../actions/checklist/checklistActionCreators';
+import * as formsActionCreators from '../actions/forms/formsActionCreators';
 import styles from './ChecklistContainer.css';
 
 const actionCreators = { ...checklistActionCreators, ...formsActionCreators };

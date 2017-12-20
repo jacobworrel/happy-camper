@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import * as actionCreators from '../../../actions/auth/authActionCreators';
-import LoginForm from './LoginForm';
-import validateLoginInput from '../../../../server/shared/validations/login';
+import * as actionCreators from './../actions/auth/authActionCreators';
+import LoginForm from './../components/auth/login/LoginForm';
+import validateLoginInput from './../../server/shared/validations/login';
 
 class LoginPage extends Component {
   isValid() {

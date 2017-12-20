@@ -4,7 +4,7 @@ import Button from './../Button';
 import styles from './Item.css';
 
 const Item = props => {
-  const checked = props.item.checked;
+  const { checked } = props.item;
   return (
     <li className={styles.item}>
       <input

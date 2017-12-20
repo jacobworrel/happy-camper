@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import * as tripsActionCreators from '../../actions/trips/tripsActionCreators';
+import * as tripsActionCreators from '../actions/trips/tripsActionCreators';
 import {
   updateInput,
   updateAutocompleteValue,
   getMatchingUsers,
-} from '../../actions/forms/formsActionCreators';
-import Button from './../Button';
-import TextInput from './../TextInput';
-import Trip from './Trip';
+} from '../actions/forms/formsActionCreators';
+import Button from './../components/Button';
+import TextInput from './../components/TextInput';
+import Trip from './../components/profile/Trip';
 
 const actionCreators = {
   ...tripsActionCreators,
