@@ -23,7 +23,7 @@ const ItemForm = props => (
         className={styles.textInput}
         placeholder="item"
         value={props.itemInput}
-        behavior={e =>
+        handleChange={e =>
           props.updateInput('itemInput', e.target.value)
         }
       />

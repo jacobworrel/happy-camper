@@ -12,13 +12,6 @@ import Button from './../components/Button';
 import TextInput from './../components/TextInput';
 import Trip from './../components/profile/Trip';
 
-const actionCreators = {
-  ...tripsActionCreators,
-  updateInput,
-  updateAutocompleteValue,
-  getMatchingUsers,
-};
-
 class ProfilePage extends Component {
   componentDidMount() {
     // only fetch trips once userId comes back from server
@@ -60,9 +53,8 @@ class ProfilePage extends Component {
             type="text"
             placeholder="Trip Name"
             value={this.props.tripInput}
-            behavior={e => this.props.updateInput('tripInput', e.target.value)}
+            handleChange={e => this.props.updateInput('tripInput', e.target.value)}
           />
-
           <Button type="submit">Add Trip</Button>
         </form>
         <h4>Upcoming Trips:</h4>
@@ -87,7 +79,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(actionCreators, dispatch);
+  return bindActionCreators({
+    ...tripsActionCreators,
+    updateInput,
+    updateAutocompleteValue,
+    getMatchingUsers,
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
