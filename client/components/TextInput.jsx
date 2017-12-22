@@ -1,9 +1,10 @@
 import React from 'react';
+import styles from './TextInput.css';
 
 const TextInput = (props) => {
   return (
     <input
-      className={props.className}
+      className={styles.textInput}
       type='text'
       placeholder={props.placeholder}
       value={props.value}

@@ -7,26 +7,28 @@ const Item = props => {
   const { checked } = props.item;
   return (
     <li className={styles.item}>
-      <input
-        className={styles.checkbox}
-        type="checkbox"
-        checked={checked}
-        onChange={e =>
-          props.markAsChecked(props.index, props.category, props.item.id, e)
-        }
-      />
-      <ItemText
-        item={props.item}
-        index={props.index}
-        category={props.category}
-        editing={props.editing}
-        toggleEditing={props.toggleEditing}
-        handleBlur={props.handleBlur}
-        handleKeyPress={props.handleKeyPress}
-      />
-      <span> ({props.item.owner})</span>
+      <div>
+        <input
+          className={styles.checkbox}
+          type="checkbox"
+          checked={checked}
+          onChange={e =>
+            props.markAsChecked(props.index, props.category, props.item.id, e)
+          }
+        />
+        <ItemText
+          item={props.item}
+          index={props.index}
+          category={props.category}
+          editing={props.editing}
+          toggleEditing={props.toggleEditing}
+          handleBlur={props.handleBlur}
+          handleKeyPress={props.handleKeyPress}
+        />
+        <span> ({props.item.owner})</span>
+      </div>
       <Button
-        className={styles.delete}
+        className="deleteBtn"
         handleClick={() =>
           props.removeItem(props.index, props.category, props.item.id)
         }

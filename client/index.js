@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import store from './store';
-import NavBar from './components/profile/NavBar';
+import NavBar from './components/NavBar';
 import ProfilePage from './containers/ProfilePage';
 import ChecklistContainer from './containers/ChecklistContainer';
 import LoginPage from './containers/LoginPage';

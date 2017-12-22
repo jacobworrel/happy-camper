@@ -35,7 +35,6 @@ class SignupPage extends Component {
       <Redirect to="/profile" />
     ) : (
       <div>
-        <h1>Signup</h1>
         <SignupForm
           username={this.props.username}
           email={this.props.email}

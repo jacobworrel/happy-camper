@@ -4,7 +4,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Checklist from './../components/checklist/Checklist';
-import ItemForm from './../components/checklist/ItemForm';
+import Form from './../components/Form';
+import Dropdown from './../components/checklist/Dropdown';
+import Button from './../components/Button';
+import TextInput from './../components/TextInput';
 
 import {
   addItem,
@@ -27,7 +30,8 @@ import styles from './ChecklistContainer.css';
 class ChecklistContainer extends Component {
   componentDidMount() {
     // get data from server/db and populate redux store
-    if (this.props.selectedTrip) this.props.getChecklistData(this.props.selectedTrip);
+    if (this.props.selectedTrip)
+      this.props.getChecklistData(this.props.selectedTrip);
   }
 
   // CHILD COMPONENT EVENT HANDLERS
@@ -122,26 +126,38 @@ class ChecklistContainer extends Component {
         handleBlur={this.handleBlur}
         handleKeyPress={this.handleKeyPress}
       />
-      ));
+    ));
 
     return !this.props.isAuthenticated ? (
       <Redirect to="/login" />
     ) : (
       <div>
-        <ItemForm
-          handleSubmit={this.handleSubmit}
-          updateSelectedCategory={this.props.updateSelectedCategory}
-          updateInput={this.props.updateInput}
-          categories={this.props.categories}
-          itemInput={this.props.itemInput}
-        />
+        <Form>
+          <Dropdown
+            updateSelectedCategory={e =>
+              this.props.updateSelectedCategory(
+                'selectedChecklist',
+                e.target.value,
+              )
+            }
+            categories={['Select Category', ...this.props.categories]}
+          />
+          <TextInput
+            placeholder="Item..."
+            value={this.props.itemInput}
+            handleChange={e =>
+              this.props.updateInput('itemInput', e.target.value)
+            }
+          />
+          <Button type="submit">Add item</Button>
+        </Form>
         <div className={styles.container}>{checklists}</div>
       </div>
     );
   }
 }
 
-const getCategories = (state) => Object.keys(state.checklists);
+const getCategories = state => Object.keys(state.checklists);
 
 // makes state in redux store accessible as props at componenent level
 // called whenever store is updated
@@ -161,18 +177,21 @@ function mapStateToProps(state) {
 // wraps actionCreators in dispatch() call and merges them into component's props
 // action creators can be invoked at component level without needing to call dispatch()
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    addItem,
-    getChecklistData,
-    postItem,
-    removeItem,
-    toggleChecked,
-    toggleEditing,
-    updateItemName,
-    clearInput,
-    updateInput,
-    updateSelectedCategory,
-  }, dispatch);
+  return bindActionCreators(
+    {
+      addItem,
+      getChecklistData,
+      postItem,
+      removeItem,
+      toggleChecked,
+      toggleEditing,
+      updateItemName,
+      clearInput,
+      updateInput,
+      updateSelectedCategory,
+    },
+    dispatch,
+  );
 }
 
 // HOC that connects component to redux store

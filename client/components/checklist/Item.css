@@ -1,11 +1,10 @@
 
 .item {
   margin: 5px;
-}
-
-.delete {
-  margin-left: 10px;
-  float: right;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .checkbox {

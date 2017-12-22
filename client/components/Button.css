@@ -1,0 +1,31 @@
+.btn {
+  background: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  font-family: Arial;
+  color: #000000;
+  font-size: 1em;
+  padding: 5px 10px 5px 10px;
+  border: solid #000000 1px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #3cb0fd;
+  text-decoration: none;
+}
+
+.deleteBtn {
+  composes: btn;
+  margin-left: 10px;
+}
+
+.deleteBtn:hover {
+  background: #d62222;
+  text-decoration: none;
+}

@@ -8,6 +8,7 @@ import {
   updateAutocompleteValue,
   getMatchingUsers,
 } from '../actions/forms/formsActionCreators';
+import Form from './../components/Form';
 import Button from './../components/Button';
 import TextInput from './../components/TextInput';
 import Trip from './../components/profile/Trip';
@@ -46,17 +47,15 @@ class ProfilePage extends Component {
       <Redirect to="/login" />
     ) : (
       <div>
-        <h1>Profile Page</h1>
-        <form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <TextInput
-            className="search-bar"
             type="text"
             placeholder="Trip Name"
             value={this.props.tripInput}
-            handleChange={e => this.props.updateInput('tripInput', e.target.value)}
+            handleChange={e => props.updateInput('tripInput', e.target.value)}
           />
           <Button type="submit">Add Trip</Button>
-        </form>
+        </Form>
         <h4>Upcoming Trips:</h4>
         <ul>{trips}</ul>
       </div>

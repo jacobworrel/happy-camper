@@ -18,7 +18,7 @@ const Checklist = props => {
     ));
   return (
     <ul className={styles.container}>
-      <h3>{props.category}:</h3>
+      <h3>{props.category}</h3>
       {items}
     </ul>
   );
