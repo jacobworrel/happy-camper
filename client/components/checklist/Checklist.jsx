@@ -15,11 +15,11 @@ const Checklist = props => {
       handleBlur={props.handleBlur}
       handleKeyPress={props.handleKeyPress}
     />
-    ));
+  ));
   return (
     <ul className={styles.container}>
       <h3>{props.category}</h3>
-      {items}
+      {props.isFetching ? "Loading..." : items}
     </ul>
   );
 };

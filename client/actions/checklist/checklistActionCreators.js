@@ -1,6 +1,12 @@
 import axios from 'axios';
 import * as types from './checklistActionTypes';
 
+export function requestChecklists() {
+  return {
+    type: types.REQUEST_CHECKLISTS,
+  }
+}
+
 export function receiveChecklists(checklists) {
   return {
     type: types.RECEIVE_CHECKLISTS,

@@ -11,6 +11,7 @@ import TextInput from './../components/TextInput';
 
 import {
   addItem,
+  requestChecklists,
   getChecklistData,
   postItem,
   removeItem,
@@ -31,6 +32,7 @@ class ChecklistContainer extends Component {
   componentDidMount() {
     // get data from server/db and populate redux store
     if (this.props.selectedTrip)
+      this.props.requestChecklists();
       this.props.getChecklistData(this.props.selectedTrip);
   }
 
@@ -125,6 +127,7 @@ class ChecklistContainer extends Component {
         toggleEditing={this.props.toggleEditing}
         handleBlur={this.handleBlur}
         handleKeyPress={this.handleKeyPress}
+        isFetching={this.props.isFetching}
       />
     ));
 
@@ -166,6 +169,7 @@ function mapStateToProps(state) {
     isAuthenticated: state.auth.isAuthenticated,
     checklists: state.checklists,
     categories: getCategories(state),
+    isFetching: state.isFetching,
     itemInput: state.forms.itemInput,
     selectedChecklist: state.forms.selectedChecklist,
     userId: state.auth.userId,
@@ -180,6 +184,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       addItem,
+      requestChecklists,
       getChecklistData,
       postItem,
       removeItem,
