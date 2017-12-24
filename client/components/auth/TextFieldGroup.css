@@ -1,7 +1,7 @@
 .container {
   padding: 0.5em;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .label {
