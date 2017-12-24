@@ -1,4 +1,5 @@
 .textInput {
   margin: 0 10px;
   text-indent: 10px;
+  flex: 1 0 auto;
 }

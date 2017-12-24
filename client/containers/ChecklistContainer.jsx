@@ -150,7 +150,7 @@ class ChecklistContainer extends Component {
             }
           />
           <Button type="submit">Add item</Button>
-        </Form>
+        </Form>;
         <div className={styles.container}>{checklists}</div>
       </div>
     );

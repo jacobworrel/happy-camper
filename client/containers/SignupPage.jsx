@@ -3,8 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actionCreators from './../actions/auth/authActionCreators';
-import SignupForm from './../components/auth/signup/SignupForm';
+import AuthForm from './../components/auth/AuthForm';
 import validateSignupInput from './../../server/shared/validations/signup';
+import styles from './SignupPage.css';
 
 class SignupPage extends Component {
   isValid() {
@@ -34,15 +35,14 @@ class SignupPage extends Component {
     return this.props.isAuthenticated ? (
       <Redirect to="/profile" />
     ) : (
-      <div>
-        <SignupForm
-          username={this.props.username}
-          email={this.props.email}
-          password={this.props.password}
-          passwordConfirmation={this.props.passwordConfirmation}
+      <div className={styles.container}>
+        <AuthForm
+          fields={['username', 'email', 'password', 'passwordConfirmation']}
+          labels={['Username', 'Email', 'Password', 'Password Confirmation']}
           errors={this.props.errors}
           handleSubmit={this.handleSubmit}
           updateField={this.props.updateField}
+          buttonText="Signup"
           isLoading={this.props.isLoading}
         />
       </div>

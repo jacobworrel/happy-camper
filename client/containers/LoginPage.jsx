@@ -3,8 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import * as actionCreators from './../actions/auth/authActionCreators';
-import LoginForm from './../components/auth/login/LoginForm';
+import AuthForm from './../components/auth/AuthForm';
 import validateLoginInput from './../../server/shared/validations/login';
+import styles from './LoginPage.css';
 
 class LoginPage extends Component {
   isValid() {
@@ -28,19 +29,22 @@ class LoginPage extends Component {
     return this.props.isAuthenticated ? (
       <Redirect to="/profile" />
     ) : (
-      <div>
-        <LoginForm
-          username={this.props.username}
-          password={this.props.password}
+      <div className={styles.container}>
+        <AuthForm
+          fields={['username', 'password']}
+          labels={['Username', 'Password']}
           errors={this.props.errors}
           handleSubmit={this.handleSubmit}
           updateField={this.props.updateField}
+          buttonText="Login"
           isLoading={this.props.isLoading}
         />
-        <span>Don't have an account?</span>
-        <span>
-          <Link to="/signup">Sign Up</Link>
-        </span>
+        <div className={styles.signup}>
+          <span className={styles.span}>Don't have an account?</span>
+          <span className={styles.span}>
+            <Link to="/signup">Sign Up</Link>
+          </span>
+        </div>
       </div>
     );
   }

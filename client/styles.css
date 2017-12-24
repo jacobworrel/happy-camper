@@ -1,10 +1,10 @@
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
+  margin: 0;
 }
 
 input {
   height: 2.2em;
-  width: 30em;
   border: 1px solid black;
 }

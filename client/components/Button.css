@@ -29,3 +29,10 @@
   background: #d62222;
   text-decoration: none;
 }
+
+.loginBtn {
+  composes: btn;
+  width: 90%;
+  display: block;
+  margin: 0.8em auto;
+}

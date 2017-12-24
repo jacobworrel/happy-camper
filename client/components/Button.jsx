@@ -6,6 +6,7 @@ const Button = props => (
     type={props.type}
     className={props.className ? styles[props.className] : styles.btn}
     onClick={props.handleClick}
+    disabled={props.isLoading}
   >
     {props.children}
   </button>
