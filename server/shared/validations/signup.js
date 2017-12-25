@@ -1,36 +1,41 @@
 const validator = require('validator');
 const isEmpty = require('lodash/isEmpty');
 
-const validateSignupInput = (data) => {
-  let errors = {};
+const validateSignupInput = ({
+  username = '',
+  email = '',
+  password = '',
+  passwordConfirmation = '',
+}) => {
+  const errors = {};
 
-  //check for valid email via validator
-  if (!validator.isEmail(data.email)) {
+  // check for valid email via validator
+  if (!validator.isEmail(email)) {
     errors.email = 'Email is invalid';
   }
-  //check that password === passwordConfirmation
-  if (!validator.equals (data.password, data.passwordConfirmation)) {
+  // check that password === passwordConfirmation
+  if (!validator.equals(password, passwordConfirmation)) {
     errors.passwordConfirmation = 'Passwords must match';
   }
 
-  //check if username, email, password or passwordConfirmation are null
-  if (validator.isEmpty(data.username)) {
+  // check if username, email, password or passwordConfirmation are null
+  if (validator.isEmpty(username)) {
     errors.username = 'This field is required';
   }
-  if (validator.isEmpty(data.email)) {
+  if (validator.isEmpty(email)) {
     errors.email = 'This field is required';
   }
-  if (validator.isEmpty(data.password)) {
+  if (validator.isEmpty(password)) {
     errors.password = 'This field is required';
   }
-  if (validator.isEmpty(data.passwordConfirmation)) {
+  if (validator.isEmpty(passwordConfirmation)) {
     errors.passwordConfirmation = 'This field is required';
   }
 
   return {
     errors,
-    isValid: isEmpty(errors)
-  }
-}
+    isValid: isEmpty(errors),
+  };
+};
 
 module.exports = validateSignupInput;

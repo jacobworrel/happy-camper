@@ -11,8 +11,8 @@ class SignupPage extends Component {
   isValid() {
     // implement client side validation
     const { username, email, password, passwordConfirmation } = this.props;
-    const userData = { username, email, password, passwordConfirmation };
-    const { errors, isValid } = validateSignupInput(userData);
+    // const userData = { username, email, password, passwordConfirmation };
+    const { errors, isValid } = validateSignupInput({ username, email, password, passwordConfirmation });
     if (!isValid) this.props.updateErrors(errors);
     return isValid;
   }
