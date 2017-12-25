@@ -18,6 +18,7 @@ class ProfilePage extends Component {
     // only fetch trips once userId comes back from server
     // without this check, userId will be an empty string and server will respond with index.html
     if (this.props.userId) {
+      this.props.requestTrips();
       this.props.getTrips(this.props.userId);
     }
   }
@@ -57,7 +58,7 @@ class ProfilePage extends Component {
           <Button type="submit">Add Trip</Button>
         </Form>
         <h4>Upcoming Trips:</h4>
-        <ul>{trips}</ul>
+        <ul>{this.props.isFetching ? 'Loading...' : trips}</ul>
       </div>
     );
   }
@@ -74,6 +75,7 @@ function mapStateToProps(state) {
     tripInput: state.forms.tripInput,
     autocompleteItems: state.forms.autocompleteItems,
     participantId: state.trips.participantId,
+    isFetching: state.isFetching,
   };
 }
 

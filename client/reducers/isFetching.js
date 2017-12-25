@@ -1,11 +1,21 @@
-import * as types from './../actions/checklist/checklistActionTypes';
+import {
+  REQUEST_CHECKLISTS,
+  RECEIVE_CHECKLISTS
+} from './../actions/checklist/checklistActionTypes';
+import {
+  REQUEST_TRIPS,
+  RECEIVE_TRIPS
+} from './../actions/trips/tripsActionTypes';
 
 const isFetching = (state = false, action) => {
   switch(action.type) {
-    case types.REQUEST_CHECKLISTS: {
+    case REQUEST_CHECKLISTS:
+    case REQUEST_TRIPS: {
+      console.log('in reducer!')
       return true;
     }
-    case types.RECEIVE_CHECKLISTS: {
+    case RECEIVE_CHECKLISTS:
+    case RECEIVE_TRIPS: {
       return false;
     }
     default:

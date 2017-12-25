@@ -1,6 +1,12 @@
 import axios from 'axios';
 import * as types from './tripsActionTypes';
 
+export function requestTrips() {
+  return {
+    type: types.REQUEST_TRIPS,
+  }
+}
+
 export function receiveTrips(data) {
   return {
     type: types.RECEIVE_TRIPS,

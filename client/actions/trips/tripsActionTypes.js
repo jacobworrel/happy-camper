@@ -1,3 +1,4 @@
+export const REQUEST_TRIPS = 'REQUEST_TRIPS';
 export const RECEIVE_TRIPS = 'RECEIVE_TRIPS';
 export const ADD_TRIP = 'ADD_TRIP';
 export const UPDATE_SELECTED_TRIP = 'UPDATE_SELECTED_TRIP';
