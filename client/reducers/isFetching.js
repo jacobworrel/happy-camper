@@ -11,7 +11,6 @@ const isFetching = (state = false, action) => {
   switch(action.type) {
     case REQUEST_CHECKLISTS:
     case REQUEST_TRIPS: {
-      console.log('in reducer!')
       return true;
     }
     case RECEIVE_CHECKLISTS:

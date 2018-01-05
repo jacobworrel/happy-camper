@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as types from './checklistActionTypes';
+// import isFetching from './../../reducers/isFetching';
 
 export function requestChecklists() {
   return {
@@ -60,9 +61,12 @@ export function updateItemName(index, category, value) {
 // THUNKS
 
 export function getChecklistData(selectedTrip) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().isFetching) {
+      return Promise.resolve();
+    }
     dispatch(requestChecklists());
-    axios.get(`/items/${selectedTrip}`)
+    return axios.get(`/items/${selectedTrip}`)
       .then((response) => {
         const { checklists } = response.data;
         dispatch(receiveChecklists(checklists));

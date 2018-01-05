@@ -46,9 +46,12 @@ export function addParticipant(tripId, users) {
 // THUNKS
 
 export function getTrips(userId) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    if (getState().isFetching) {
+      return Promise.resolve();
+    }
     dispatch(requestTrips());
-    axios
+    return axios
       .get(`/trips/${userId}`)
       .then(response => {
         dispatch(receiveTrips(response.data));
