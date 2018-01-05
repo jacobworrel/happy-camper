@@ -32,7 +32,6 @@ class ChecklistContainer extends Component {
   componentDidMount() {
     // get data from server/db and populate redux store
     if (this.props.selectedTrip)
-      this.props.requestChecklists();
       this.props.getChecklistData(this.props.selectedTrip);
   }
 

@@ -47,6 +47,7 @@ export function addParticipant(tripId, users) {
 
 export function getTrips(userId) {
   return dispatch => {
+    dispatch(requestTrips());
     axios
       .get(`/trips/${userId}`)
       .then(response => {

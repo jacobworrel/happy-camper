@@ -18,7 +18,7 @@ class ProfilePage extends Component {
     // only fetch trips once userId comes back from server
     // without this check, userId will be an empty string and server will respond with index.html
     if (this.props.userId) {
-      this.props.requestTrips();
+      // this.props.requestTrips();
       this.props.getTrips(this.props.userId);
     }
   }

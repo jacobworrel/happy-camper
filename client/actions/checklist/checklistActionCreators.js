@@ -61,6 +61,7 @@ export function updateItemName(index, category, value) {
 
 export function getChecklistData(selectedTrip) {
   return (dispatch) => {
+    dispatch(requestChecklists());
     axios.get(`/items/${selectedTrip}`)
       .then((response) => {
         const { checklists } = response.data;
