@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  //creates source map viewable in sources tab in browser
+  // creates source map viewable in sources tab in browser
   devtool: 'source-map',
   entry: [
     'webpack-hot-middleware/client',
@@ -14,9 +14,9 @@ module.exports = {
     publicPath: '/'
   },
   plugins: [
-    //hot reloading
+    // hot reloading
     new webpack.HotModuleReplacementPlugin(),
-    //clean error messages
+    // clean error messages
     new webpack.NoEmitOnErrorsPlugin()
   ],
   module: {
@@ -71,7 +71,7 @@ module.exports = {
       }
     ]
   },
-  //resolve empty extensions to .js extension when importing
+  // resolve empty extensions to .js extension when importing
   resolve: {
     extensions: ['.js', '.jsx']
   }
