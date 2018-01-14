@@ -1,7 +1,7 @@
 import React from 'react';
 import TextFieldGroup from './TextFieldGroup';
 import Button from './../Button';
-import styles from './AuthForm.css';
+import styles from './AuthForm.module.css';
 
 const AuthForm = props => {
   const { fields } = props;

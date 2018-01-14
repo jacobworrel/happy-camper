@@ -35,7 +35,16 @@ module.exports = {
         loaders: ['react-hot-loader', 'babel-loader']
       },
       {
-        test: /\.css$/,
+        test: /\.global.css$/,
+        include: path.join(__dirname, 'client'),
+        use: [
+          { loader: 'react-hot-loader' },
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+        ]
+      },
+      {
+        test: /\.module.css$/,
         include: path.join(__dirname, 'client'),
         use: [
           { loader: 'react-hot-loader' },

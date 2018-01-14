@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Dropdown.css';
+import styles from './Dropdown.module.css';
 
 const Dropdown = props => {
   const options = props.categories.map((category, i) => (

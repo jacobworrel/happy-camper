@@ -26,7 +26,7 @@ import {
   updateSelectedCategory,
 } from '../actions/forms/formsActionCreators';
 
-import styles from './ChecklistContainer.css';
+import styles from './ChecklistContainer.module.css';
 
 class ChecklistContainer extends Component {
   componentDidMount() {

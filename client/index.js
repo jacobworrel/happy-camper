@@ -10,7 +10,7 @@ import ProfilePage from './containers/ProfilePage';
 import ChecklistContainer from './containers/ChecklistContainer';
 import LoginPage from './containers/LoginPage';
 import SignupPage from './containers/SignupPage';
-import './styles.css';
+import './styles.global.css';
 
 ReactDOM.render(
   <Provider store={store}>

@@ -8,3 +8,7 @@ input {
   height: 2.2em;
   border: 1px solid black;
 }
+
+.test {
+  color: red;
+}

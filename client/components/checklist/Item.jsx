@@ -1,7 +1,7 @@
 import React from 'react';
 import ItemText from './ItemText';
 import Button from './../Button';
-import styles from './Item.css';
+import styles from './Item.module.css';
 
 const Item = props => {
   const { checked } = props.item;

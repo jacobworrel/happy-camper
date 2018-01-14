@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Form.css';
+import styles from './Form.module.css';
 
 const Form = props => (
   <div className={styles.formContainer}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './TextFieldGroup.css';
+import styles from './TextFieldGroup.module.css';
 
 const TextFieldGroup = (props) => {
   const { field } = props;

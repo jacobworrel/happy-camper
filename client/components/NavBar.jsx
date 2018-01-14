@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from './Button';
 import { logout } from './../actions/auth/authActionCreators';
-import styles from './NavBar.css';
+import styles from './NavBar.module.css';
 import logo from './../public/assets/logo.jpg';
 
 const NavBar = props => (

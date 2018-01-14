@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ItemText.css';
+import styles from './ItemText.module.css';
 
 const ItemText = props => {
   if (props.item.editing) {
@@ -31,7 +31,7 @@ const ItemText = props => {
   }
     return (
       <span
-        className={styles.name}
+        className={`test ${styles.name}`}
         onClick={() =>
           props.toggleEditing(props.index, props.category, props.item.editing)
         }

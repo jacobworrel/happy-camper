@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import * as actionCreators from './../actions/auth/authActionCreators';
 import AuthForm from './../components/auth/AuthForm';
 import validateLoginInput from './../../server/shared/validations/login';
-import styles from './LoginPage.css';
+import styles from './LoginPage.module.css';
 
 class LoginPage extends Component {
   isValid() {

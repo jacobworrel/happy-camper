@@ -1,6 +1,6 @@
 import React from 'react';
 import Item from './Item';
-import styles from './Checklist.css';
+import styles from './Checklist.module.css';
 
 const Checklist = props => {
   const items = props.items.map((item, i) => (
