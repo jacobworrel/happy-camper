@@ -29,12 +29,18 @@ userController.authenticateUser = (req, res) => {
           if (err) res.status(500).send(err);
           else if (authenticated) res.status(200).send(user);
           else {
-            const error = { invalid: 'Invalid username/password' };
+            const error = {
+              username: 'Invalid username/password',
+              password: 'Invalid username/password',
+            };
             res.status(400).json(error);
           }
         });
       } else {
-        const error = { invalid: 'Invalid username/password' };
+        const error = {
+          username: 'Invalid username/password',
+          password: 'Invalid username/password',
+        };
         res.status(400).json(error);
       }
     });

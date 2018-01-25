@@ -6,6 +6,7 @@ import styles from './AuthForm.module.css';
 const AuthForm = props => {
   const { fields } = props;
   const { labels } = props;
+  console.log('fields -->', fields)
   const textFieldGroups = fields.map((field, i) => (
     <TextFieldGroup
       key={i}
