@@ -1,9 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
+// @TODO: ExtractTextPlugin
 
 module.exports = {
   // creates source map viewable in sources tab in browser
-  devtool: 'source-map',
+  devtool: 'eval',
   entry: [
     'webpack-hot-middleware/client',
     path.join(__dirname, 'client/index.js')
@@ -17,7 +18,7 @@ module.exports = {
     // hot reloading
     new webpack.HotModuleReplacementPlugin(),
     // clean error messages
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
   module: {
     loaders: [
@@ -40,7 +41,7 @@ module.exports = {
         use: [
           { loader: 'react-hot-loader' },
           { loader: 'style-loader' },
-          { loader: 'css-loader' },
+          { loader: 'css-loader?sourceMap' },
         ]
       },
       {
@@ -53,7 +54,8 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[path][name]__[local]--[hash:base64:5]'
+              sourceMap: true,
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
             }
           }
         ]
