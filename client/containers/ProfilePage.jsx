@@ -47,12 +47,12 @@ class ProfilePage extends Component {
       <Redirect to="/login" />
     ) : (
       <div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form handleSubmit={this.handleSubmit}>
           <TextInput
             type="text"
             placeholder="Trip Name"
             value={this.props.tripInput}
-            handleChange={e => props.updateInput('tripInput', e.target.value)}
+            handleChange={e => this.props.updateInput('tripInput', e.target.value)}
           />
           <Button type="submit">Add Trip</Button>
         </Form>
