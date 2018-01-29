@@ -134,7 +134,7 @@ class ChecklistContainer extends Component {
       <Redirect to="/login" />
     ) : (
       <div>
-        <Form>
+        <Form handleSubmit={this.handleSubmit}>
           <Dropdown
             updateSelectedCategory={e =>
               this.props.updateSelectedCategory(

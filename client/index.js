@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import registerObserver from 'react-perf-devtool';
 import store from './store';
 import NavBar from './components/NavBar';
 import ProfilePage from './containers/ProfilePage';
@@ -11,6 +12,8 @@ import ChecklistContainer from './containers/ChecklistContainer';
 import LoginPage from './containers/LoginPage';
 import SignupPage from './containers/SignupPage';
 import './styles.global.css';
+
+registerObserver();
 
 ReactDOM.render(
   <Provider store={store}>
